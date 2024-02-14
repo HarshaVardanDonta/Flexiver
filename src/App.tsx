@@ -5,10 +5,9 @@ import { createClient } from '@supabase/supabase-js'
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Switch from '@mui/material/Switch';
-
 import DriverDetails from './Model/DriverDetailsModel';
 import CustomTextField from './Components/CustomTextField';
+import logo from './logo.png'
 
 
 
@@ -49,9 +48,9 @@ function App() {
 
   }
   return (
-    <div className='registrationPage'>
+    <>  <div className='registrationPage'>
       <div className='logo'>
-        <img src='logo.png' alt='Flexer Logo' />
+        <img src={logo} alt="Logo" />
       </div>
       <div className='title'>
         Welcome to the Flexiver<br />Extravaganza!
@@ -64,13 +63,9 @@ function App() {
       </div>
       <div className='sideContent'>
         Licence to flex and a Ride to Roll: You gotta have a valid Aussie driver's licence and be the proud owner of a Ute or Van. Bonus points if your vehicle is not just reliable but the superhero of the road, fully insured, and has its own theme music.<br /><br />
-
         Flex Those Muscles: We're not asking you to bench press a sofa, but you should be able to move large, quirky items without breaking a sweat. Flex those muscles – we're in the business of serious fun here!<br /><br />
-
         Insurance Galore: You're not just a flexer; you're an insured superhero. Got your public liability and carrier liability insurance sorted? If not, no worries, you can always grab them for your superhero toolkit.<br /><br />
-
         Charm Offensive: We want communicators who could charm a kangaroo out of a pouch. If you're as honest as a koala's stare and as friendly as a quokka selfie, you're our kind of people.<br /><br />
-
         SEQ and Northern NSW Showdown: Right now, we're rocking the Brisbane, Ipswich, Gold Coast, and the cool Northern Rivers (NSW). If you're around these parts, you're in for a wild flexer ride.<br /><br />
       </div>
       <br />
@@ -204,36 +199,89 @@ function App() {
         </div>
         <br />
         <br />
-        <Button onClick={
-          () => {
-            driver.firstName = firstName
-            driver.lastName = lastName
-            driver.email = email
-            driver.mobileNo = mobileNo
-            driver.aBNNo = aBNNo
-            driver.subUrb = subUrb
-            driver.city = city
-            driver.isVerified = isVerified
-            driver.availability = availability
-            driver.canYouLiftAndGroove = canYouLiftAndGroove
-            driver.flexerTale = flexerTale
-            driver.flexerStyle = flexerStyle
-            driver.lastDanceMove = lastDanceMove
-            driver.vehicleType = vehicleType
-            driver.vehicleMake = vehicleMake
-            driver.vehicleModel = vehicleModel
-            driver.vehicleYear = vehicleYear
-            insertDriver(driver)
-          }
-        } >Submit</Button>
+        <div className="submit">
+          <Button
+            sx={{
+              width: "250px",
+              justifyContent: "center",
+              borderRadius: 50,
+              backgroundColor: "#D69F29",
+              color: "white",
+              fontSize: 20,
+              padding: "10px 20px",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: "#D69F29",
+                color: "white",
+                fontWeight: "regular",
+              },
+
+
+            }}
+            onClick={
+              () => {
+                driver.firstName = firstName
+                driver.lastName = lastName
+                driver.email = email
+                driver.mobileNo = mobileNo
+                driver.aBNNo = aBNNo
+                driver.subUrb = subUrb
+                driver.city = city
+                driver.isVerified = isVerified
+                driver.availability = availability
+                driver.canYouLiftAndGroove = canYouLiftAndGroove
+                driver.flexerTale = flexerTale
+                driver.flexerStyle = flexerStyle
+                driver.lastDanceMove = lastDanceMove
+                driver.vehicleType = vehicleType
+                driver.vehicleMake = vehicleMake
+                driver.vehicleModel = vehicleModel
+                driver.vehicleYear = vehicleYear
+                insertDriver(driver)
+              }
+            } >Submit</Button>
+        </div>
+
         <br />
         <br />
       </div>
-
     </div >
+      <div className='footer'>
+        <div className='footerLogo'>
+          <div className='logoText'>Flexiver</div>
+          <div className='addressText'>Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit,
+            sed do eiusmod tempor
+            incididunt ut labore </div>
+        </div>
+        <div className='footerContent'>
+          <DummyColumn />
+          <DummyColumn />
+          <DummyColumn />
+        </div>
+
+      </div>
+    </>
+
 
 
   );
 }
 
 export default App;
+
+
+function DummyColumn() {
+  return (
+    <div className='footerRightSection'>
+      <div>Section Name
+      </div>
+      <br />
+      <br />
+      Lorem asd<br />
+      Lorem dsa<br />
+      Lorem asd <br />
+      Lorem asd as<br />
+    </div>
+  );
+}
