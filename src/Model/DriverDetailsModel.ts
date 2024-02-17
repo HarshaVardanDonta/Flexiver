@@ -18,6 +18,26 @@ class DriverDetails {
     vehicleMake!: string;
     vehicleYear!: string;
 
+    fromJson(json: any) {
+        this.firstName = json.firstName;
+        this.lastName = json.lastName;
+        this.email = json.email;
+        this.mobileNo = json.mobileNo;
+        this.aBNNo = json.aBNNo;
+        this.subUrb = json.subUrb;
+        this.city = json.city;
+        this.isVerified = json.isVerified;
+        this.availability = json.availability;
+        this.canYouLiftAndGroove = json.canYouLiftAndGroove;
+        this.flexerTale = json.flexerTale;
+        this.flexerStyle = json.flexerStyle;
+        this.lastDanceMove = json.lastDanceMove;
+        this.vehicleType = json.vehicleType;
+        this.vehicleModel = json.vehicleModel;
+        this.vehicleMake = json.vehicleMake;
+        this.vehicleYear = json.vehicleYear;
+    }
+
     toJson() {
         return {
             firstName: this.firstName,
