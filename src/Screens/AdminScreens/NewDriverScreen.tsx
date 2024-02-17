@@ -3,6 +3,7 @@ import React from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
 import DriverDetails from '../../Model/DriverDetailsModel';
+import { Button, Typography } from '@mui/material';
 
 
 const supabase = createClient('https://tnfeykqptcbbabeuwwxn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZmV5a3FwdGNiYmFiZXV3d3huIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc4MDYxMTYsImV4cCI6MjAyMzM4MjExNn0.Y5FPy2jo_vo1ZjRFn9LkAyPMyItAKid_VSqkEkuHeqU')
@@ -53,33 +54,66 @@ export default function NewDriverScreen() {
                         Fetching Drivers...
                     </div>
                     :
-                    <div>
-                        <h1>Drivers</h1>
-                        <div >
-                            {drivers.map((driver, index) => {
-                                return (
-                                    <div key={index} className='driverCard'>
-                                        <h2>{driver.firstName} {driver.lastName}</h2>
-                                        <p>{driver.email}</p>
-                                        <p>{driver.mobileNo}</p>
-                                        <p>{driver.aBNNo}</p>
-                                        <p>{driver.subUrb}</p>
-                                        <p>{driver.city}</p>
-                                        <p>{driver.isVerified}</p>
-                                        <p>{driver.availability}</p>
-                                        <p>{driver.canYouLiftAndGroove}</p>
-                                        <p>{driver.flexerTale}</p>
-                                        <p>{driver.flexerStyle}</p>
-                                        <p>{driver.lastDanceMove}</p>
-                                        <p>{driver.vehicleType}</p>
-                                        <p>{driver.vehicleModel}</p>
-                                        <p>{driver.vehicleMake}</p>
-                                        <p>{driver.vehicleYear}</p>
-                                    </div>
-                                );
-                            })}
+                    error ?
+                        <div>
+                            Error fetching drivers
                         </div>
-                    </div>
+                        :
+                        drivers.length === 0 ?
+                            <div>
+                                No drivers found
+                            </div>
+                            :
+                            <div>
+                                <h1>Drivers</h1>
+                                <div className='driverCard'>
+                                    {drivers.map((driver, index) => {
+                                        return (
+                                            <div key={index} >
+                                                <Typography variant="h6" component="div">
+                                                    {driver.firstName} {driver.lastName}
+                                                </Typography>
+                                                {driver.email}<br />
+                                                {driver.mobileNo}<br />
+                                                {driver.aBNNo}<br />
+                                                {driver.subUrb}<br />
+                                                {driver.city}<br />
+                                                {driver.isVerified}<br />
+                                                {driver.availability}<br />
+                                                {driver.canYouLiftAndGroove}<br />
+                                                {driver.flexerTale}<br />
+                                                {driver.flexerStyle}<br />
+                                                {driver.lastDanceMove}<br />
+                                                {driver.vehicleType}<br />
+                                                {driver.vehicleModel}<br />
+                                                {driver.vehicleMake}<br />
+                                                {driver.vehicleYear}<br />
+                                                <Button sx={
+                                                    {
+                                                        backgroundColor: 'green',
+                                                    }
+                                                }
+                                                    onClick={async () => {
+                                                        if (driver.isVerified === true) return alert('Driver already verified');
+                                                        const data = await supabase.from('DriverDetails').update(
+                                                            {
+                                                                isVerified: true
+                                                            }
+                                                        ).eq('id', driver.id);
+                                                        console.log(data);
+                                                        if (data.status === 204) {
+                                                            alert('Driver Verified');
+                                                        } else {
+                                                            alert('Error Verifying Driver');
+                                                        }
+                                                    }}
+                                                    variant="contained" color="primary">Accept</Button>
+                                                <Button variant="contained" color="error">Reject</Button>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
             }
         </>
     );

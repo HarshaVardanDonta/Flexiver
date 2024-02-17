@@ -17,7 +17,12 @@
 
 .driverCard {
     display: flex;
+    width: 40%;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    text-wrap: wrap;
+    border: 1px solid #D69F29;
+    box-shadow: 0 5px 15px #D69F29;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 20px;
 }

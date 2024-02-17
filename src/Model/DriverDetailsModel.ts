@@ -1,5 +1,5 @@
 class DriverDetails {
-
+    id!: number;
     firstName!: string;
     lastName!: string;
     email!: string;
@@ -19,6 +19,7 @@ class DriverDetails {
     vehicleYear!: string;
 
     fromJson(json: any) {
+        this.id = json.id;
         this.firstName = json.firstName;
         this.lastName = json.lastName;
         this.email = json.email;
