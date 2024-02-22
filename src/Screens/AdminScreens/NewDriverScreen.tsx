@@ -3,7 +3,11 @@ import React from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
 import DriverDetails from '../../Model/DriverDetailsModel';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import Dropdown from 'react-bootstrap/Dropdown';
+import Button from '@mui/material/Button';
+import 'bootstrap/dist/css/bootstrap.css';
+import { ButtonGroup } from 'react-bootstrap';
 
 
 const supabase = createClient('https://tnfeykqptcbbabeuwwxn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuZmV5a3FwdGNiYmFiZXV3d3huIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc4MDYxMTYsImV4cCI6MjAyMzM4MjExNn0.Y5FPy2jo_vo1ZjRFn9LkAyPMyItAKid_VSqkEkuHeqU')
@@ -42,7 +46,7 @@ export default function NewDriverScreen() {
     const init = useEffect(() => {
         fetchDrivers();
     }, []);
-
+    const [menuOpen, setMenuOpen] = useState(false);
     return (
         <>
             {
@@ -66,49 +70,122 @@ export default function NewDriverScreen() {
                             :
                             <div>
                                 <h1>Drivers</h1>
-                                <div className='driverCard'>
-                                    {drivers.map((driver, index) => {
+                                <div className='driversContainer'>
+                                    {drivers.map((driver, driverIndex) => {
                                         return (
-                                            <div key={index} >
-                                                <Typography variant="h6" component="div">
-                                                    {driver.firstName} {driver.lastName}
-                                                </Typography>
-                                                {driver.email}<br />
-                                                {driver.mobileNo}<br />
-                                                {driver.aBNNo}<br />
-                                                {driver.subUrb}<br />
-                                                {driver.city}<br />
-                                                {driver.isVerified}<br />
-                                                {driver.availability}<br />
-                                                {driver.canYouLiftAndGroove}<br />
-                                                {driver.flexerTale}<br />
-                                                {driver.flexerStyle}<br />
-                                                {driver.lastDanceMove}<br />
-                                                {driver.vehicleType}<br />
-                                                {driver.vehicleModel}<br />
-                                                {driver.vehicleMake}<br />
-                                                {driver.vehicleYear}<br />
-                                                <Button sx={
-                                                    {
-                                                        backgroundColor: 'green',
-                                                    }
-                                                }
-                                                    onClick={async () => {
-                                                        if (driver.isVerified === true) return alert('Driver already verified');
-                                                        const data = await supabase.from('DriverDetails').update(
-                                                            {
-                                                                isVerified: true
-                                                            }
-                                                        ).eq('id', driver.id);
-                                                        console.log(data);
-                                                        if (data.status === 204) {
-                                                            alert('Driver Verified');
-                                                        } else {
-                                                            alert('Error Verifying Driver');
+                                            <div className='driverCard' key={driverIndex} >
+                                                <div>
+                                                    Name: {driver.firstName} {driver.lastName}
+                                                </div>
+                                                Email: {driver.email}<br />
+                                                Mobile: {driver.mobileNo}<br />
+                                                AbnNo: {driver.aBNNo}<br />
+                                                SubUrb: {driver.subUrb}<br />
+                                                City: {driver.city}<br />
+                                                Availability: {driver.availability}<br />
+                                                canYouLiftAndGroove: {driver.canYouLiftAndGroove}<br />
+                                                FlexerTale: {driver.flexerTale}<br />
+                                                FlexerStyle: {driver.flexerStyle}<br />
+                                                LastDanceMove:{driver.lastDanceMove}<br />
+                                                VehicleType: {driver.vehicleType}<br />
+                                                VehicleModel: {driver.vehicleModel}<br />
+                                                VehicleMake: {driver.vehicleMake}<br />
+                                                VehicleYear: {driver.vehicleYear}<br />
+                                                <br />
+                                                <div className='driverCardButtonContainer'>
+                                                    <Button sx={
+                                                        {
+                                                            backgroundColor: 'green',
                                                         }
-                                                    }}
-                                                    variant="contained" color="primary">Accept</Button>
-                                                <Button variant="contained" color="error">Reject</Button>
+                                                    }
+                                                        onClick={async () => {
+                                                            if (driver.isVerified === true) return alert('Driver already verified');
+                                                            const data = await supabase.from('DriverDetails').update(
+                                                                {
+                                                                    isVerified: true,
+                                                                    rejectedReason: null,
+                                                                }
+                                                            ).eq('id', driver.id);
+                                                            console.log(data);
+                                                            if (data.status === 204) {
+                                                                alert('Driver Verified');
+                                                            } else {
+                                                                alert('Error Verifying Driver');
+                                                            }
+                                                        }}
+                                                        variant="contained" color="primary">Accept</Button>
+                                                    <div>
+                                                        <Dropdown as={ButtonGroup}>
+                                                            <Button style={
+                                                                {
+                                                                    backgroundColor: 'red',
+                                                                    borderColor: 'red',
+                                                                    color: 'white',
+                                                                }
+                                                            }>
+                                                                REJECT
+                                                            </Button>
+                                                            <Dropdown.Toggle
+                                                                style={
+                                                                    {
+                                                                        backgroundColor: 'red',
+                                                                        borderColor: 'red',
+                                                                    }
+                                                                }
+                                                                id="Reject-drop">
+
+                                                            </Dropdown.Toggle>
+
+                                                            <Dropdown.Menu style={
+                                                                {
+                                                                    backgroundColor: 'red',
+                                                                    display: 'flex',
+                                                                    flexDirection: 'column',
+                                                                }
+                                                            }>
+                                                                {
+                                                                    ['reason1', 'reason2', 'reason3', 'reason4', 'reason5'].map((reason, index) => {
+                                                                        return (
+                                                                            <Dropdown.Item
+                                                                                style={
+                                                                                    {
+                                                                                        backgroundColor: 'red',
+                                                                                        color: 'white',
+                                                                                        padding: '10px',
+                                                                                    }
+                                                                                }
+                                                                                key={index}
+                                                                                onClick={async () => {
+                                                                                    if (driver.rejectionReason !== null) {
+                                                                                        alert('Driver already rejected');
+                                                                                    } else {
+                                                                                        const data = await supabase.from('DriverDetails').update(
+                                                                                            {
+                                                                                                isVerified: false,
+                                                                                                rejectionReason: reason,
+                                                                                            }
+                                                                                        ).eq('id', driver.id);
+                                                                                        console.log(data);
+                                                                                        if (data.status === 204) {
+                                                                                            alert('Driver Rejected');
+                                                                                        } else {
+                                                                                            alert('Error Rejecting Driver');
+                                                                                        }
+                                                                                        setLoading(true);
+                                                                                        fetchDrivers();
+                                                                                    }
+
+                                                                                }}>{reason}</Dropdown.Item>
+                                                                        );
+                                                                    })
+                                                                }
+                                                            </Dropdown.Menu>
+                                                        </Dropdown>
+
+                                                    </div>
+                                                </div>
+
+
                                             </div>
                                         );
                                     })}

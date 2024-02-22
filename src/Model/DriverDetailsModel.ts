@@ -17,6 +17,7 @@ class DriverDetails {
     vehicleModel!: string;
     vehicleMake!: string;
     vehicleYear!: string;
+    rejectionReason!: string;
 
     fromJson(json: any) {
         this.id = json.id;
@@ -37,6 +38,7 @@ class DriverDetails {
         this.vehicleModel = json.vehicleModel;
         this.vehicleMake = json.vehicleMake;
         this.vehicleYear = json.vehicleYear;
+        this.rejectionReason = json.rejectionReason;
     }
 
     toJson() {
