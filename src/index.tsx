@@ -2,14 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './Screens/DriverRegistration';
-import Admin from './Screens/AdminScreens/AdminMain';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <Admin />
+  <App />
 );
 
 // If you want to start measuring performance in your app, pass a function
