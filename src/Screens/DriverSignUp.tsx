@@ -37,8 +37,8 @@ export default function DriverSignUp() {
             }
 
             if (data.data.user?.aud === "authenticated") {
-                alert("User Created, please fill oout details in next page.");
-                navigate("/driverRegistration");
+                alert("Please verify your Email ID and proceed to Login.");
+                navigate("/driverLogin");
             }
 
             setLoading(false);
