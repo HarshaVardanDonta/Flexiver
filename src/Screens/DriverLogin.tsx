@@ -16,7 +16,8 @@ export default function DriverLogin() {
 
     async function checkLogin() {
         const session = await supabase.auth.getSession();
-        if (session) {
+        console.log(session);
+        if (session.data.session !== null) {
             navigate("/driverDashboard");
         }
         return
