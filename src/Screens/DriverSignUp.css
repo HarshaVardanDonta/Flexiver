@@ -1,0 +1,36 @@
+.screenHeight {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 100px;
+    border-radius: 20px;
+}
+
+.image {
+    background-color: black;
+    width: 400px;
+    border-radius: 20px;
+}
+
+.verticlDivider {
+    background-color: rgb(0, 0, 0);
+    width: 3px;
+    border-radius: 20px;
+    margin: 5px;
+}
+
+.signupContainer {
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}

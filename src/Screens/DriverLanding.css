@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px 30px;
+    justify-content: space-between;
+}
+
+.headerButtonsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.userActionContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
