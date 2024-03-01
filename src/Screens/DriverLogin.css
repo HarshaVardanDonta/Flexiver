@@ -1,0 +1,51 @@
+.loginHeader {
+    display: flex;
+    position: fixed;
+    top: 10px;
+    width: 100%;
+    background-color: white;
+    justify-content: center;
+}
+
+.screenHeight {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    object-fit: contain;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 100px;
+    border-radius: 20px;
+}
+
+.signupContainer {
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+.footerContainer {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    background-color: #323232;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+}

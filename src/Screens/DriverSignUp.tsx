@@ -4,6 +4,10 @@ import './DriverSignUp.css';
 import CustomTextField from "../Components/CustomTextField";
 import ButtonComp from "../Components/ButtonComp";
 import { useNavigate } from "react-router-dom";
+import image from "../Assets/loginImage.png";
+import logo from "../Assets/logo.png";
+import { Typography } from "antd";
+import Spacer from "../Components/MySpacer";
 
 export default function DriverSignUp() {
 
@@ -56,34 +60,57 @@ export default function DriverSignUp() {
             </>
             :
             < div className="screenHeight">
+                <div className="signUpHeader">
+                    <img src={logo} alt="logo" />
+                </div>
                 <div className="mainContainer">
-                    <div className="image">
-                    </div>
-                    <div className="verticlDivider" />
+                    <img className="imageContainer" src={image} alt="login" />
                     <div className="signupContainer">
-                        <CustomTextField placeHolder="Email" onChanged={(e) => {
-                            setEmail(e.target.value)
-                        }} />
+                        <CustomTextField
+                            style={{
+                                backgroundColor: "#FFE3A8",
+                                border: "none",
+                            }}
+                            placeHolder="Email" onChanged={(e) => {
+                                setEmail(e.target.value)
+                            }} />
                         <br />
-                        <CustomTextField placeHolder="Enter Password" onChanged={(e) => {
-                            setPass1(e.target.value)
-                        }} />
+                        <CustomTextField
+                            style={{
+                                backgroundColor: "#FFE3A8",
+                                border: "none",
+                            }}
+                            isPassword={true}
+                            placeHolder="Enter Password" onChanged={(e) => {
+                                setPass1(e.target.value)
+                            }} />
                         <br />
-                        <CustomTextField placeHolder="Re Enter Password" onChanged={(e) => {
-                            setPass2(e.target.value)
-                        }} />
+                        <CustomTextField
+                            style={{
+                                backgroundColor: "#FFE3A8",
+                                border: "none",
+                            }}
+                            isPassword={true}
+                            placeHolder="Re Enter Password" onChanged={(e) => {
+                                setPass2(e.target.value)
+                            }} />
                         <br />
                         <ButtonComp style={{
                             display: "flex",
                             justifyContent: "center",
                             backgroundColor: "#D69F29",
                             color: "white",
-                            width: "100%",
+                            width: "50%",
                             fontWeight: "bold",
                             fontSize: "20px",
                             borderRadius: "10px",
+                            height: "40px",
                         }} text="Sign Up" onClick={async () => { await userSignUp() }} />
                     </div>
+                </div>
+                <div className="footerContainer">
+                    <Typography.Text style={{ color: "white", fontSize: 30, fontFamily: "sans-serif" }}>Flexiver</Typography.Text>
+                    <Typography.Text style={{ color: "white" }}>Already have an account? <a href="/driverLogin">Log In</a></Typography.Text>
                 </div>
             </div>)
 }
