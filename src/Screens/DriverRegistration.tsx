@@ -54,9 +54,12 @@ function App() {
   var [emailId, setEmailId] = useState<string | undefined>()
   async function checkIfExist() {
     const record = await supabase.from('DriverDetails').select('*').eq('userId', userId)
-    console.log(record)
-    if (record.data!.length > 0) {
+    console.log("record", record)
+    if (record.data!.length === 1) {
       navigate('/driverDashboard')
+    } else {
+      console.log("No record found")
+
     }
   }
   useEffect(() => {
@@ -69,6 +72,7 @@ function App() {
         console.log(userId)
         console.log(emailId)
         checkIfExist()
+
       }
     })
   }, [])

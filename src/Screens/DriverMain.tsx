@@ -4,6 +4,8 @@ import DriverLanding from './DriverLanding';
 import DriverSignUp from './DriverSignUp';
 import DriverLogin from './DriverLogin';
 import DriverDashboard from './DriverDashboard';
+import Aos from 'aos';
+import { useEffect } from 'react';
 import {
     BrowserRouter,
     Routes,
@@ -12,6 +14,10 @@ import {
     from 'react-router-dom';
 
 export default function DriverMain() {
+    useEffect(() => {
+        Aos.init();
+        Aos.refresh();
+    }, [])
     return (
         <>
             <BrowserRouter>
