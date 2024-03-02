@@ -113,7 +113,7 @@ function App() {
           <div className='boldSideHeading'>
             Fill in the flexer Application Magic Form:
           </div>
-          <div className='normalSideHeading'>
+          <div id='personalDetails' className='normalSideHeading'>
             PERSONAL DETAILS
           </div>
           <div className="PersonalDetails">
@@ -124,23 +124,19 @@ function App() {
             </div>
 
             <div className='horizontal'>
-              <CustomTextField onChanged={(e: any) => setMobileNo(e.target.value)} placeHolder='Mobile No' />
+              <CustomTextField type='tel' maxLength={10} onChanged={(e: any) => setMobileNo(e.target.value)} placeHolder='Mobile No' />
               <div className='hspacer' />
-              <CustomTextField onChanged={(e: any) => setABNNo(e.target.value)} placeHolder='ABN No' />
-              {/* <TextField className='textField' placeholder="Mobile No" onChange={(e) => setMobileNo(e.target.value)} />
-          <TextField className='textField' placeholder="ABN No" onChange={(e) => setABNNo(e.target.value)} /> */}
+              <CustomTextField type='number' maxLength={11} onChanged={(e: any) => setABNNo(e.target.value)} placeHolder='ABN No' />
             </div>
             <div className='horizontal'>
               <CustomTextField onChanged={(e: any) => setSubUrb(e.target.value)} placeHolder='SubUrb' />
               <div className='hspacer' />
               <CustomTextField onChanged={(e: any) => setCity(e.target.value)} placeHolder='City' />
-              {/* <TextField className='textField' placeholder="SubUrb" onChange={(e) => setSubUrb(e.target.value)} />
-          <TextField className='textField' placeholder="City" onChange={(e) => setCity(e.target.value)} /> */}
             </div>
             <br />
             <br />
             <br />
-            <div className='normalSideHeading'>
+            <div id='vehicleDetails' className='normalSideHeading'>
               VEHICLE DETAILS
             </div>
             <div className="PersonalDetails">
@@ -150,12 +146,12 @@ function App() {
               <div className='vspacer' />
               <CustomTextField onChanged={(e: any) => setVehicleModel(e.target.value)} placeHolder='Vehicle Model' />
               <div className='vspacer' />
-              <CustomTextField onChanged={(e: any) => setVehicleYear(e.target.value)} placeHolder='Vehicle Year' />
+              <CustomTextField type='number' maxLength={4} onChanged={(e: any) => setVehicleYear(e.target.value)} placeHolder='Vehicle Year' />
             </div>
             <br />
             <br />
             <br />
-            <div className='normalSideHeading'>
+            <div id='applicationDetails' className='normalSideHeading'>
               APPLICATION
             </div>
             <div className='normalSideContent'>
@@ -192,7 +188,7 @@ function App() {
             </div>
             <br />
             <br />
-            <div className='normalSideHeading'>
+            <div id='partyDetails' className='normalSideHeading'>
               PARTY REFERENCES
             </div>
             <div className='normalSideContent'>
@@ -207,7 +203,7 @@ function App() {
             <br />
             <CustomTextField onChanged={(e: any) => setFlexerStyle(e.target.value)} placeHolder='Answer' />
             <br />
-            <div className='normalSideHeading'>
+            <div id='LastDetails' className='normalSideHeading'>
               LAST DANCE MOVE
             </div>
             <div className='normalSideContent'>
@@ -243,14 +239,41 @@ function App() {
                   fontSize: 20,
                   padding: "10px 20px",
                   fontWeight: "bold",
+                  transition: "0.5s",
+                  animation: "ease",
                   "&:hover": {
                     backgroundColor: "#D69F29",
                     color: "white",
                     fontWeight: "regular",
+                    boxShadow: "0px 0px 10px 0px #D69F29",
                   },
                 }}
                 onClick={
                   () => {
+                    if (firstName === '' || lastName === '' || mobileNo === '' || aBNNo === '' || subUrb === '' || city === '' || availability === '' || canYouLiftAndGroove === '' || flexerTale === '' || lastDanceMove === '' || vehicleType === '' || vehicleMake === '' || vehicleModel === '' || vehicleYear === '') {
+                      if (firstName === '' || lastName === '' || mobileNo === '' || aBNNo === '' || subUrb === '' || city === '') {
+                        var element = document.getElementById('personalDetails');
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                      else if (vehicleType === '' || vehicleMake === '' || vehicleModel === '' || vehicleYear === '') {
+                        var element = document.getElementById('vehicleDetails');
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                      else if (canYouLiftAndGroove === '' || flexerTale === '') {
+                        var element = document.getElementById('applicationDetails');
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                      else if (availability === '' || flexerStyle === '') {
+                        var element = document.getElementById('partyDetails');
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                      else {
+                        var element = document.getElementById('LastDetails');
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                      alert('Please fill all the details')
+                      return
+                    }
                     driver.firstName = firstName
                     driver.lastName = lastName
                     driver.email = emailId!
