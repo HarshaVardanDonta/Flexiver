@@ -1,0 +1,176 @@
+.devNavBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #323232;
+    padding: 10px;
+    color: white;
+
+}
+
+.PersonalDetails {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.horizontal {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.textField {
+    width: 48%;
+}
+
+/* .textFieldContainer {
+    display: flex;
+    border: 2px;
+    border-radius: 15px;
+    border-color: #D69F29;
+    border-style: solid;
+    padding: 10px;
+  } */
+
+.answerTextFieldContainer {
+    display: flex;
+    border: 2px;
+    border-radius: 15px;
+    border-color: #D69F29;
+    border-style: solid;
+    padding: 10px;
+    height: 70px;
+}
+
+.email {
+    display: flex;
+    width: 100%;
+}
+
+.registrationPage {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    margin-right: 10%;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    margin: 1%;
+    padding-bottom: 50px;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.subTitle {
+    display: flex;
+    font-size: 32px;
+    width: 70%;
+    margin: 1%;
+    text-align: center;
+    margin: 5px;
+    padding-bottom: 20px;
+}
+
+.boldSideHeading {
+    display: flex;
+    align-self: flex-start;
+    font-weight: bold;
+    font-size: 36px;
+    margin: 5px;
+}
+
+.normalSideHeading {
+    display: flex;
+    align-self: flex-start;
+    font-size: 32px;
+    margin: 5px;
+    padding-top: 20px;
+}
+
+.sideContent {
+    font-size: 24px;
+    padding-top: 30px;
+    margin: 5px;
+}
+
+.normalSideContent {
+    font-size: 20px;
+    padding-top: 24px;
+    margin: 5px;
+}
+
+.hspacer {
+    width: 100px;
+}
+
+.vspacer {
+    height: 30px;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 250px;
+    background-color: #323232;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.footerLogo {
+    float: left;
+
+}
+
+.footerContent {
+    float: right;
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    justify-content: space-between;
+}
+
+.logoText {
+    font-size: 60px;
+    color: white;
+}
+
+.addressText {
+    padding-top: 20px;
+    width: 30%;
+    font-size: 20px;
+    color: white;
+
+}
+
+.footerRightSection {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    color: white;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* background-color: #D69F29;
+    border-radius: 12px;
+    border: 10px; */
+}
