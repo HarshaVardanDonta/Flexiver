@@ -82,7 +82,7 @@ export default function DriverLogin() {
                         <CustomTextField
                             type="email"
                             style={{
-                                backgroundColor: "#FFE3A8",
+                                backgroundColor: "#f8f8f8",
                                 border: "none",
                             }}
                             placeHolder="Email" onChanged={(e) => {
@@ -91,7 +91,7 @@ export default function DriverLogin() {
                         <br />
                         <CustomTextField
                             style={{
-                                backgroundColor: "#FFE3A8",
+                                backgroundColor: "#f8f8f8",
                                 border: "none",
                             }}
                             isPassword={true}

@@ -68,7 +68,7 @@ export default function DriverSignUp() {
                     <div className="signupContainer">
                         <CustomTextField
                             style={{
-                                backgroundColor: "#FFE3A8",
+                                backgroundColor: "#f8f8f8",
                                 border: "none",
                             }}
                             placeHolder="Email" onChanged={(e) => {
@@ -77,7 +77,7 @@ export default function DriverSignUp() {
                         <br />
                         <CustomTextField
                             style={{
-                                backgroundColor: "#FFE3A8",
+                                backgroundColor: "#f8f8f8",
                                 border: "none",
                             }}
                             isPassword={true}
@@ -87,7 +87,7 @@ export default function DriverSignUp() {
                         <br />
                         <CustomTextField
                             style={{
-                                backgroundColor: "#FFE3A8",
+                                backgroundColor: "#f8f8f8",
                                 border: "none",
                             }}
                             isPassword={true}
