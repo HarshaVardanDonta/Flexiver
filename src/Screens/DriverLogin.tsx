@@ -40,6 +40,10 @@ export default function DriverLogin() {
         , [])
 
     async function userSignIn() {
+        if (email === "" || pass === "") {
+            alert("Please fill all the fields");
+            return;
+        }
         setLoading(true);
         const data = await supabase.auth.signInWithPassword({
             email: email,
@@ -76,6 +80,7 @@ export default function DriverLogin() {
                         <Typography.Title level={2} style={{ color: "#D69F29" }}>Driver Login</Typography.Title>
                         <Spacer height={30} />
                         <CustomTextField
+                            type="email"
                             style={{
                                 backgroundColor: "#FFE3A8",
                                 border: "none",
