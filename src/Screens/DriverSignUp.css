@@ -31,12 +31,15 @@
 }
 
 .signupContainer {
+    padding: 5%;
     display: flex;
     width: 400px;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin: 20px;
+    border-radius: 12px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .footerContainer {
