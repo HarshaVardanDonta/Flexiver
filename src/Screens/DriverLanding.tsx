@@ -1,31 +1,40 @@
 import { useNavigate } from "react-router-dom";
-import logo from '../Assets/logo.png';
-import './DriverLanding.css';
-import ButtonComp from '../Components/ButtonComp';
 import { useEffect, useState } from "react";
-import MySupClient from "../SupabaseClient";
+
+import logo from '../Assets/logo.png';
 import landingVideo from "../Assets/lVideo.mp4";
 import map from "../Assets/map.png";
-import { FaFilePen, FaTruck } from "react-icons/fa6";
-import { FaRegThumbsUp } from "react-icons/fa";
-import ReactPlayer from "react-player";
-import "aos/dist/aos.css";
-import { services } from "../data";
 import driver from "../Assets/driver.gif";
 import mobile from "../Assets/mobile.png";
+import './DriverLanding.css';
+import "aos/dist/aos.css";
+
+import ButtonComp from '../Components/ButtonComp';
 import Spacer from "../Components/MySpacer";
+import { services } from "../data";
+
+import MySupClient from "../SupabaseClient";
+
+import { FaFilePen, FaTruck } from "react-icons/fa6";
+import { FaRegThumbsUp } from "react-icons/fa";
+
+import ReactPlayer from "react-player";
+
 export default function DriverLanding() {
-    useEffect(() => {
-        supabase.auth.getSession().then((session) => {
-            console.log("session", session)
-            setSession(session)
-        })
-    }, [])
+    // useEffect(() => {
+    //     supabase.auth.getSession().then((session) => {
+    //         console.log("session", session)
+    //         setSession(session)
+    //     })
+    // }, [])
+    
     let navigate = useNavigate();
+    
     const [supabase] = useState(() => MySupClient());
     const [session, setSession] = useState<any>(null);
+
     return (
-        < >
+        <>
             <div id="header" className="header">
                 <img src={logo} alt="logo" />
                 <div className="headerButtonsContainer">
@@ -44,7 +53,7 @@ export default function DriverLanding() {
                 </div>
                 <div className="userActionContainer">
                     <ButtonComp style={{
-                        padding: "5px 60px",
+                        // padding: "5px 60px",
                         backgroundColor: "#D69F29",
                         color: "white",
                         borderRadius: "10px"
@@ -63,7 +72,7 @@ export default function DriverLanding() {
             </div>
             <div className="page">
                 <div className="hero">
-                    <video src={landingVideo} autoPlay loop />
+                    <video src={landingVideo} autoPlay loop muted />
                     <div className="hero-text" data-aos="fade-up">
                         <h1>START EARNING <br />WITH YOUR VAN.</h1>
                         <p>Become a Partner in Our Moving Services Network</p>
