@@ -79,6 +79,7 @@ export default function DriverDashboard() {
     }));
     const [open, setOpen] = React.useState(true);
     var [driver, setDriver] = useState(new DriverDetails())
+    var [editDriver, setEditDriver] = useState(new DriverDetails())
     // reg edit form
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -104,27 +105,29 @@ export default function DriverDashboard() {
 
         if (record && record.data && record.data[0]) {
             setDriver(record.data[0])
-            setFirstName(driver.firstName)
-            setLastName(driver.lastName)
-            setMobileNo(driver.mobileNo)
-            setABNNo(driver.aBNNo)
-            setSubUrb(driver.subUrb)
-            setCity(driver.city)
-            setIsVerified(driver.isVerified)
-            setAvailability(driver.availability)
-            setCanYouLiftAndGroove(driver.canYouLiftAndGroove)
-            setFlexerTale(driver.flexerTale)
-            setFlexerStyle(driver.flexerStyle)
-            setLastDanceMove(driver.lastDanceMove)
-            setVehicleType(driver.vehicleType)
-            setVehicleMake(driver.vehicleMake)
-            setVehicleModel(driver.vehicleModel)
-            setVehicleYear(driver.vehicleYear)
+            editDriver = record.data[0]
         }
     }
     const [listIndex, setListIndex] = useState(0)
     const firstNameRef = useRef();
-
+    async function updateDriver(){
+        if(editDriver.mobileNo === '' || editDriver.subUrb === '' || editDriver.city === '' || editDriver.vehicleMake === '' || editDriver.vehicleModel === '' || editDriver.vehicleYear === '' || editDriver.availability === '' || editDriver.canYouLiftAndGroove === '' || editDriver.flexerTale === '' || editDriver.flexerStyle === '' || editDriver.lastDanceMove === '') {
+            console.log(editDriver)
+            alert('Please fill all the fields')
+            return
+        }
+        console.log(editDriver.toJson())
+        const session = await supabase.auth.getSession()
+        var {data, error} = await supabase.from('DriverDetails').update(editDriver.toJson()).eq('userId', session.data.session?.user.id)
+        if(error){
+            alert(error.message)
+            return
+        }
+        else{
+            alert('Updated Successfully')
+        }
+    
+    }
 
     useEffect(() => {
         getDriverRecord()
@@ -215,203 +218,106 @@ export default function DriverDashboard() {
                     {
                         listIndex === 0 &&
                         <div>
-                            <h1>Profile</h1>
-                            <h2>{driver.firstName} {driver.lastName}</h2>
-                            <h2>{driver.email}</h2>
-                            <h2>{driver.mobileNo}</h2>
-                            <h2>{driver.vehicleType}</h2>
-                            <h2>{driver.vehicleModel}</h2>
-                            <h2>{driver.vehicleMake}</h2>
-                            <h2>{driver.vehicleModel}</h2>
                         </div>
                     }
                     {
                         listIndex === 1 &&
-                        <div>
-                            <div className='normalSideHeading'>
-                                Edit your details
-                            </div>
-                            <div id='personalDetails' className='normalSideHeading'>
-                                PERSONAL DETAILS
-                            </div>
-                            <br />
-                            <div className='horizontal'>
-                                <CustomTextField value={firstName} onChanged={(e: any) => {
-                                    setFirstName(e.target.value)
-
-                                }} placeHolder='First Name' />
-                                <div className='hspacer' />
-                                <CustomTextField onChanged={(e: any) => setLastName(e.target.value)} placeHolder='Last Name' />
-                            </div>
-
-                            <div className='horizontal'>
-                                <CustomTextField type='tel' maxLength={10} onChanged={(e: any) => setMobileNo(e.target.value)} placeHolder='Mobile No' />
-                                <div className='hspacer' />
-                                <CustomTextField type='tel' maxLength={11} onChanged={(e: any) => setABNNo(e.target.value)} placeHolder='ABN No' />
-                            </div>
-                            <div className='horizontal'>
-                                <CustomTextField onChanged={(e: any) => setSubUrb(e.target.value)} placeHolder='SubUrb' />
-                                <div className='hspacer' />
-                                <CustomTextField onChanged={(e: any) => setCity(e.target.value)} placeHolder='City' />
-                            </div>
-                            <br />
-                            <br />
-                            <br />
-                            <div id='vehicleDetails' className='normalSideHeading'>
-                                VEHICLE DETAILS
-                            </div>
-                            <div className="PersonalDetails">
-                                <CustomTextField onChanged={(e: any) => setVehicleType(e.target.value)} placeHolder='Vehicle Type' />
-                                <div className='vspacer' />
-                                <CustomTextField onChanged={(e: any) => setVehicleMake(e.target.value)} placeHolder='Vehicle Make' />
-                                <div className='vspacer' />
-                                <CustomTextField onChanged={(e: any) => setVehicleModel(e.target.value)} placeHolder='Vehicle Model' />
-                                <div className='vspacer' />
-                                <CustomTextField type='number' maxLength={4} onChanged={(e: any) => setVehicleYear(e.target.value)} placeHolder='Vehicle Year' />
-                            </div>
-                            <br />
-                            <br />
-                            <br />
-                            <div id='applicationDetails' className='normalSideHeading'>
-                                APPLICATION
-                            </div>
-                            <div className='normalSideContent'>
-                                Can You Lift and Groove? (Yes or No – we need to know if you can dance with that fridge)
-                            </div>
-                            <br />
-                            <div className='answerTextFieldContainer'>
-                                <TextField
-                                    multiline={true}
-                                    maxRows={3}
-                                    className='textField'
-                                    InputProps={{
-                                        disableUnderline: true,
-                                    }}
-                                    variant="standard" placeholder="Answer" onChange={(e) => {
-                                        setCanYouLiftAndGroove(e.target.value)
-                                    }} />
-                            </div>
-                            <div className='normalSideContent'>
-                                Pitch Your flexer Tale: Why are you the next PicUp sensation?
-                            </div>
-                            <br />
-                            <div className='answerTextFieldContainer'>
-                                <TextField
-                                    multiline={true}
-                                    maxRows={3}
-                                    className='textField'
-                                    InputProps={{
-                                        disableUnderline: true,
-                                    }}
-                                    variant="standard" placeholder="Answer" onChange={(e) => {
-                                        setFlexerTale(e.target.value)
-                                    }} />
-                            </div>
-                            <br />
-                            <br />
-                            <div id='partyDetails' className='normalSideHeading'>
-                                PARTY REFERENCES
-                            </div>
-                            <div className='normalSideContent'>
-                                Availability (Days, Hours, When the stars align, etc.)
-                            </div>
-                            <br />
-                            <CustomTextField onChanged={(e: any) => setAvailability(e.target.value)} placeHolder='Answer' />
-                            <br />
-                            <div className='normalSideContent'>
-                                Flexer Style: Are you a solo superstar or do you prefer a duo act? Or are you the Beyoncé of flexing and can do both?
-                            </div>
-                            <br />
-                            <CustomTextField onChanged={(e: any) => setFlexerStyle(e.target.value)} placeHolder='Answer' />
-                            <br />
-                            <div id='LastDetails' className='normalSideHeading'>
-                                LAST DANCE MOVE
-                            </div>
-                            <div className='normalSideContent'>
-                                Insurance Mastery: You know the drill – public liability, CTP car insurance. We need to see your superhero cape (insurance papers) before you officially join the flexer dance floor.
-                            </div>
-                            <br />
-                            <div className='answerTextFieldContainer'>
-                                <TextField
-                                    multiline={true}
-                                    maxRows={3}
-                                    className='textField'
-                                    InputProps={{
-                                        disableUnderline: true,
-                                    }}
-                                    variant="standard" placeholder="Answer" onChange={(e) => {
-                                        setLastDanceMove(e.target.value)
-                                    }} />
-                            </div>
-                            <br />
-                            <br />
-                            <div className="submit">
-                                <Button
-                                    sx={{
-                                        width: "250px",
-                                        justifyContent: "center",
-                                        borderRadius: 50,
-                                        backgroundColor: "#D69F29",
-                                        color: "white",
-                                        fontSize: 20,
-                                        padding: "10px 20px",
-                                        fontWeight: "bold",
-                                        transition: "0.5s",
-                                        animation: "ease",
-                                        "&:hover": {
-                                            backgroundColor: "#D69F29",
-                                            color: "white",
-                                            fontWeight: "regular",
-                                            boxShadow: "0px 0px 10px 0px #D69F29",
-                                        },
-                                    }}
-                                    onClick={
-                                        () => {
-                                            if (firstName === '' || lastName === '' || mobileNo === '' || aBNNo === '' || subUrb === '' || city === '' || availability === '' || canYouLiftAndGroove === '' || flexerTale === '' || lastDanceMove === '' || vehicleType === '' || vehicleMake === '' || vehicleModel === '' || vehicleYear === '') {
-                                                if (firstName === '' || lastName === '' || mobileNo === '' || aBNNo === '' || subUrb === '' || city === '') {
-                                                    var element = document.getElementById('personalDetails');
-                                                    element?.scrollIntoView({ behavior: 'smooth' });
-                                                }
-                                                else if (vehicleType === '' || vehicleMake === '' || vehicleModel === '' || vehicleYear === '') {
-                                                    var element = document.getElementById('vehicleDetails');
-                                                    element?.scrollIntoView({ behavior: 'smooth' });
-                                                }
-                                                else if (canYouLiftAndGroove === '' || flexerTale === '') {
-                                                    var element = document.getElementById('applicationDetails');
-                                                    element?.scrollIntoView({ behavior: 'smooth' });
-                                                }
-                                                else if (availability === '' || flexerStyle === '') {
-                                                    var element = document.getElementById('partyDetails');
-                                                    element?.scrollIntoView({ behavior: 'smooth' });
-                                                }
-                                                else {
-                                                    var element = document.getElementById('LastDetails');
-                                                    element?.scrollIntoView({ behavior: 'smooth' });
-                                                }
-                                                alert('Please fill all the details')
-                                                return
+                        <div className="dashboard">
+                            <div className="dashboard-content">
+                                <div className="side">
+                                    <h1>John Doe</h1>
+                                    <p>ABN Number: 213546</p>
+                                </div>
+                
+                                <div className="status">
+                                    {/* <p>Reason for Rejection stated here</p> */}
+                                </div>
+                                <div className="dash-grid">
+                                    <div className="dash-left">
+                                        <input type="text" placeholder='Email' disabled defaultValue={driver.email}/>
+                                        <input type="text" placeholder='Phone No' defaultValue={driver.mobileNo} onChange={
+                                            (e)=>{
+                                                editDriver.mobileNo = e.target.value;
                                             }
-                                            driver.firstName = firstName
-                                            driver.lastName = lastName
-                                            driver.mobileNo = mobileNo
-                                            driver.aBNNo = aBNNo
-                                            driver.subUrb = subUrb
-                                            driver.city = city
-                                            driver.isVerified = isVerified
-                                            driver.availability = availability
-                                            driver.canYouLiftAndGroove = canYouLiftAndGroove
-                                            driver.flexerTale = flexerTale
-                                            driver.flexerStyle = flexerStyle
-                                            driver.lastDanceMove = lastDanceMove
-                                            driver.vehicleType = vehicleType
-                                            driver.vehicleMake = vehicleMake
-                                            driver.vehicleModel = vehicleModel
-                                            driver.vehicleYear = vehicleYear
-                                        }
-                                    } >Submit</Button>
+                                        } />
+                                        <input type="text" placeholder='Suburb' defaultValue={driver.subUrb} onChange={
+                                            (e)=>{
+                                                editDriver.subUrb = e.target.value;
+                                            }
+                                        } />
+                                        <input type="text" placeholder='City' defaultValue={driver.city} onChange={
+                                            (e)=>{
+                                                editDriver.city = e.target.value;
+                                            }
+                                        }/>
+                                    </div>
+                
+                                    <div className="dash-right">
+                                    <select name="type" defaultValue={driver.vehicleType} onChange={
+                                            (e)=>{
+                                                editDriver.vehicleType = e.target.value;
+                                            }
+                                    }>
+                                        <option value="2 weeler">2 Wheeler</option>
+                                        <option value="4 weeler">4 Wheeler</option>
+                                        <option value="ref weeler">Refregirated Van</option>
+                                    </select>
+                                        {/* <input type="text" placeholder='Vehicle Type' defaultValue={driver.vehicleType} /> */}
+                                        <input type="text" placeholder='Vehicle Make' defaultValue={driver.vehicleMake} onChange={
+                                            (e)=>{
+                                                editDriver.vehicleMake = e.target.value;
+                                            }
+                                        }/>
+                                        <input type="text" placeholder='Vehicle Model' defaultValue={driver.vehicleModel} onChange={
+                                            (e)=>{
+                                                editDriver.vehicleModel = e.target.value;
+                                            }
+                                        } />
+                                        <input type="text" placeholder='Vehicle Year' defaultValue={driver.vehicleYear} onChange={
+                                            (e)=>{
+                                                editDriver.vehicleYear = e.target.value;
+                                            }
+                                        } />
+                                    </div>
+                                </div>
+                
+                                <p className='title'>APPLICATION</p>
+                                <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.availability} onChange={
+                                    (e)=>{
+                                        editDriver.availability = e.target.value;
+                                    }
+                                }/>
+                                <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.canYouLiftAndGroove} onChange={
+                                    (e)=>{
+                                        editDriver.canYouLiftAndGroove = e.target.value;
+                                    }
+                                }/>
+                
+                                <p className='title'>PARTY PREFERENCES</p>
+                                <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.flexerTale} onChange={
+                                    (e)=>{
+                                        editDriver.flexerTale = e.target.value;
+                                    }
+                                } />
+                                <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.flexerStyle} onChange={
+                                    (e)=>{
+                                        editDriver.flexerStyle = e.target.value;
+                                    }
+                                }/>
+                
+                                <p className='title'>LAST DANCE MOVE</p>
+                                <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.lastDanceMove} onChange={
+                                    (e)=>{
+                                        editDriver.lastDanceMove = e.target.value;
+                                    }
+                                }/>
+                                <button onClick={
+                                    ()=>{
+                                        updateDriver()
+                                    }
+                                }>Update</button>
+                                
                             </div>
-                            <br />
-                            <br />
                         </div>
                     }
                     {
