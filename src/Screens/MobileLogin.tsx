@@ -8,47 +8,54 @@ import image from "../Assets/loginImage.png";
 import logo from "../Assets/logo.png";
 import { Typography } from "antd";
 
-export default function DriverSignUp() {
+export default function MobileLogin() {
 
     const navigate = useNavigate();
 
     const [supabase] = useState(() => MySupClient());
-    const [email, setEmail] = useState("");
-    const [pass1, setPass1] = useState("");
-    const [pass2, setPass2] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [otp, setOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
+    const [timer, setTimer] = useState(0);
+
     const [loading, setLoading] = useState(false);
 
-    async function userSignUp() {
-
-
-        if (email === "" || pass1 === "" || pass2 === "") {
-            alert("Please fill all the fields");
+    async function sendOtp() {
+        if (mobile.length !== 10) {
+            alert("Invalid Mobile Number");
             return;
         }
-        if (pass1 !== pass2) {
-            alert("Passwords do not match");
+        var data = await supabase.auth.signInWithOtp({ phone: '+91' + mobile })
+        console.log(data);
+        if (data.data.messageId) {
+            alert("OTP Sent");
+            setOtpSent(true);
+            setTimer(60);
+            var interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+
+        }
+    }
+    async function verifyOtp() {
+        if (otp.length !== 6) {
+            alert("Invalid OTP");
             return;
         }
-        if (pass1 === pass2) {
-            setLoading(true);
-            const data = await supabase.auth.signUp({
-                email: email,
-                password: pass1
-            });
-            if (data.error) {
-                alert(data.error.message);
-                setLoading(false);
-                return;
-            }
-
-            if (data.data.user?.aud === "authenticated") {
-                alert("Please verify your Email ID and proceed to Login.");
-                navigate("/driverLogin");
-            }
-
-            setLoading(false);
-
+        //verify otp
+        var verify = await supabase.auth.verifyOtp({ phone: mobile, token: otp, type: 'sms' })
+        if (verify.error) {
+            alert(verify.error.message);
         }
+        if (verify.data.session !== null) {
+            navigate("/driverRegistration");
+        }
+        console.log(verify);
+    }
+    const [timerId, setTimerId] = useState(0);
+
+    function timeout() {
+
     }
     async function checkLogin() {
         const session = await supabase.auth.getSession();
@@ -68,8 +75,7 @@ export default function DriverSignUp() {
     }
     useEffect(() => {
         checkLogin();
-    }
-        , []);
+    }, []);
 
     return (
         loading ?
@@ -92,8 +98,8 @@ export default function DriverSignUp() {
                                 backgroundColor: "#f8f8f8",
                                 border: "none",
                             }}
-                            placeHolder="Email" onChanged={(e) => {
-                                setEmail(e.target.value)
+                            placeHolder="Mobile" onChanged={(e) => {
+                                setMobile(e.target.value)
                             }} />
                         <br />
                         <CustomTextField
@@ -102,18 +108,9 @@ export default function DriverSignUp() {
                                 border: "none",
                             }}
                             isPassword={true}
-                            placeHolder="Enter Password" onChanged={(e) => {
-                                setPass1(e.target.value)
-                            }} />
-                        <br />
-                        <CustomTextField
-                            style={{
-                                backgroundColor: "#f8f8f8",
-                                border: "none",
-                            }}
-                            isPassword={true}
-                            placeHolder="Re Enter Password" onChanged={(e) => {
-                                setPass2(e.target.value)
+                            placeHolder={otpSent ? "Enter OTP" : "Send Otp First"}
+                            onChanged={(e) => {
+                                setOtp(e.target.value)
                             }} />
                         <br />
                         <br />
@@ -127,11 +124,19 @@ export default function DriverSignUp() {
                             fontSize: "20px",
                             borderRadius: "10px",
                             height: "40px",
-                        }} text="Sign Up" onClick={async () => { await userSignUp() }} />
+                        }} text={otpSent ? 'Validate OTP' : 'Send OTP'} onClick={async () => {
+                            if (otpSent) {
+                                await verifyOtp();
+                            }
+                            else {
+                                await sendOtp()
+                            }
+
+                        }} />
                         <Typography.Text style={{ color: "black", fontSize: 15, fontFamily: "sans-serif" }}>OR</Typography.Text>
                         <br />
                         <br />
-                        <Typography.Text >Sign In Using <a href="/mobileLogin">Mobile</a></Typography.Text>
+                        <Typography.Text >Sign In Using <a href="/driverLogin">E Mail</a></Typography.Text>
 
                     </div>
                 </div>
