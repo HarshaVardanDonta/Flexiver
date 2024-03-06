@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import logo from '../Assets/logo.png';
+import scooty from '../Assets/scooty.gif';
 import landingVideo from "../Assets/lVideo.mp4";
 import map from "../Assets/map.png";
 import driver from "../Assets/driver.gif";
@@ -19,6 +20,7 @@ import { FaFilePen, FaTruck } from "react-icons/fa6";
 import { FaRegThumbsUp } from "react-icons/fa";
 
 import ReactPlayer from "react-player";
+import Carousel from "react-material-ui-carousel";
 
 export default function DriverLanding() {
     useEffect(() => {
@@ -27,9 +29,9 @@ export default function DriverLanding() {
             setSession(session)
         })
     }, [])
-    
+
     let navigate = useNavigate();
-    
+
     const [supabase] = useState(() => MySupClient());
     const [session, setSession] = useState<any>(null);
 
@@ -162,11 +164,14 @@ export default function DriverLanding() {
                 <div className="trucks" id="available">
                     <h1 data-aos="fade-up">AVAILABLE VEHICLES</h1>
                     <p data-aos="fade-up">Join our fleet of drivers and choose from a variety of vehicles to suit your preferences and transportation needs:</p>
-                    <div className="trucks-container">
-                        <h2>2 wheeler</h2>
-                        <h2>4 wheeler</h2>
-                        <h2>refregirated vans</h2>
-                    </div>
+                    <Carousel >
+                        {[1, 2, 3, 4, 5].map((item, index) => (
+                            <div key={index} className="carousel-item" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
+                                <img src={scooty} alt="scooty" />
+                                <h2>2 Wheeler</h2>
+                            </div>
+                        ))}
+                    </Carousel>
                 </div>
 
                 <div className="mobile">
@@ -178,13 +183,14 @@ export default function DriverLanding() {
                             <h1>AVAILABLE ON <br />YOUR FINGERTIPS</h1>
                             <p>Experience convenience like never before with our innovative solutions. Whether you're at home, on the go, or in the office, access our services effortlessly. </p>
                         </div>
-                        <div>
-                            <button className='apply-button'>Apply to drive</button>
-                        </div>
+                        <button className='apply-button' onClick={() => {
+                            navigate('/driverSignUp')
+                        }}>Apply to drive</button>
+                        <br />
                     </div>
                 </div>
 
-                <div className="footer">
+                <div className="landing-footer">
                     <div className="footer-left">
                         <h1>Flexiver</h1>
                     </div>

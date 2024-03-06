@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import MySupClient from "../SupabaseClient";
-import './DriverSignUp.css';
+import './DriverLogin.css';
 import CustomTextField from "../Components/CustomTextField";
 import ButtonComp from "../Components/ButtonComp";
 import { useNavigate } from "react-router-dom";
 import image from "../Assets/loginImage.png";
 import logo from "../Assets/logo.png";
 import { Typography } from "antd";
-import Spacer from "../Components/MySpacer";
 
 export default function DriverSignUp() {
 
@@ -49,6 +48,26 @@ export default function DriverSignUp() {
 
         }
     }
+    async function checkLogin() {
+        const session = await supabase.auth.getSession();
+        console.log(session);
+        if (session.data.session !== null) {
+            var inTable = await supabase.from("DriverDetails").select("*").eq("userId", session.data.session.user.id).then((data) => {
+                console.log(data);
+                if (data.data!.length === 0) {
+                    navigate("/driverRegistration");
+                }
+                else {
+                    navigate("/driverDashboard");
+                }
+            });
+        }
+        return
+    }
+    useEffect(() => {
+        checkLogin();
+    }
+        , []);
 
     return (
         loading ?
@@ -60,7 +79,7 @@ export default function DriverSignUp() {
             </>
             :
             < div className="screenHeight">
-                <div className="signUpHeader">
+                <div className="loginHeader">
                     <img src={logo} alt="logo" />
                 </div>
                 <div className="mainContainer">

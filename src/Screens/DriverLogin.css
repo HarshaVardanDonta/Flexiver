@@ -49,3 +49,30 @@
     align-items: center;
     padding: 20px;
 }
+
+@media only screen and (max-width: 768px) {
+    .mainContainer {
+        display: flex;
+        flex-direction: column;
+        margin: 0px;
+        align-items: center;
+        margin: 10px;
+    }
+
+    .imageContainer {
+        width: 80%;
+        padding-bottom: 10px;
+    }
+
+    .signupContainer {
+        width: 80%;
+    }
+
+    .footerContainer {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+        flex-direction: column;
+    }
+}
