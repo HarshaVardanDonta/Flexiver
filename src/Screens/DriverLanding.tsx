@@ -21,12 +21,12 @@ import { FaRegThumbsUp } from "react-icons/fa";
 import ReactPlayer from "react-player";
 
 export default function DriverLanding() {
-    // useEffect(() => {
-    //     supabase.auth.getSession().then((session) => {
-    //         console.log("session", session)
-    //         setSession(session)
-    //     })
-    // }, [])
+    useEffect(() => {
+        supabase.auth.getSession().then((session) => {
+            console.log("session", session)
+            setSession(session)
+        })
+    }, [])
     
     let navigate = useNavigate();
     
