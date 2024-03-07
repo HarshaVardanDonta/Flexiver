@@ -21,6 +21,7 @@ import { FaRegThumbsUp } from "react-icons/fa";
 
 import ReactPlayer from "react-player";
 import Carousel from "react-material-ui-carousel";
+import SwiperComp from "../Components/SwiperComp";
 
 export default function DriverLanding() {
     useEffect(() => {
@@ -164,14 +165,7 @@ export default function DriverLanding() {
                 <div className="trucks" id="available">
                     <h1 data-aos="fade-up">AVAILABLE VEHICLES</h1>
                     <p data-aos="fade-up">Join our fleet of drivers and choose from a variety of vehicles to suit your preferences and transportation needs:</p>
-                    <Carousel >
-                        {[1, 2, 3, 4, 5].map((item, index) => (
-                            <div key={index} className="carousel-item" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
-                                <img src={scooty} alt="scooty" />
-                                <h2>2 Wheeler</h2>
-                            </div>
-                        ))}
-                    </Carousel>
+                    <SwiperComp images={[mobile, scooty, mobile]}/>
                 </div>
 
                 <div className="mobile">
