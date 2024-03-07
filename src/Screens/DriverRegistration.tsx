@@ -149,13 +149,14 @@ function App() {
                   width: '100%'
                 }
 
-              } name="type" onChange={
+              } name="type" 
+              onChange={
                 (e) => {
                   setVehicleType(e.target.value)
                 }
               }>
                 <option value="2 weeler">2 Wheeler</option>
-                <option value="UTE / Van">4 Wheeler</option>
+                <option value="UTE / Van">UTE / Van</option>
                 <option value="Refregerated Van">Refregirated Van</option>
               </select>
               {/* <CustomTextField onChanged={(e: any) => setVehicleType(e.target.value)} placeHolder='Vehicle Type' /> */}

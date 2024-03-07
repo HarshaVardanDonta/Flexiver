@@ -133,7 +133,7 @@ export default function DriverDashboard() {
                                 }
                             }>
                                 <option value="2 weeler">2 Wheeler</option>
-                                <option value="UTE / Van">4 Wheeler</option>
+                                <option value="UTE / Van">UTE / Van</option>
                                 <option value="Refregerated Van">Refregirated Van</option>
                             </select>
                             {/* <input type="text" placeholder='Vehicle Type' defaultValue={driver.vehicleType} /> */}
