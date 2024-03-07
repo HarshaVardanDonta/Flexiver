@@ -4,6 +4,7 @@ import DriverLanding from './DriverLanding';
 import DriverSignUp from './DriverSignUp';
 import DriverLogin from './DriverLogin';
 import DriverDashboard from './DriverDashboard';
+import MobileLogin from './MobileLogin';
 import Aos from 'aos';
 import { useEffect } from 'react';
 import {
@@ -27,6 +28,7 @@ export default function DriverMain() {
                     <Route path="/driverSignUp" element={<DriverSignUp />} />
                     <Route path="/driverLogin" element={<DriverLogin />} />
                     <Route path="/driverDashboard" element={<DriverDashboard />} />
+                    <Route path="/mobileLogin" element={<MobileLogin />} />
                 </Routes>
             </BrowserRouter>
         </>

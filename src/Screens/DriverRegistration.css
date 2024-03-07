@@ -9,6 +9,14 @@
 
 }
 
+.select {
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #E1E1E1;
+  border: none;
+  outline: none;
+}
+
 .PersonalDetails {
   padding-top: 30px;
   display: flex;
@@ -174,4 +182,16 @@
   /* background-color: #D69F29;
   border-radius: 12px;
   border: 10px; */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

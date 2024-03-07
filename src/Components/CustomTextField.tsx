@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import './CustomTextFieldCSS.css';
 
 function CustomTextField(
-    { placeHolder, onChanged, style, isPassword, type, maxLength, value, ref }: { placeHolder: string, onChanged: (e: any) => void, style?: any, isPassword?: boolean, type?: string, maxLength?: number, value?: string, ref?: any }
+    { placeHolder, onChanged, style, isPassword, type, maxLength, value, ref, label }: { placeHolder: string, onChanged: (e: any) => void, style?: any, isPassword?: boolean, type?: string, maxLength?: number, value?: string, ref?: any, label?: string }
 ) {
     return (
         <div
@@ -13,6 +13,7 @@ function CustomTextField(
                 ref={ref}
                 fullWidth
                 className='textField'
+                label={label}
                 InputProps={{
                     disableUnderline: true,
                 }}

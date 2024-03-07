@@ -124,7 +124,7 @@ function App() {
             </div>
 
             <div className='horizontal'>
-              <CustomTextField type='tel' maxLength={10} onChanged={(e: any) => setMobileNo(e.target.value)} placeHolder='Mobile No' />
+              <CustomTextField type='number' maxLength={10} onChanged={(e: any) => setMobileNo(e.target.value)} placeHolder='Mobile No' />
               <div className='hspacer' />
               <CustomTextField type='number' maxLength={11} onChanged={(e: any) => setABNNo(e.target.value)} placeHolder='ABN No' />
             </div>
@@ -140,7 +140,25 @@ function App() {
               VEHICLE DETAILS
             </div>
             <div className="PersonalDetails">
-              <CustomTextField onChanged={(e: any) => setVehicleType(e.target.value)} placeHolder='Vehicle Type' />
+              <select style={
+                {
+                  padding: '15px',
+                  display: 'flex',
+                  border: '2px solid #D69F29',
+                  borderRadius: '15px',
+                  width: '100%'
+                }
+
+              } name="type" onChange={
+                (e) => {
+                  setVehicleType(e.target.value)
+                }
+              }>
+                <option value="2 weeler">2 Wheeler</option>
+                <option value="UTE / Van">4 Wheeler</option>
+                <option value="Refregerated Van">Refregirated Van</option>
+              </select>
+              {/* <CustomTextField onChanged={(e: any) => setVehicleType(e.target.value)} placeHolder='Vehicle Type' /> */}
               <div className='vspacer' />
               <CustomTextField onChanged={(e: any) => setVehicleMake(e.target.value)} placeHolder='Vehicle Make' />
               <div className='vspacer' />
