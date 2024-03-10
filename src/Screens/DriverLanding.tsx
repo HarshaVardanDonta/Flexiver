@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 
 import logo from '../Assets/logo.png';
 import scooty from '../Assets/scooty.gif';
+import twoWheeler from "../Assets/2Wheeler.svg";
+import UTE from "../Assets/UTE.svg";
+import RefregeratedVan from "../Assets/RefregeratedVan.svg";
 import landingVideo from "../Assets/lVideo.mp4";
-import map from "../Assets/map.png";
+import map from "../Assets/cityMap.mp4";
 import driver from "../Assets/driver.gif";
 import mobile from "../Assets/mobile.png";
 import './DriverLanding.css';
@@ -96,7 +99,7 @@ export default function DriverLanding() {
                     </div>
                 </div>
                 <div className="map">
-                    <img src={map} alt="map" />
+                    <video src={map} autoPlay loop muted />
                 </div>
 
                 <div className="about" id='about' >
@@ -165,7 +168,7 @@ export default function DriverLanding() {
                 <div className="trucks" id="available">
                     <h1 data-aos="fade-up">AVAILABLE VEHICLES</h1>
                     <p data-aos="fade-up">Join our fleet of drivers and choose from a variety of vehicles to suit your preferences and transportation needs:</p>
-                    <SwiperComp images={[mobile, scooty, mobile]}/>
+                    <SwiperComp images={[twoWheeler,UTE, RefregeratedVan ]}/>
                 </div>
 
                 <div className="mobile">
@@ -190,25 +193,16 @@ export default function DriverLanding() {
                     </div>
                     <div className="footer-right">
                         <div className="footer-box">
-                            <h3>Services</h3>
-                            <p>Lorem ipsum dolor sit amet,
-                                consectetur adipiscing elit,
-                                sed do eiusmod tempor
-                                incididunt ut labore </p>
+                            <h3>Socials</h3>
+                            <p>
+                                some link
+                            </p>
+                        </div>
+                        <div className="footer-box">
+                            <h3>Privacy Policy</h3>
                         </div>
                         <div className="footer-box">
                             <h3>Contact Us</h3>
-                            <p>Lorem ipsum dolor sit amet,
-                                consectetur adipiscing elit,
-                                sed do eiusmod tempor
-                                incididunt ut labore </p>
-                        </div>
-                        <div className="footer-box">
-                            <h3>Careers</h3>
-                            <p>Lorem ipsum dolor sit amet,
-                                consectetur adipiscing elit,
-                                sed do eiusmod tempor
-                                incididunt ut labore </p>
                         </div>
                     </div>
                 </div>

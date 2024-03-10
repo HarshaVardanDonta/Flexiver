@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 import image from "../Assets/loginImage.png";
 import logo from "../Assets/logo.png";
 import { Typography } from "antd";
-
+import PhoneInputWithCountrySelect from "react-phone-number-input";
+import { E164Number } from "libphonenumber-js/types.cjs";
+import 'react-phone-number-input/style.css'
 export default function MobileLogin() {
 
     const navigate = useNavigate();
@@ -16,25 +18,22 @@ export default function MobileLogin() {
     const [mobile, setMobile] = useState("");
     const [otp, setOtp] = useState("");
     const [otpSent, setOtpSent] = useState(false);
-    const [timer, setTimer] = useState(0);
-
     const [loading, setLoading] = useState(false);
+    const [showResend, setShowResend] = useState(false);
+
 
     async function sendOtp() {
-        if (mobile.length !== 10) {
+        console.log(mobile.length)
+        if (mobile.length < 10) {
             alert("Invalid Mobile Number");
             return;
         }
-        var data = await supabase.auth.signInWithOtp({ phone: '+91' + mobile })
+        var data = await supabase.auth.signInWithOtp({ phone: mobile })
         console.log(data);
         if (data.data.messageId) {
             alert("OTP Sent");
             setOtpSent(true);
-            setTimer(60);
-            var interval = setInterval(() => {
-                setTimer((prev) => prev - 1);
-            }, 1000);
-
+            otpResendCountdown();
         }
     }
     async function verifyOtp() {
@@ -52,10 +51,17 @@ export default function MobileLogin() {
         }
         console.log(verify);
     }
-    const [timerId, setTimerId] = useState(0);
 
-    function timeout() {
-
+    function otpResendCountdown() {
+        // make showResend true after 60 seconds
+        var seconds = 60;
+        var x = setInterval(function () {
+            seconds = seconds - 1;
+            if (seconds === 0) {
+                clearInterval(x);
+                setShowResend(true);
+            }
+        }, 1000);
     }
     async function checkLogin() {
         const session = await supabase.auth.getSession();
@@ -75,8 +81,7 @@ export default function MobileLogin() {
     }
     useEffect(() => {
         checkLogin();
-    }, []);
-
+      }, []);
     return (
         loading ?
             <>
@@ -93,25 +98,30 @@ export default function MobileLogin() {
                 <div className="mainContainer">
                     <img className="imageContainer" src={image} alt="login" />
                     <div className="signupContainer">
-                        <CustomTextField
+                        <PhoneInputWithCountrySelect 
+                            className="phoneInput"
+                            placeholder="Enter phone number"
+                            value={mobile}
+                            onChange={(e)=>{
+                                setMobile(e as E164Number);
+                            }} 
+                            defaultCountry="AU"
+                            limitMaxLength={true}
+                        />
+                        <br/>
+                        {
+                            otpSent&&
+                            <CustomTextField
+                            maxLength={6}
                             style={{
                                 backgroundColor: "#f8f8f8",
                                 border: "none",
                             }}
-                            placeHolder="Mobile" onChanged={(e) => {
-                                setMobile(e.target.value)
-                            }} />
-                        <br />
-                        <CustomTextField
-                            style={{
-                                backgroundColor: "#f8f8f8",
-                                border: "none",
-                            }}
-                            isPassword={true}
-                            placeHolder={otpSent ? "Enter OTP" : "Send Otp First"}
+                            placeHolder={ "Enter OTP" }
                             onChanged={(e) => {
                                 setOtp(e.target.value)
                             }} />
+                        }
                         <br />
                         <br />
                         <ButtonComp style={{
@@ -131,8 +141,25 @@ export default function MobileLogin() {
                             else {
                                 await sendOtp()
                             }
-
                         }} />
+                        {
+                            showResend&&
+
+                            <ButtonComp style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                backgroundColor: "#D69F29",
+                                color: "white",
+                                fontWeight: "bold",
+                                fontSize: "12px",
+                                borderRadius: "10px",
+                                marginTop: "10px",  
+                            }} text="Resend OTP" onClick={async () => {
+                                sendOtp();
+                                setOtpSent(false);
+                                setShowResend(false);
+                            }} />
+                        }
                         <Typography.Text style={{ color: "black", fontSize: 15, fontFamily: "sans-serif" }}>OR</Typography.Text>
                         <br />
                         <br />

@@ -11,6 +11,7 @@ import './SwiperComp.css';
 
 // import required modules
 import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
+import { Typography } from '@mui/material';
 interface SwiperCompProps{
   images: string[]
 }
@@ -24,7 +25,7 @@ export default function SwiperComp(props: SwiperCompProps) {
         centeredSlides={true}
         slidesPerView={'auto'}
         autoplay={{
-          delay: 1000,
+          delay: 2500,
           disableOnInteraction: false,
         }}
         coverflowEffect={{
@@ -41,6 +42,19 @@ export default function SwiperComp(props: SwiperCompProps) {
         {props.images.map((item)=>(
           <SwiperSlide>
             <img src={item}/>
+          {/* <Typography sx={{
+            position: 'absolute',
+            top: '90%',
+            left: '50%',
+            alignContent: 'center',
+            textAlign: 'center',
+            alignItems: 'center',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            textShadow: '2px 2px 4px #000000',
+          }}>Vehicle Type</Typography> */}
           </SwiperSlide>
         ))}
       </Swiper>

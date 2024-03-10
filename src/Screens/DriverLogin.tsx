@@ -110,6 +110,11 @@ export default function DriverLogin() {
                             borderRadius: "10px",
                             height: "40px",
                         }} text="Sign In" onClick={async () => { await userSignIn() }} />
+                        <br/>
+                         <Typography.Text style={{ color: "black", fontSize: 15, fontFamily: "sans-serif" }}>OR</Typography.Text>
+                        <br />
+                        <br />
+                        <Typography.Text >Sign In Using <a href="/mobileLogin">Mobile</a></Typography.Text>
                     </div>
                 </div>
                 <div className="footerContainer">
