@@ -22,7 +22,7 @@ export default function DriverDashboard() {
 
         if (record && record.data && record.data[0]) {
             setDriver(record.data[0])
-            editDriver = record.data[0]
+            editDriver = record.data[0] 
             if (record.data[0].rejectionReason === null || record.data[0].rejectionReason === '') {
                 setIsRejected(false)
             } else {
@@ -132,9 +132,9 @@ export default function DriverDashboard() {
                                     editDriver.vehicleType = e.target.value;
                                 }
                             }>
-                                <option value="2 weeler">2 Wheeler</option>
+                                <option value="2 Wheeler">2 Wheeler</option>
                                 <option value="UTE / Van">UTE / Van</option>
-                                <option value="Refregerated Van">Refregirated Van</option>
+                                <option value="Refregerated Van">Refregerated Van</option>
                             </select>
                             {/* <input type="text" placeholder='Vehicle Type' defaultValue={driver.vehicleType} /> */}
                             <input type="text" placeholder='Vehicle Make' defaultValue={driver.vehicleMake} onChange={

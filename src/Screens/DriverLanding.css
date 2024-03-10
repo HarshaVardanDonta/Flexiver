@@ -259,6 +259,10 @@
         flex-direction: column;
         gap: 30px;
     }
+    .map>video{
+        height: 30vh;
+        object-fit: cover;
+    }
 
     .service-container {
         flex-direction: column;
