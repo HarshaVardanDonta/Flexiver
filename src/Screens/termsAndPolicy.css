@@ -1,0 +1,18 @@
+.policyPage {
+  background-color: white;
+}
+
+.policyNav {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.policyBox {
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 5%;
+  padding-bottom: 5%;
+}
