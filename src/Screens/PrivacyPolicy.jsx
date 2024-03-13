@@ -6,7 +6,11 @@ const PrivacyPolicy = () => {
   return (
     <div className="policyPage">
       <div className="policyNav">
-        <img src={logo} alt="" />
+      <Link to = '/'> 
+            <div>
+              <img src = {logo} alt='Logo' className='Logo'/>
+            </div>
+          </Link>
       </div>
 
       <div className="policyBox">

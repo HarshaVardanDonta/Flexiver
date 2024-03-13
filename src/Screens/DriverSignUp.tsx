@@ -3,7 +3,7 @@ import MySupClient from "../SupabaseClient";
 import "./DriverLogin.css";
 import CustomTextField from "../Components/CustomTextField";
 import ButtonComp from "../Components/ButtonComp";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import image from "../Assets/loginImage.png";
 import logo from "../Assets/logo.png";
 import { Typography } from "antd";
@@ -135,7 +135,11 @@ export default function DriverSignUp() {
   ) : (
     <div className="screenHeight">
       <div className="loginHeader">
-        <img src={logo} alt="logo" />
+      <Link to = '/'> 
+            <div>
+              <img src = {logo} alt='Logo' className='Logo'/>
+            </div>
+          </Link>
       </div>
       <div className="mainContainer">
         <img className="imageContainer" src={image} alt="login" />

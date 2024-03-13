@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ButtonComp from "../Components/ButtonComp";
 import MySupClient from "../SupabaseClient";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './DriverDashboard.css';
 import logo from "../Assets/logo.png";
 import React from "react";
@@ -60,7 +60,11 @@ export default function DriverDashboard() {
     return (
         <>
             <div className="dashHeader">
-                <img src={logo} alt="logo" />
+            <Link to = '/'> 
+            <div>
+              <img src = {logo} alt='Logo' className='Logo'/>
+            </div>
+          </Link>
                 <div className="dashHeaderButtonContainer">
                     <ButtonComp style={{
                         display: "flex",
