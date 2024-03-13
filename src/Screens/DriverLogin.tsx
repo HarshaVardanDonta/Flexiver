@@ -3,12 +3,13 @@ import MySupClient from "../SupabaseClient";
 import "./DriverLogin.css";
 import CustomTextField from "../Components/CustomTextField";
 import ButtonComp from "../Components/ButtonComp";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import image from "../Assets/loginImage.png";
 import logo from "../Assets/logo.png";
 import { Typography } from "antd";
 import Spacer from "../Components/MySpacer";
 import spin from "../Assets/spin.gif";
+import DriverLanding from "./DriverLanding";
 
 export default function DriverLogin() {
   const navigate = useNavigate();
@@ -71,7 +72,12 @@ export default function DriverLogin() {
   ) : (
     <div className="screenHeight">
       <div className="loginHeader">
-        <img src={logo} alt="logo" />
+           <Link to = '/'> 
+            <div>
+              <img src = {logo} alt='Logo' className='Logo'/>
+            </div>
+          </Link>
+        {/* <img src={logo} alt="logo" /> */}
       </div>
       <div className="mainContainer">
         <img className="imageContainer" src={image} alt="login" />

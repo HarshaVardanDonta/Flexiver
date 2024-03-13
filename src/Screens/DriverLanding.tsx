@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import logo from "../Assets/logo.png";
@@ -42,7 +42,11 @@ export default function DriverLanding() {
   return (
     <>
       <div id="header" className="header">
-        <img src={logo} alt="logo" />
+      <Link to = '/'> 
+            <div>
+              <img src = {logo} alt='Logo' className='Logo'/>
+            </div>
+          </Link>
         <div className="headerButtonsContainer">
           <ButtonComp
             text="About Us"

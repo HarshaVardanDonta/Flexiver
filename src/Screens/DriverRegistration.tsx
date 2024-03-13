@@ -8,7 +8,7 @@ import CustomTextField from "../Components/CustomTextField";
 import logo from "../Assets/logo.png";
 import ButtonComp from "../Components/ButtonComp";
 import MySupClient from "../SupabaseClient";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import spin from "../Assets/spin.gif";
 
@@ -91,7 +91,11 @@ function App() {
     <>
       <div className="registrationPage">
         <div className="logo">
-          <img src={logo} alt="Logo" />
+        <Link to = '/'> 
+            <div>
+              <img src = {logo} alt='Logo' className='Logo'/>
+            </div>
+          </Link>
         </div>
         <div className="title">
           Welcome to the Flexiver
@@ -422,39 +426,53 @@ function App() {
           <br />
         </div>
       </div>
-      <div className="footer">
-        <div className="footerLogo">
-          <div className="logoText">Flexiver</div>
-          <div className="addressText">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore{" "}
+      
+      <div className="landing-footer">
+          <div className="footer-left">
+            <h1>Flexiver</h1>
+          </div>
+          <div className="footer-right">
+            <div className="footer-box">
+              <h2>Usefull Links</h2>
+              <br />
+              <div className="footer-links">
+                <a
+                  onClick={() => {
+                    navigate("/termsAndConditions");
+                  }}
+                >
+                  Terms and Conditions
+                </a>
+                <a
+                  onClick={() => {
+                    navigate("/privacyPolicy");
+                  }}
+                >
+                  Privacy Policy
+                </a>
+              </div>
+            </div>
+            <div className="footer-box">
+              <h2>Contact Us</h2>
+              <div className="footer-links">
+                <p>
+                  11 Geoffrey st, constitution hill, 2150 <br />
+                  <br />
+                  House : 11 <br />
+                  Street : Geoffrey st <br />
+                  Suburb : Constitution hill <br />
+                  City : sydney <br />
+                  State : NSW <br />
+                  Post code : 2150 <br />
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="footerContent">
-          <DummyColumn />
-          <DummyColumn />
-          <DummyColumn />
-        </div>
-      </div>
     </>
   );
 }
 
 export default App;
 
-function DummyColumn() {
-  return (
-    <div className="footerRightSection">
-      <div>Section Name</div>
-      <br />
-      <br />
-      Lorem asd
-      <br />
-      Lorem dsa
-      <br />
-      Lorem asd <br />
-      Lorem asd as
-      <br />
-    </div>
-  );
-}
+
