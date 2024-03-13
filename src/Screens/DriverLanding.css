@@ -41,6 +41,8 @@
   /* opacity: 0.5; */
   background-image: linear-gradient(0deg, #fafafa 50%, #f1f1f1 50%);
   background-size: 10px 10px;
+
+  overflow-x: hidden;
 }
 
 .hero > video {
@@ -197,10 +199,8 @@
 }
 
 .service-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* padding: 10px; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
   margin-top: 20px;
 }
@@ -345,16 +345,31 @@
 
 @media only screen and (max-width: 1024px) {
   .flow {
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 30px;
   }
+  .flow-item {
+    width: 50%;
+  }
+
   .map > video {
     height: 30vh;
     object-fit: cover;
   }
 
   .service-container {
+    /* flex-direction: column; */
+    grid-template-columns: 1fr;
+  }
+
+  .about-split {
+    grid-template-columns: 1fr;
+  }
+
+  .about-left,
+  .about-right {
     flex-direction: column;
+    align-items: center;
   }
 
   .landing-footer {
@@ -363,6 +378,10 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .flow {
+    flex-direction: column;
+  }
+
   .hero-text > p {
     padding: 10px;
   }
@@ -379,15 +398,11 @@
   .service-box {
     /* height: 200px; */
     width: 100%;
-    /* padding: 30px; */
+    padding: 0px;
   }
 
   .service-box > p {
     padding: 30px;
-  }
-
-  .service-box > img {
-    /* width: 30%; */
   }
 
   .mobile {
@@ -453,5 +468,25 @@
   .footer-right {
     flex-direction: column;
     margin-right: 0px;
+  }
+
+  .about-left > img,
+  .about-right > img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mobile-text {
+    /* background-color: red; */
+    padding: 0px 32px;
+  }
+
+  .mobile-text h1,
+  .trucks > h1,
+  .service > h1,
+  .about-info > h1,
+  .about-split > h1,
+  .hero-text > h1 {
+    font-size: 48px;
   }
 }
