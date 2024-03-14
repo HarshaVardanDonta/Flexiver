@@ -34,8 +34,15 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  background-color: white;
+  /* background-color: white; */
   margin-top: 0px;
+
+  background-color: #fafafa;
+  /* opacity: 0.5; */
+  background-image: linear-gradient(0deg, #fafafa 50%, #f1f1f1 50%);
+  background-size: 10px 10px;
+
+  overflow-x: hidden;
 }
 
 .hero > video {
@@ -128,35 +135,74 @@
   /* gap: 30px; */
 }
 
-.about-grid {
+.about {
+  gap: 60px;
+}
+
+.about-split > h1 {
+  font-size: 74px;
+}
+
+.about-split > p {
+  font-size: 16px;
+}
+
+.about-split {
   display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 30px;
+  grid-template-columns: 0.5fr 1fr;
+  align-items: center;
 }
 
-.about-left {
-  /* background-color: red; */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
+.about-left,
 .about-right {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.about-left > img,
+.about-right > img {
+  height: 500px;
+  width: 500px;
+}
+
+.about-left > img {
+  border-radius: 50% 80% 50% 80%;
 }
 
 .about-right > img {
-  width: 100%;
+  border-radius: 80% 50% 80% 50%;
+}
+
+.about-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  flex: 1;
+}
+
+.about-info > h1 {
+  font-size: 64px;
+}
+
+.about-info > ul > li {
+  font-size: 16px;
+}
+
+.service > h1 {
+  font-size: 74px;
+}
+
+.service > p {
+  font-size: 16px;
 }
 
 .service-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* padding: 10px; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
+  margin-top: 20px;
 }
 
 .service-box {
@@ -177,6 +223,14 @@
   width: 200px;
   height: 150px;
   object-fit: contain;
+}
+
+.trucks > h1 {
+  font-size: 74px;
+}
+
+.trucks > p {
+  font-size: 16px;
 }
 
 .trucks-container {
@@ -215,6 +269,14 @@
   justify-content: center;
 }
 
+.mobile-text h1 {
+  font-size: 64px;
+}
+
+.mobile-text p {
+  font-size: 16px;
+}
+
 .apply-button {
   background-color: var(--yellow);
   padding: 10px 30px;
@@ -242,7 +304,7 @@
   color: white;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
 }
 
 .footer-box {
@@ -283,16 +345,31 @@
 
 @media only screen and (max-width: 1024px) {
   .flow {
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 30px;
   }
+  .flow-item {
+    width: 50%;
+  }
+
   .map > video {
     height: 30vh;
     object-fit: cover;
   }
 
   .service-container {
+    /* flex-direction: column; */
+    grid-template-columns: 1fr;
+  }
+
+  .about-split {
+    grid-template-columns: 1fr;
+  }
+
+  .about-left,
+  .about-right {
     flex-direction: column;
+    align-items: center;
   }
 
   .landing-footer {
@@ -301,6 +378,10 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .flow {
+    flex-direction: column;
+  }
+
   .hero-text > p {
     padding: 10px;
   }
@@ -317,15 +398,11 @@
   .service-box {
     /* height: 200px; */
     width: 100%;
-    /* padding: 30px; */
+    padding: 0px;
   }
 
   .service-box > p {
     padding: 30px;
-  }
-
-  .service-box > img {
-    /* width: 30%; */
   }
 
   .mobile {
@@ -391,5 +468,25 @@
   .footer-right {
     flex-direction: column;
     margin-right: 0px;
+  }
+
+  .about-left > img,
+  .about-right > img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mobile-text {
+    /* background-color: red; */
+    padding: 0px 32px;
+  }
+
+  .mobile-text h1,
+  .trucks > h1,
+  .service > h1,
+  .about-info > h1,
+  .about-split > h1,
+  .hero-text > h1 {
+    font-size: 48px;
   }
 }

@@ -2,16 +2,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import logo from "../Assets/logo.png";
-import scooty from "../Assets/scooty.gif";
 import twoWheeler from "../Assets/2Wheeler.svg";
 import UTE from "../Assets/UTE.svg";
 import RefregeratedVan from "../Assets/RefregeratedVan.svg";
 import landingVideo from "../Assets/lVideo.mp4";
 import map from "../Assets/cityMap.mp4";
-import driver from "../Assets/driver.gif";
 import mobile from "../Assets/phone_banner.png";
 import "./DriverLanding.css";
 import "aos/dist/aos.css";
+
+import about1 from "../Assets/about1.jpg";
+import about2 from "../Assets/about2.jpg";
 
 import ButtonComp from "../Components/ButtonComp";
 import Spacer from "../Components/MySpacer";
@@ -21,9 +22,6 @@ import MySupClient from "../SupabaseClient";
 
 import { FaFilePen, FaTruck } from "react-icons/fa6";
 import { FaRegThumbsUp } from "react-icons/fa";
-
-import ReactPlayer from "react-player";
-import Carousel from "react-material-ui-carousel";
 import SwiperComp from "../Components/SwiperComp";
 
 export default function DriverLanding() {
@@ -132,77 +130,77 @@ export default function DriverLanding() {
         </div>
 
         <div className="about">
-          <h1 data-aos="fade-right">ABOUT US</h1>
-          <p data-aos="fade-right">
-            At Flexiver, we understand the importance of reliable and efficient
-            delivery services. With years of experience in the industry, we have
-            established ourselves as a premier packers and movers company
-            dedicated to providing seamless transportation solutions tailored to
-            your needs. Whether you're moving homes, sending packages, or
-            transporting goods for your business, trust Flexiver to deliver with
-            precision and professionalism.
-          </p>
+          <div className="about-split" data-aos="fade-up">
+            <h1>ABOUT US</h1>
+            <p>
+              At Flexiver, we understand the importance of reliable and
+              efficient delivery services. With years of experience in the
+              industry, we have established ourselves as a premier packers and
+              movers company dedicated to providing seamless transportation
+              solutions tailored to your needs. Whether you're moving homes,
+              sending packages, or transporting goods for your business, trust
+              Flexiver to deliver with precision and professionalism.
+            </p>
+          </div>
 
-          <div className="about-grid">
-            <div className="about-left">
-              <div data-aos="fade-right">
-                <h2>Why Choose Flexiver?</h2> <br />
-                <ul>
-                  <li>
-                    <strong>Reliability:</strong> With Flexiver, you can trust
-                    that your packages will reach their destination safely and
-                    on time.
-                  </li>
-                  <li>
-                    <strong>Affordability:</strong> We offer competitive rates
-                    without compromising on the quality of service.
-                  </li>
-                  <li>
-                    <strong>Customer Satisfaction:</strong> Our dedicated team
-                    is committed to providing exceptional customer service every
-                    step of the way.
-                  </li>
-                  <li>
-                    <strong>Flexibility:</strong> We understand that plans can
-                    change. That's why we offer flexible scheduling options to
-                    accommodate your needs.
-                  </li>
-                </ul>
-              </div>
-              <div data-aos="fade-right">
-                <h2>Why Drive with Flexiver?</h2> <br />
-                <ul>
-                  <li>
-                    <strong>Flexibility:</strong> With Flexiver, you're in
-                    control of your schedule. Choose when and where you want to
-                    work, whether it's part-time or full-time.
-                  </li>
-                  <li>
-                    <strong>Earn More:</strong> Enjoy competitive earnings for
-                    every delivery you complete. The more you drive, the more
-                    you earn.
-                  </li>
-                  <li>
-                    <strong>Support:</strong> Our dedicated support team is here
-                    to assist you every step of the way. From onboarding to
-                    ongoing assistance, we're committed to your success.
-                  </li>
-                  <li>
-                    <strong>Safety:</strong> Your safety is our priority. We
-                    provide comprehensive safety guidelines and support to
-                    ensure a secure driving experience.
-                  </li>
-                  <li>
-                    <strong>Opportunity:</strong> Join a growing community of
-                    drivers and tap into new opportunities for growth and
-                    development.
-                  </li>
-                </ul>
-              </div>
+          <div className="about-left" data-aos="fade-left">
+            <img src={about1} alt="about" />
+            <div className="about-info">
+              <h1>Why Choose Flexiver?</h1>
+              <ul>
+                <li>
+                  <strong>Reliability:</strong> With Flexiver, you can trust
+                  that your packages will reach their destination safely and on
+                  time.
+                </li>
+                <li>
+                  <strong>Affordability:</strong> We offer competitive rates
+                  without compromising on the quality of service. Customer
+                  Satisfaction: Our dedicated team is committed to providing
+                  exceptional customer service every step of the way.
+                </li>
+                <li>
+                  <strong>Flexibility:</strong> We understand that plans can
+                  change. That's why we offer flexible scheduling options to
+                  accommodate your needs.
+                </li>
+              </ul>
             </div>
-            <div className="about-right">
-              <img src={driver} alt="driver" data-aos="fade-left" />
+          </div>
+
+          <div className="about-right" data-aos="fade-right">
+            <div className="about-info">
+              <h1>Why Drive with Flexiver?</h1>
+              <ul>
+                <li>
+                  <strong>Flexibility:</strong> With Flexiver, you're in control
+                  of your schedule. Choose when and where you want to work,
+                  whether it's part-time or full-time.
+                </li>
+                <li>
+                  <strong>Earn More:</strong> Enjoy competitive earnings for
+                  every delivery you complete. The more you drive, the more you
+                  earn.
+                </li>
+                <li>
+                  <strong>Support:</strong> Our dedicated support team is here
+                  to assist you every step of the way. From onboarding to
+                  ongoing assistance, we're committed to your success.
+                </li>
+                <li>
+                  <strong>Safety:</strong> Your safety is our priority. We
+                  provide comprehensive safety guidelines and support to ensure
+                  a secure driving experience.
+                </li>
+                <li>
+                  <strong>Opportunity:</strong> Join a growing community of
+                  drivers and tap into new opportunities for growth and
+                  development.
+                </li>
+              </ul>
             </div>
+
+            <img src={about2} alt="about2" />
           </div>
         </div>
 
@@ -241,7 +239,7 @@ export default function DriverLanding() {
           <br />
         </div>
 
-        <div className="trucks">
+        <div className="trucks" data-aos="fade-up">
           <h1 data-aos="fade-up">AVAILABLE VEHICLES</h1>
           <p data-aos="fade-up">
             Join our fleet of drivers and choose from a variety of vehicles to
