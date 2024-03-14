@@ -1,7 +1,7 @@
 import React from 'react'
 import "./termsAndPolicy.css"
-
 import logo from "../Assets/logo.png";
+import { Link } from 'react-router-dom';
 
 const TearmsAndConditions = () => {
   return (
