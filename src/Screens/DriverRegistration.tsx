@@ -99,7 +99,7 @@ function App() {
           Extravaganza!
         </div>
         <div className="subTitle">
-          So, you wanna join the PicUp team of rockstar flexers? Awesome choice!
+          So, you wanna join the Flexiver team of rockstar flexers? Awesome choice!
           But first, let's jazz up the details. 🎉
         </div>
         <br />
@@ -253,7 +253,7 @@ function App() {
             />
           </div>
           <div className="normalSideContent">
-            Pitch Your flexer Tale: Why are you the next PicUp sensation?
+            Pitch Your flexer Tale: Why are you the next Flexiver sensation?
           </div>
           <br />
           <div className="answerTextFieldContainer">
