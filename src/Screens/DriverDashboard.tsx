@@ -33,7 +33,6 @@ export default function DriverDashboard() {
             }
         }
     }
-    const [listIndex, setListIndex] = useState(0)
 
     async function updateDriver() {
         if (editDriver.mobileNo === '' || editDriver.subUrb === '' || editDriver.city === '' || editDriver.vehicleMake === '' || editDriver.vehicleModel === '' || editDriver.vehicleYear === '' || editDriver.availability === '' || editDriver.canYouLiftAndGroove === '' || editDriver.flexerTale === '' || editDriver.flexerStyle === '' || editDriver.lastDanceMove === '') {
@@ -58,7 +57,7 @@ export default function DriverDashboard() {
 
     useEffect(() => {
         getDriverRecord()
-    }, [listIndex])
+    }, [])
     return (
         <>
             <div className="dashHeader">
@@ -139,6 +138,7 @@ export default function DriverDashboard() {
                                     editDriver.vehicleType = e.target.value;
                                 }
                             }>
+                                <option value="Select Vehicle">Select Vehicle</option>
                                 <option value="2 Wheeler">2 Wheeler</option>
                                 <option value="UTE / Van">UTE / Van</option>
                                 <option value="Refregerated Van">Refregerated Van</option>

@@ -30,9 +30,9 @@ export default function DriverLogin() {
         .then((data) => {
           console.log(data);
           if (data.data!.length === 0) {
-            navigate("/driverRegistration");
+            navigate("/");
           } else {
-            navigate("/driverDashboard");
+            navigate("/");
           }
         });
     }
@@ -58,7 +58,7 @@ export default function DriverLogin() {
       return;
     }
     if (data.data.user?.aud === "authenticated") {
-      navigate("/driverRegistration");
+      navigate("/");
     }
     setLoading(false);
   }
@@ -72,11 +72,11 @@ export default function DriverLogin() {
   ) : (
     <div className="screenHeight">
       <div className="loginHeader">
-           <Link to = '/'> 
-            <div>
-              <img src = {logo} alt='Logo' className='Logo'/>
-            </div>
-          </Link>
+        <Link to='/'>
+          <div>
+            <img src={logo} alt='Logo' className='Logo' />
+          </div>
+        </Link>
         {/* <img src={logo} alt="logo" /> */}
       </div>
       <div className="mainContainer">

@@ -16,6 +16,7 @@ export default function DriverSignUp() {
   const [pass1, setPass1] = useState("");
   const [pass2, setPass2] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passError, setPassError] = useState(false);
 
   async function userSignUp() {
     if (email === "" || pass1 === "" || pass2 === "") {
@@ -135,11 +136,11 @@ export default function DriverSignUp() {
   ) : (
     <div className="screenHeight">
       <div className="loginHeader">
-      <Link to = '/'> 
-            <div>
-              <img src = {logo} alt='Logo' className='Logo'/>
-            </div>
-          </Link>
+        <Link to='/'>
+          <div>
+            <img src={logo} alt='Logo' className='Logo' />
+          </div>
+        </Link>
       </div>
       <div className="mainContainer">
         <img className="imageContainer" src={image} alt="login" />
@@ -168,16 +169,30 @@ export default function DriverSignUp() {
           />
           <br />
           <CustomTextField
+            passMisMatch={passError}
             style={{
-              backgroundColor: "#f8f8f8",
+              backgroundColor: passError ? "#ff6e6e" : "#f8f8f8",
               border: "none",
+              transition: "0.5s",
+
             }}
             isPassword={true}
             placeHolder="Re Enter Password"
             onChanged={(e) => {
               setPass2(e.target.value);
+              if (e.target.value !== pass1) {
+                setPassError(true);
+                console.log("error");
+              } else {
+                setPassError(false);
+              }
             }}
           />
+          {passError ? (
+            <p style={{ color: "red" }}>Passwords do not match</p>
+          ) : (
+            <></>
+          )}
           <br />
           <br />
           <ButtonComp
