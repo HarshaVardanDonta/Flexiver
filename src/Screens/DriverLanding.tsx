@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import logo from "../Assets/logo.png";
+import whiteLogo from "../Assets/whiteLogo.png";
 import twoWheeler from "../Assets/2Wheeler.svg";
 import UTE from "../Assets/UTE.svg";
 import RefregeratedVan from "../Assets/RefregeratedVan.svg";
@@ -29,6 +30,9 @@ export default function DriverLanding() {
     supabase.auth.getSession().then((session) => {
       console.log("session", session);
       setSession(session);
+      if (session.data.session) {
+        setIsUserLoggedIn(true);
+      }
     });
   }, []);
 
@@ -36,15 +40,16 @@ export default function DriverLanding() {
 
   const [supabase] = useState(() => MySupClient());
   const [session, setSession] = useState<any>(null);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   return (
     <>
       <div id="header" className="header">
-      <Link to = '/'> 
-            <div>
-              <img src = {logo} alt='Logo' className='Logo'/>
-            </div>
-          </Link>
+        <Link to='/'>
+          <div>
+            <img src={logo} alt='Logo' className='Logo' />
+          </div>
+        </Link>
         <div className="headerButtonsContainer">
           <ButtonComp
             text="About Us"
@@ -86,12 +91,39 @@ export default function DriverLanding() {
             }}
           />
           <Spacer width={50} />
-          <ButtonComp
+          {
+            isUserLoggedIn ? (
+              <div className="logoutSection">
+                <ButtonComp
+                  style={{
+                    width: "auto",
+                    backgroundColor: "#D69F29",
+                    color: "white",
+                    borderRadius: "10px",
+                  }}
+                  text="Logout"
+                  onClick={async () => {
+                    await supabase.auth.signOut();
+                    setIsUserLoggedIn(false);
+                  }}
+                />
+                {session.data.session.user?.email}
+              </div>
+            ) : (
+              <ButtonComp
+                text="Login"
+                onClick={() => {
+                  navigate("/driverLogin");
+                }}
+              />
+            )
+          }
+          {/* <ButtonComp
             text="Login"
             onClick={() => {
               navigate("/driverLogin");
             }}
-          />
+          /> */}
         </div>
       </div>
       <div className="page">
@@ -122,13 +154,9 @@ export default function DriverLanding() {
         <div className="map">
           <video src={map} autoPlay loop muted />
         </div>
-
         <div id="about">
           <br />
-          <br />
-          <br />
         </div>
-
         <div className="about">
           <div className="about-split" data-aos="fade-up">
             <h1>ABOUT US</h1>
@@ -203,35 +231,31 @@ export default function DriverLanding() {
             <img src={about2} alt="about2" />
           </div>
         </div>
-
-        <div id="service">
-          <br />
-          <br />
-          <br />
-        </div>
-
-        <div className="service" data-aos="fade-left">
-          <h1>SERVICES</h1>
-          <p>
-            At Flexiver, we provide a range of services tailored to meet your
-            transportation needs:
-          </p>
-
-          <div className="service-container">
-            {services.map((service, id) => (
-              <div
-                className="service-box"
-                key={id}
-                data-aos="fade-up"
-                data-aos-delay={`${id * 100}`}
-              >
-                <img src={service.image} alt="" />
-                <h2>{service.title}</h2>
-                <p>{service.desc}</p>
-              </div>
-            ))}
+        <div className="serviceBackground">
+          <div id="service" className="service" data-aos="fade-left">
+            <h1>SERVICES</h1>
+            <h2>
+              At Flexiver, we provide a range of services tailored to meet your
+              transportation needs:
+            </h2>
+            <br />
+            <div className="service-container">
+              {services.map((service, id) => (
+                <div
+                  className="service-box"
+                  key={id}
+                  data-aos="fade-up"
+                  data-aos-delay={`${id * 100}`}
+                >
+                  <img src={service.image} alt="" />
+                  <h2>{service.title}</h2>
+                  <p>{service.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+
 
         <div id="available">
           <br />
@@ -277,44 +301,41 @@ export default function DriverLanding() {
         </div>
 
         <div className="landing-footer">
-          <div className="footer-left">
-            <h1>Flexiver</h1>
+          <div className="footer-box">
+            <br />
+            <img src={whiteLogo}></img>
           </div>
-          <div className="footer-right">
-            <div className="footer-box">
-              <h2>Usefull Links</h2>
-              <br />
-              <div className="footer-links">
-                <a
-                  onClick={() => {
-                    navigate("/termsAndConditions");
-                  }}
-                >
-                  Terms and Conditions
-                </a>
-                <a
-                  onClick={() => {
-                    navigate("/privacyPolicy");
-                  }}
-                >
-                  Privacy Policy
-                </a>
-              </div>
+          <div className="footer-box">
+            <h2>Usefull Links</h2>
+            <div className="footer-links">
+              <a
+                onClick={() => {
+                  navigate("/termsAndConditions");
+                }}
+              >
+                Terms and Conditions
+              </a>
+              <a
+                onClick={() => {
+                  navigate("/privacyPolicy");
+                }}
+              >
+                Privacy Policy
+              </a>
             </div>
-            <div className="footer-box">
-              <h2>Contact Us</h2>
-              <div className="footer-links">
-                <p>
-                  11 Geoffrey st, constitution hill, 2150 <br />
-                  <br />
-                  House : 11 <br />
-                  Street : Geoffrey st <br />
-                  Suburb : Constitution hill <br />
-                  City : sydney <br />
-                  State : NSW <br />
-                  Post code : 2150 <br />
-                </p>
-              </div>
+          </div>
+          <div className="footer-box">
+            <h2>Socials</h2>
+          </div>
+          <div className="footer-box">
+            <h2>Contact Us</h2>
+            <div className="footer-links">
+              <a onClick={() => {
+                // open url in new window
+                window.open("https://www.google.com/maps/place/Ajaka+%26+Co/@-33.9416148,151.2413084,15z/data=!4m6!3m5!1s0x6b12b3d3baf63f73:0x15aaa1e9bdd8986e!8m2!3d-33.9416148!4d151.2413084!16s%2Fg%2F1tfd2kb8?entry=ttu, '_blank', 'noopener'");
+              }}>
+                Ajaka and co. Maroubra sydney, <br />1/206 Maroubra Rd, Maroubra NSW 2035
+              </a>
             </div>
           </div>
         </div>
