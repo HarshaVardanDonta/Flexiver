@@ -1,5 +1,5 @@
 class DriverDetails {
-    id!: number;
+    id!: string;
     firstName!: string;
     lastName!: string;
     email!: string;
@@ -19,6 +19,7 @@ class DriverDetails {
     vehicleYear!: string;
     rejectionReason!: string;
     userId!: string;
+    driverId!: string;
 
     fromJson(json: any) {
         this.id = json.id;
@@ -41,6 +42,7 @@ class DriverDetails {
         this.vehicleYear = json.vehicleYear;
         this.rejectionReason = json.rejectionReason;
         this.userId = json.userId;
+        this.driverId = json.driverId;
     }
 
     toJson() {
@@ -63,7 +65,8 @@ class DriverDetails {
             vehicleMake: this.vehicleMake,
             vehicleYear: this.vehicleYear,
             rejectionReason: this.rejectionReason,
-            userId: this.userId
+            userId: this.userId,
+            driverId: this.driverId
         }
     }
 }

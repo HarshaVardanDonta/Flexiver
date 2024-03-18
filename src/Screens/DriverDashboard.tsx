@@ -22,7 +22,7 @@ export default function DriverDashboard() {
 
         if (record && record.data && record.data[0]) {
             setDriver(record.data[0])
-            editDriver = record.data[0] 
+            editDriver = record.data[0]
             if (record.data[0].rejectionReason === null || record.data[0].rejectionReason === '') {
                 setIsRejected(false)
             } else {
@@ -52,6 +52,8 @@ export default function DriverDashboard() {
             alert('Updated Successfully')
         }
 
+        getDriverRecord();
+
     }
 
     useEffect(() => {
@@ -60,11 +62,11 @@ export default function DriverDashboard() {
     return (
         <>
             <div className="dashHeader">
-            <Link to = '/'> 
-            <div>
-              <img src = {logo} alt='Logo' className='Logo'/>
-            </div>
-          </Link>
+                <Link to='/'>
+                    <div>
+                        <img src={logo} alt='Logo' className='Logo' />
+                    </div>
+                </Link>
                 <div className="dashHeaderButtonContainer">
                     <ButtonComp style={{
                         display: "flex",
@@ -111,6 +113,7 @@ export default function DriverDashboard() {
                     </div>
                     <div className="dash-grid">
                         <div className="dash-left">
+                            Driver Id : {driver.driverId}
                             <input name="test" type="text" placeholder='Email' disabled={isRejected} defaultValue={driver.email} />
                             <input type="text" placeholder='Phone No' defaultValue={driver.mobileNo} onChange={
                                 (e) => {
@@ -203,6 +206,7 @@ export default function DriverDashboard() {
                         borderRadius: "10px",
                         height: "40px",
                     }} text="Update" onClick={async () => {
+                        editDriver.isVerified = false
                         await updateDriver()
                     }} />
                 </div>
