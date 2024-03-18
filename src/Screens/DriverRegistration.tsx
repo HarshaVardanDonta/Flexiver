@@ -40,9 +40,27 @@ function App() {
 
   let navigate = useNavigate();
   async function insertDriver(driverDetails: DriverDetails) {
+    var currentDriver = await supabase.from("variables").select("*");
+    console.log(" current driver ", currentDriver.data![0].currentDriver)
+    const date = new Date();
+    const driverId = `FV-${date.getDate().toLocaleString('en-US', {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    })}${(date.getMonth() + 1).toLocaleString('en-Us', {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    })}${date.getFullYear()}-${(currentDriver.data![0].currentDriver + 1).toLocaleString('en-US', {
+      minimumIntegerDigits: 4,
+      useGrouping: false,
+    })}`;
+    driver.driverId = driverId;
     const data = await supabase.from("DriverDetails").insert(driver.toJson());
     if (data.status === 201) {
       alert("Driver Details Inserted Successfully");
+      var res = await supabase.from("variables").update({
+        'currentDriver': currentDriver.data![0].currentDriver + 1
+      }).eq('id', 1);
+      console.log("res", res);
       navigate("/driverDashboard");
     } else if (data.status === 409) {
       alert(data!.error!.message);
@@ -91,9 +109,9 @@ function App() {
     <>
       <div className="registrationPage">
         <div className="logo">
-        <Link to = '/'> 
+          <Link to='/'>
             <div>
-              <img src = {logo} alt='Logo' className='Logo'/>
+              <img src={logo} alt='Logo' className='Logo' />
             </div>
           </Link>
         </div>
@@ -103,7 +121,7 @@ function App() {
           Extravaganza!
         </div>
         <div className="subTitle">
-        So, you wanna join the Flexiver team of rockstar flexers? Awesome choice!
+          So, you wanna join the Flexiver team of rockstar flexers? Awesome choice!
           But first, let's jazz up the details. 🎉
         </div>
         <br />
@@ -257,7 +275,7 @@ function App() {
             />
           </div>
           <div className="normalSideContent">
-          Pitch Your flexer Tale: Why are you the next FLEXIVER sensation?
+            Pitch Your flexer Tale: Why are you the next FLEXIVER sensation?
           </div>
           <br />
           <div className="answerTextFieldContainer">
@@ -426,49 +444,49 @@ function App() {
           <br />
         </div>
       </div>
-      
+
       <div className="landing-footer">
-          <div className="footer-left">
-            <h1>Flexiver</h1>
-          </div>
-          <div className="footer-right">
-            <div className="footer-box">
-              <h2>Usefull Links</h2>
-              <br />
-              <div className="footer-links">
-                <a
-                  onClick={() => {
-                    navigate("/termsAndConditions");
-                  }}
-                >
-                  Terms and Conditions
-                </a>
-                <a
-                  onClick={() => {
-                    navigate("/privacyPolicy");
-                  }}
-                >
-                  Privacy Policy
-                </a>
-              </div>
+        <div className="footer-left">
+          <h1>Flexiver</h1>
+        </div>
+        <div className="footer-right">
+          <div className="footer-box">
+            <h2>Usefull Links</h2>
+            <br />
+            <div className="footer-links">
+              <a
+                onClick={() => {
+                  navigate("/termsAndConditions");
+                }}
+              >
+                Terms and Conditions
+              </a>
+              <a
+                onClick={() => {
+                  navigate("/privacyPolicy");
+                }}
+              >
+                Privacy Policy
+              </a>
             </div>
-            <div className="footer-box">
-              <h2>Contact Us</h2>
-              <div className="footer-links">
-                <p>
-                  11 Geoffrey st, constitution hill, 2150 <br />
-                  <br />
-                  House : 11 <br />
-                  Street : Geoffrey st <br />
-                  Suburb : Constitution hill <br />
-                  City : sydney <br />
-                  State : NSW <br />
-                  Post code : 2150 <br />
-                </p>
-              </div>
+          </div>
+          <div className="footer-box">
+            <h2>Contact Us</h2>
+            <div className="footer-links">
+              <p>
+                11 Geoffrey st, constitution hill, 2150 <br />
+                <br />
+                House : 11 <br />
+                Street : Geoffrey st <br />
+                Suburb : Constitution hill <br />
+                City : sydney <br />
+                State : NSW <br />
+                Post code : 2150 <br />
+              </p>
             </div>
           </div>
         </div>
+      </div>
     </>
   );
 }
