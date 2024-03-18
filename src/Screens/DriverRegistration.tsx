@@ -225,6 +225,7 @@ function App() {
                 setVehicleType(e.target.value);
               }}
             >
+              <option value="Select Vehicle">Select Vehicle</option>
               <option value="2 weeler">2 Wheeler</option>
               <option value="UTE / Van">UTE / Van</option>
               <option value="Refregerated Van">Refregirated Van</option>
