@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import image from "../Assets/loginImage.png";
 import logo from "../Assets/logo.png";
 import { Typography } from "antd";
+import toast from "react-hot-toast";
 
 export default function DriverSignUp() {
   const navigate = useNavigate();
@@ -20,11 +21,13 @@ export default function DriverSignUp() {
 
   async function userSignUp() {
     if (email === "" || pass1 === "" || pass2 === "") {
-      alert("Please fill all the fields");
+      // alert("Please fill all the fields");
+      toast.error("Please fill all the fields");
       return;
     }
     if (pass1 !== pass2) {
-      alert("Passwords do not match");
+      // alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
     if (pass1 === pass2) {
@@ -41,6 +44,7 @@ export default function DriverSignUp() {
 
       if (data.data.user?.aud === "authenticated") {
         // alert("Please verify your Email ID and proceed to Login.");
+        toast.success("Your email has been verified");
         navigate("/driverLogin");
       }
 
@@ -136,9 +140,9 @@ export default function DriverSignUp() {
   ) : (
     <div className="screenHeight">
       <div className="loginHeader">
-        <Link to='/'>
+        <Link to="/">
           <div>
-            <img src={logo} alt='Logo' className='Logo' />
+            <img src={logo} alt="Logo" className="Logo" />
           </div>
         </Link>
       </div>
@@ -174,7 +178,6 @@ export default function DriverSignUp() {
               backgroundColor: passError ? "#ff6e6e" : "#f8f8f8",
               border: "none",
               transition: "0.5s",
-
             }}
             isPassword={true}
             placeHolder="Re Enter Password"
