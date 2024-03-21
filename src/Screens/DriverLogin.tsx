@@ -10,6 +10,7 @@ import { Typography } from "antd";
 import Spacer from "../Components/MySpacer";
 import spin from "../Assets/spin.gif";
 import DriverLanding from "./DriverLanding";
+import toast from "react-hot-toast";
 
 export default function DriverLogin() {
   const navigate = useNavigate();
@@ -44,7 +45,8 @@ export default function DriverLogin() {
 
   async function userSignIn() {
     if (email === "" || pass === "") {
-      alert("Please fill all the fields");
+      // alert("Please fill all the fields");
+      toast.error("Please fill all the fields");
       return;
     }
     setLoading(true);
@@ -58,6 +60,7 @@ export default function DriverLogin() {
       return;
     }
     if (data.data.user?.aud === "authenticated") {
+      toast.success("login successful");
       navigate("/");
     }
     setLoading(false);
@@ -72,9 +75,9 @@ export default function DriverLogin() {
   ) : (
     <div className="screenHeight">
       <div className="loginHeader">
-        <Link to='/'>
+        <Link to="/">
           <div>
-            <img src={logo} alt='Logo' className='Logo' />
+            <img src={logo} alt="Logo" className="Logo" />
           </div>
         </Link>
         {/* <img src={logo} alt="logo" /> */}

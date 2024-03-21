@@ -13,6 +13,8 @@ import Aos from "aos";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import { Toaster } from "react-hot-toast";
+
 export default function DriverMain() {
   useEffect(() => {
     Aos.init();
@@ -31,6 +33,8 @@ export default function DriverMain() {
           <Route path="/termsAndConditions" element={<TearmsAndConditions />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
         </Routes>
+
+        <Toaster position="bottom-right" />
       </BrowserRouter>
     </>
   );
