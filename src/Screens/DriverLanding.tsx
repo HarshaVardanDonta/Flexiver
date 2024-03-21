@@ -11,19 +11,20 @@ import map from "../Assets/cityMap.mp4";
 import mobile from "../Assets/phone_banner.png";
 import "./DriverLanding.css";
 import "aos/dist/aos.css";
-
 import about1 from "../Assets/about1.jpg";
 import about2 from "../Assets/about2.jpg";
-
 import ButtonComp from "../Components/ButtonComp";
 import Spacer from "../Components/MySpacer";
 import { services } from "../data";
-
 import MySupClient from "../SupabaseClient";
-
 import { FaFilePen, FaTruck } from "react-icons/fa6";
-import { FaRegThumbsUp } from "react-icons/fa";
+import { FaRegThumbsUp, FaUserCircle } from "react-icons/fa";
 import SwiperComp from "../Components/SwiperComp";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import React from "react";
+import { Button } from "@mui/material";
+import { Spa } from "@mui/icons-material";
 
 export default function DriverLanding() {
   useEffect(() => {
@@ -41,6 +42,15 @@ export default function DriverLanding() {
   const [supabase] = useState(() => MySupClient());
   const [session, setSession] = useState<any>(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -73,57 +83,80 @@ export default function DriverLanding() {
             }}
           />
         </div>
-        <div className="userActionContainer">
-          <ButtonComp
-            style={{
-              // padding: "5px 60px",
-              backgroundColor: "#D69F29",
-              color: "white",
-              borderRadius: "10px",
-            }}
-            text="Apply To Drive"
-            onClick={async () => {
-              if (session.data.session) {
-                navigate("/driverRegistration");
-              } else {
-                navigate("/driverSignUp");
-              }
-            }}
-          />
+        <div>
           <Spacer width={50} />
           {
             isUserLoggedIn ? (
               <div className="logoutSection">
+                <Button
+                  id="basic-button"
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+                  sx={{
+                    color: "black",
+                  }}
+                >
+                  <FaUserCircle style={{
+                    fontSize: "20px",
+                    color: "#D69F29",
+                  }} />
+                  <Spacer width={10} />
+                  {session.data.session.user.app_metadata.provider !== "phone" ? session.data.session.user.user_metadata.fullName : session.data.session.user.phone}
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={() => {
+                    if (session.data.session) {
+                      navigate("/driverRegistration");
+                    } else {
+                      navigate("/driverSignUp");
+                    }
+                    handleClose();
+                  }}>Apply to Drive</MenuItem>
+                  <MenuItem onClick={async () => {
+                    await supabase.auth.signOut();
+                    setIsUserLoggedIn(false);
+                    handleClose();
+                  }}>Logout</MenuItem>
+                </Menu>
+              </div>
+            ) : (
+              <div className="userActionContainer">
                 <ButtonComp
                   style={{
-                    width: "auto",
                     backgroundColor: "#D69F29",
                     color: "white",
                     borderRadius: "10px",
                   }}
-                  text="Logout"
+                  text="Apply To Drive"
                   onClick={async () => {
-                    await supabase.auth.signOut();
-                    setIsUserLoggedIn(false);
+                    if (session.data.session) {
+                      navigate("/driverRegistration");
+                    } else {
+                      navigate("/driverSignUp");
+                    }
                   }}
                 />
-                {session.data.session.user?.email}
+                <Spacer width={20} />
+                <ButtonComp
+                  text="Login"
+                  onClick={() => {
+                    navigate("/driverLogin");
+                  }}
+                />
               </div>
-            ) : (
-              <ButtonComp
-                text="Login"
-                onClick={() => {
-                  navigate("/driverLogin");
-                }}
-              />
+
             )
           }
-          {/* <ButtonComp
-            text="Login"
-            onClick={() => {
-              navigate("/driverLogin");
-            }}
-          /> */}
         </div>
       </div>
       <div className="page">

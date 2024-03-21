@@ -16,6 +16,8 @@ export default function DriverSignUp() {
   const [email, setEmail] = useState("");
   const [pass1, setPass1] = useState("");
   const [pass2, setPass2] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const [passError, setPassError] = useState(false);
 
@@ -43,8 +45,14 @@ export default function DriverSignUp() {
       }
 
       if (data.data.user?.aud === "authenticated") {
-        // alert("Please verify your Email ID and proceed to Login.");
-        toast.success("Your email has been verified");
+        // set User name
+        const data = await supabase.auth.updateUser({
+          data: { fullName: firstName + " " + lastName },
+        });
+        console.log("username", data);
+
+        toast.success("Please verify your Email ID and proceed to Login.");
+        // toast.success("Your email has been verified");
         navigate("/driverLogin");
       }
 
@@ -154,6 +162,24 @@ export default function DriverSignUp() {
               backgroundColor: "#f8f8f8",
               border: "none",
             }}
+            placeHolder="First Name" onChanged={(e) => {
+              setFirstName(e.target.value);
+            }} />
+          <br />
+          <CustomTextField
+            style={{
+              backgroundColor: "#f8f8f8",
+              border: "none",
+            }}
+            placeHolder="Last Name" onChanged={(e) => {
+              setLastName(e.target.value);
+            }} />
+          <br />
+          <CustomTextField
+            style={{
+              backgroundColor: "#f8f8f8",
+              border: "none",
+            }}
             placeHolder="Email"
             onChanged={(e) => {
               setEmail(e.target.value);
@@ -185,7 +211,6 @@ export default function DriverSignUp() {
               setPass2(e.target.value);
               if (e.target.value !== pass1) {
                 setPassError(true);
-                console.log("error");
               } else {
                 setPassError(false);
               }
