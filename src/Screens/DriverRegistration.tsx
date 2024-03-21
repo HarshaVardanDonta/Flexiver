@@ -11,6 +11,7 @@ import MySupClient from "../SupabaseClient";
 import { Link, useNavigate } from "react-router-dom";
 
 import spin from "../Assets/spin.gif";
+import toast from "react-hot-toast";
 
 function App() {
   const [firstName, setFirstName] = useState("");
@@ -41,25 +42,31 @@ function App() {
   let navigate = useNavigate();
   async function insertDriver(driverDetails: DriverDetails) {
     var currentDriver = await supabase.from("variables").select("*");
-    console.log(" current driver ", currentDriver.data![0].currentDriver)
+    console.log(" current driver ", currentDriver.data![0].currentDriver);
     const date = new Date();
-    const driverId = `FV-${date.getDate().toLocaleString('en-US', {
+    const driverId = `FV-${date.getDate().toLocaleString("en-US", {
       minimumIntegerDigits: 2,
       useGrouping: false,
-    })}${(date.getMonth() + 1).toLocaleString('en-Us', {
+    })}${(date.getMonth() + 1).toLocaleString("en-Us", {
       minimumIntegerDigits: 2,
       useGrouping: false,
-    })}${date.getFullYear()}-${(currentDriver.data![0].currentDriver + 1).toLocaleString('en-US', {
+    })}${date.getFullYear()}-${(
+      currentDriver.data![0].currentDriver + 1
+    ).toLocaleString("en-US", {
       minimumIntegerDigits: 4,
       useGrouping: false,
     })}`;
     driver.driverId = driverId;
     const data = await supabase.from("DriverDetails").insert(driver.toJson());
     if (data.status === 201) {
-      alert("Driver Details Inserted Successfully");
-      var res = await supabase.from("variables").update({
-        'currentDriver': currentDriver.data![0].currentDriver + 1
-      }).eq('id', 1);
+      toast.success("Driver details updated successfully");
+      // alert("Driver Details Inserted Successfully");
+      var res = await supabase
+        .from("variables")
+        .update({
+          currentDriver: currentDriver.data![0].currentDriver + 1,
+        })
+        .eq("id", 1);
       console.log("res", res);
       navigate("/driverDashboard");
     } else if (data.status === 409) {
@@ -109,9 +116,9 @@ function App() {
     <>
       <div className="registrationPage">
         <div className="logo">
-          <Link to='/'>
+          <Link to="/">
             <div>
-              <img src={logo} alt='Logo' className='Logo' />
+              <img src={logo} alt="Logo" className="Logo" />
             </div>
           </Link>
         </div>
@@ -121,8 +128,8 @@ function App() {
           Extravaganza!
         </div>
         <div className="subTitle">
-          So, you wanna join the Flexiver team of rockstar flexers? Awesome choice!
-          But first, let's jazz up the details. 🎉
+          So, you wanna join the Flexiver team of rockstar flexers? Awesome
+          choice! But first, let's jazz up the details. 🎉
         </div>
         <br />
         <div className="boldSideHeading">
@@ -493,5 +500,3 @@ function App() {
 }
 
 export default App;
-
-
