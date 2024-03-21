@@ -306,8 +306,8 @@ export default function DriverLanding() {
         </div>
 
         <div className="mobile">
-          <div className="mobile-left">
-            <img src={mobile} alt="mobile" data-aos="fade-right" />
+          <div className="mobile-left" data-aos="fade-right">
+            <img src={mobile} alt="mobile" />
           </div>
           <div className="mobile-text" data-aos="fade-left">
             <div>
