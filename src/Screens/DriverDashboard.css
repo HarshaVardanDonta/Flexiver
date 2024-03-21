@@ -1,221 +1,213 @@
-
 .PersonalDetails {
-    padding-top: 30px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .horizontal {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .dashHeader {
-    width: 100%;
-    height: 60px;
-    display: flex;
-    position: fixed;
-    top: 0;
-    background-color: white;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 100;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  position: fixed;
+  top: 0;
+  background-color: white;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-.dashHeader> img{
-    margin: 10px;
+.dashHeader > img {
+  margin: 10px;
 }
 
 .dashHeaderButtonContainer {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    align-items: center;
-    justify-content: space-between;
-    margin: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
 }
 
-
-
 .answerTextFieldContainer {
-    display: flex;
-    border: 2px;
-    border-radius: 15px;
-    border-color: #D69F29;
-    border-style: solid;
-    padding: 10px;
-    height: 70px;
+  display: flex;
+  border: 2px;
+  border-radius: 15px;
+  border-color: #d69f29;
+  border-style: solid;
+  padding: 10px;
+  height: 70px;
 }
 
 .email {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .registrationPage {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10%;
-    margin-right: 10%;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10%;
+  margin-right: 10%;
+  align-items: center;
 }
 
 .logo {
-    display: flex;
-    justify-content: center;
-    margin: 1%;
-    padding-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  margin: 1%;
+  padding-bottom: 50px;
 }
 
 .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 48px;
-    text-align: center;
-    padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  text-align: center;
+  padding-bottom: 20px;
 }
 
 .subTitle {
-    display: flex;
-    font-size: 32px;
-    width: 70%;
-    margin: 1%;
-    text-align: center;
-    margin: 5px;
-    padding-bottom: 20px;
+  display: flex;
+  font-size: 32px;
+  width: 70%;
+  margin: 1%;
+  text-align: center;
+  margin: 5px;
+  padding-bottom: 20px;
 }
 
 .boldSideHeading {
-    display: flex;
-    align-self: flex-start;
-    font-weight: bold;
-    font-size: 36px;
-    margin: 5px;
+  display: flex;
+  align-self: flex-start;
+  font-weight: bold;
+  font-size: 36px;
+  margin: 5px;
 }
 
 .normalSideHeading {
-    display: flex;
-    align-self: flex-start;
-    font-size: 32px;
-    margin: 5px;
-    padding-top: 20px;
+  display: flex;
+  align-self: flex-start;
+  font-size: 32px;
+  margin: 5px;
+  padding-top: 20px;
 }
 
 .sideContent {
-    font-size: 24px;
-    padding-top: 30px;
-    margin: 5px;
+  font-size: 24px;
+  padding-top: 30px;
+  margin: 5px;
 }
 
 .normalSideContent {
-    font-size: 20px;
-    padding-top: 24px;
-    margin: 5px;
+  font-size: 20px;
+  padding-top: 24px;
+  margin: 5px;
 }
 
 .hspacer {
-    width: 100px;
+  width: 100px;
 }
 
 .vspacer {
-    height: 30px;
+  height: 30px;
 }
 
 .footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 250px;
-    background-color: #323232;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 2%;
-    padding-bottom: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 250px;
+  background-color: #323232;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
 
 .footerLogo {
-    float: left;
-
+  float: left;
 }
 
 .footerContent {
-    float: right;
-    display: flex;
-    flex-direction: row;
-    width: 40%;
-    justify-content: space-between;
+  float: right;
+  display: flex;
+  flex-direction: row;
+  width: 40%;
+  justify-content: space-between;
 }
 
 .logoText {
-    font-size: 60px;
-    color: white;
+  font-size: 60px;
+  color: white;
 }
 
 .addressText {
-    padding-top: 20px;
-    width: 30%;
-    font-size: 20px;
-    color: white;
-
+  padding-top: 20px;
+  width: 30%;
+  font-size: 20px;
+  color: white;
 }
 
 .footerRightSection {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    color: white;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  color: white;
 }
 
 .submit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    /* background-color: #D69F29;
+  /* background-color: #D69F29;
     border-radius: 12px;
     border: 10px; */
 }
 
-
-
 .dashboard {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
 }
 
 .dashboard-content {
-    /* background-color: rgb(255, 144, 144); */
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-    padding: 10px;
+  /* background-color: rgb(255, 144, 144); */
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  padding: 10px;
 }
 
 .dashboard h1 {
-    font-size: 60px;
+  font-size: 60px;
 }
 
 .side {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .status {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
-.status>p {
-    color: red;
+.status > p {
+  color: red;
 }
 
 /* .dash-grid {
@@ -225,87 +217,87 @@
     gap: 30px;
 } */
 .dash-grid {
-    width: 100%;
+  width: 100%;
 }
 
 .dashboard textarea {
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    background-color: #E1E1E1;
-    border: none;
-    outline: none;
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #e1e1e1;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .dash-grid select,
 .dash-grid input {
-    padding: 14px;
-    border-radius: 12px;
-    background-color: #E1E1E1;
-    border: none;
-    outline: none;
-    font-size: 20px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #e1e1e1;
+  border: none;
+  outline: none;
+  font-size: 20px;
 }
 
 .dashboard textarea {
-    width: 100%;
-    margin-top: 30px;
-    height: auto;
+  width: 100%;
+  margin-top: 30px;
+  height: auto;
 }
 
 .dash-left {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .dash-right {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
 
 .title {
-    margin-top: 30px;
-    font-size: 30px;
+  margin-top: 30px;
+  font-size: 30px;
 }
 
 @media only screen and (max-width: 768px) {
-    .dash-grid {
-        grid-template-columns: 1fr;
-    }
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
 
-    .dashHeader {
-        display: flex;
-    }
+  .dashHeader {
+    display: flex;
+  }
 
-    .dashHeader>img {
-        margin: 10px;
-    }
+  .dashHeader > img {
+    margin: 10px;
+  }
 
-    .dashHeaderButtonContainer {
-        margin: 10px;
-    }
+  .dashHeaderButtonContainer {
+    margin: 10px;
+  }
 }
 
 @media only screen and (max-width: 425px) {
-    .dashboard-content {
-        width: 100%;
-    }
+  .dashboard-content {
+    width: 100%;
+  }
 
-    .dashboard textarea {
-        width: 90%;
-    }
+  .dashboard textarea {
+    width: 90%;
+  }
 
-    .dash-right {
-        grid-template-columns: 1fr;
-    }
+  .dash-right {
+    grid-template-columns: 1fr;
+  }
 
-    .side {
-        flex-direction: column;
-    }
+  .side {
+    flex-direction: column;
+  }
 }
