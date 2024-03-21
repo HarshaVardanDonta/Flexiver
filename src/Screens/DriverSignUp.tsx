@@ -22,7 +22,7 @@ export default function DriverSignUp() {
   const [passError, setPassError] = useState(false);
 
   async function userSignUp() {
-    if (email === "" || pass1 === "" || pass2 === "") {
+    if (email === "" || pass1 === "" || pass2 === "" || firstName === "" || lastName === "") {
       // alert("Please fill all the fields");
       toast.error("Please fill all the fields");
       return;

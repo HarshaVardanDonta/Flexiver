@@ -129,10 +129,10 @@ export default function DriverLogin() {
               await userSignIn();
             }}
           />
-          <br />
+          {/* <br />
           <Typography.Text style={{ color: "black" }}>
             <a href="/mobileLogin">Login Using Mobile</a>
-          </Typography.Text>
+          </Typography.Text> */}
         </div>
       </div>
       <div className="footerContainer">
