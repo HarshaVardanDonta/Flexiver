@@ -8,6 +8,8 @@ import image from "../Assets/loginImage.png";
 import logo from "../Assets/logo.png";
 import { Typography } from "antd";
 import toast from "react-hot-toast";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
+import { E164Number } from "libphonenumber-js/types.cjs";
 
 export default function DriverSignUp() {
   const navigate = useNavigate();
@@ -16,11 +18,14 @@ export default function DriverSignUp() {
   const [email, setEmail] = useState("");
   const [pass1, setPass1] = useState("");
   const [pass2, setPass2] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const [passError, setPassError] = useState(false);
+  const [mobile, setMobile] = useState<E164Number>("");
 
   async function userSignUp() {
-    if (email === "" || pass1 === "" || pass2 === "") {
+    if (email === "" || pass1 === "" || pass2 === "" || firstName === "" || lastName === "") {
       // alert("Please fill all the fields");
       toast.error("Please fill all the fields");
       return;
@@ -43,8 +48,14 @@ export default function DriverSignUp() {
       }
 
       if (data.data.user?.aud === "authenticated") {
-        // alert("Please verify your Email ID and proceed to Login.");
-        toast.success("Your email has been verified");
+        // set User name
+        const data = await supabase.auth.updateUser({
+          data: { fullName: firstName + " " + lastName, phone: mobile },
+        });
+        console.log("username", data);
+
+        toast.success("Account Activated, Please Log In.");
+        // toast.success("Your email has been verified");
         navigate("/driverLogin");
       }
 
@@ -154,6 +165,35 @@ export default function DriverSignUp() {
               backgroundColor: "#f8f8f8",
               border: "none",
             }}
+            placeHolder="First Name" onChanged={(e) => {
+              setFirstName(e.target.value);
+            }} />
+          <br />
+          <CustomTextField
+            style={{
+              backgroundColor: "#f8f8f8",
+              border: "none",
+            }}
+            placeHolder="Last Name" onChanged={(e) => {
+              setLastName(e.target.value);
+            }} />
+          <br />
+          <PhoneInputWithCountrySelect
+            className="phoneInput"
+            placeholder="Enter phone number"
+            value={mobile}
+            onChange={(e) => {
+              setMobile(e as E164Number);
+            }}
+            defaultCountry="AU"
+            limitMaxLength={true}
+          />
+          <br />
+          <CustomTextField
+            style={{
+              backgroundColor: "#f8f8f8",
+              border: "none",
+            }}
             placeHolder="Email"
             onChanged={(e) => {
               setEmail(e.target.value);
@@ -185,7 +225,6 @@ export default function DriverSignUp() {
               setPass2(e.target.value);
               if (e.target.value !== pass1) {
                 setPassError(true);
-                console.log("error");
               } else {
                 setPassError(false);
               }

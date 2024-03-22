@@ -5,6 +5,7 @@ import DriverSignUp from "./DriverSignUp";
 import DriverLogin from "./DriverLogin";
 import DriverDashboard from "./DriverDashboard";
 import MobileLogin from "./MobileLogin";
+import DriverProfileScreen from "./DriverProfile/DriverProfileScreen";
 
 import TearmsAndConditions from "./TearmsAndConditions";
 import PrivacyPolicy from "./PrivacyPolicy";
@@ -32,6 +33,7 @@ export default function DriverMain() {
           <Route path="/mobileLogin" element={<MobileLogin />} />
           <Route path="/termsAndConditions" element={<TearmsAndConditions />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/driverProfile" element={<DriverProfileScreen />} />
         </Routes>
 
         <Toaster position="bottom-right" />
