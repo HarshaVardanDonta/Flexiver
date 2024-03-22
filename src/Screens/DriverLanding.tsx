@@ -18,7 +18,7 @@ import Spacer from "../Components/MySpacer";
 import { services } from "../data";
 import MySupClient from "../SupabaseClient";
 import { FaFilePen, FaTruck } from "react-icons/fa6";
-import { FaRegThumbsUp, FaUserCircle } from "react-icons/fa";
+import { FaRegThumbsUp, FaUserCircle, FaInstagram, FaFacebook } from "react-icons/fa";
 import SwiperComp from "../Components/SwiperComp";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -103,7 +103,7 @@ export default function DriverLanding() {
                     color: "#D69F29",
                   }} />
                   <Spacer width={10} />
-                  {session.data.session.user.app_metadata.provider !== "phone" ? session.data.session.user.user_metadata.fullName : session.data.session.user.phone}
+                  {session.data.session.user.user_metadata.fullName}
                 </Button>
                 <Menu
                   id="basic-menu"
@@ -359,6 +359,9 @@ export default function DriverLanding() {
           </div>
           <div className="footer-box">
             <h2>Socials</h2>
+            <a className="socialHandles" onClick={() => { }}><FaInstagram /> Insta.Handle</a>
+            <a className="socialHandles"><FaFacebook /> Facebook.handle</a>
+
           </div>
           <div className="footer-box">
             <h2>Contact Us</h2>

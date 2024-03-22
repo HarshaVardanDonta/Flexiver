@@ -8,6 +8,8 @@ import image from "../Assets/loginImage.png";
 import logo from "../Assets/logo.png";
 import { Typography } from "antd";
 import toast from "react-hot-toast";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
+import { E164Number } from "libphonenumber-js/types.cjs";
 
 export default function DriverSignUp() {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ export default function DriverSignUp() {
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const [passError, setPassError] = useState(false);
+  const [mobile, setMobile] = useState<E164Number>("");
 
   async function userSignUp() {
     if (email === "" || pass1 === "" || pass2 === "" || firstName === "" || lastName === "") {
@@ -47,11 +50,11 @@ export default function DriverSignUp() {
       if (data.data.user?.aud === "authenticated") {
         // set User name
         const data = await supabase.auth.updateUser({
-          data: { fullName: firstName + " " + lastName },
+          data: { fullName: firstName + " " + lastName, phone: mobile },
         });
         console.log("username", data);
 
-        toast.success("Please verify your Email ID and proceed to Login.");
+        toast.success("Account Activated, Please Log In.");
         // toast.success("Your email has been verified");
         navigate("/driverLogin");
       }
@@ -174,6 +177,17 @@ export default function DriverSignUp() {
             placeHolder="Last Name" onChanged={(e) => {
               setLastName(e.target.value);
             }} />
+          <br />
+          <PhoneInputWithCountrySelect
+            className="phoneInput"
+            placeholder="Enter phone number"
+            value={mobile}
+            onChange={(e) => {
+              setMobile(e as E164Number);
+            }}
+            defaultCountry="AU"
+            limitMaxLength={true}
+          />
           <br />
           <CustomTextField
             style={{

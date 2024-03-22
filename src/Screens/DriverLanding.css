@@ -390,6 +390,23 @@
   /* gap: 20px; */
 }
 
+.socialHandles {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.socialHandles:hover {
+  background-color: #d69f29;
+  transition: 0.5s;
+  curve: ease;
+  color: black;
+}
+
 @media only screen and (max-width: 1024px) {
   .flow {
     /* flex-direction: column; */
