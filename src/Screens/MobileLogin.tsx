@@ -27,7 +27,7 @@ export default function MobileLogin() {
       return;
     }
     var { data, error } = await supabase.auth.signInWithOtp({ phone: mobile });
-    console.log(data, error);
+    console.log(error);
     if (data.messageId) {
       alert("OTP Sent");
       setOtpSent(true);
@@ -49,7 +49,7 @@ export default function MobileLogin() {
       alert(verify.error.message);
     }
     if (verify.data.session !== null) {
-      navigate("/driverRegistration");
+      navigate("/");
     }
     console.log(verify);
   }
@@ -153,11 +153,11 @@ export default function MobileLogin() {
   ) : (
     <div className="screenHeight">
       <div className="loginHeader">
-      <Link to = '/'> 
-            <div>
-              <img src = {logo} alt='Logo' className='Logo'/>
-            </div>
-          </Link>
+        <Link to='/'>
+          <div>
+            <img src={logo} alt='Logo' className='Logo' />
+          </div>
+        </Link>
       </div>
       <div className="mainContainer">
         <img className="imageContainer" src={image} alt="login" />
@@ -248,23 +248,20 @@ export default function MobileLogin() {
           </Typography.Text>
         </div>
       </div>
-      <div className="footerContainer">
+      {/* <div className="footerContainer">
         <Typography.Text
-          style={{ color: "white", fontSize: 30, fontFamily: "sans-serif" }}
-        >
+          style={{ color: "white", fontSize: 30, fontFamily: "sans-serif" }}>
           Flexiver
         </Typography.Text>
         <Typography.Text style={{ color: "white" }}>
-          Already have an account?{" "}
-          <a
-            onClick={() => {
-              navigate("/driverLogin");
-            }}
-          >
-            Log In
+          Don't  have an account?{" "}
+          <a onClick={() => {
+            navigate("/mobileSignUp");
+          }}>
+            Sign Up
           </a>
         </Typography.Text>
-      </div>
-    </div>
+      </div> */}
+    </div >
   );
 }

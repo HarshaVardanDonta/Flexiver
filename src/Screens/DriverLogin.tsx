@@ -9,7 +9,6 @@ import logo from "../Assets/logo.png";
 import { Typography } from "antd";
 import Spacer from "../Components/MySpacer";
 import spin from "../Assets/spin.gif";
-import DriverLanding from "./DriverLanding";
 import toast from "react-hot-toast";
 
 export default function DriverLogin() {
@@ -84,7 +83,6 @@ export default function DriverLogin() {
       </div>
       <div className="mainContainer">
         <img className="imageContainer" src={image} alt="login" />
-
         <div className="signupContainer">
           <Typography.Title level={2} style={{ color: "#D69F29" }}>
             Driver Login
@@ -131,6 +129,10 @@ export default function DriverLogin() {
               await userSignIn();
             }}
           />
+          <br />
+          <Typography.Text style={{ color: "black" }}>
+            <a href="/mobileLogin">Login Using Mobile</a>
+          </Typography.Text>
         </div>
       </div>
       <div className="footerContainer">
