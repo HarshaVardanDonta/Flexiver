@@ -52,7 +52,7 @@
   overflow-x: hidden;
 }
 
-.hero > video {
+.hero>video {
   width: 100%;
   height: 100vh;
   object-fit: cover;
@@ -81,12 +81,12 @@
   padding-bottom: 100px;
 }
 
-.hero-text > h1 {
+.hero-text>h1 {
   font-size: 70px;
   font-weight: 700;
 }
 
-.hero-text > p {
+.hero-text>p {
   font-size: 28px;
   font-weight: 100;
 }
@@ -123,7 +123,7 @@
   width: 100%;
 }
 
-.map > video {
+.map>video {
   width: 100%;
   /* height: 70vh; */
   object-fit: contain;
@@ -153,12 +153,12 @@
   text-align: center;
 }
 
-.about-split > h1 {
+.about-split>h1 {
   font-size: 74px;
   margin: 0px;
 }
 
-.about-split > p {
+.about-split>p {
   font-size: 18px;
   line-height: 2;
 }
@@ -176,17 +176,17 @@
   gap: 50px;
 }
 
-.about-left > img,
-.about-right > img {
+.about-left>img,
+.about-right>img {
   height: 500px;
   width: 500px;
 }
 
-.about-left > img {
+.about-left>img {
   border-radius: 50% 80% 50% 80%;
 }
 
-.about-right > img {
+.about-right>img {
   border-radius: 80% 50% 80% 50%;
 }
 
@@ -198,16 +198,16 @@
   flex: 1;
 }
 
-.about-info > h1 {
+.about-info>h1 {
   font-size: 64px;
 }
 
-.about-info > ul > li {
+.about-info>ul>li {
   font-size: 18px;
   line-height: 2rem;
 }
 
-.service > h1 {
+.service>h1 {
   font-size: 74px;
   color: white;
   text-align: center;
@@ -215,7 +215,7 @@
   text-shadow: 2px 2px 4px #000000;
 }
 
-.service > h2 {
+.service>h2 {
   color: white;
   text-align: center;
   text-shadow: 2px 2px 4px #000000;
@@ -230,7 +230,7 @@
   padding: 30px 0px;
 }
 
-.service > p {
+.service>p {
   font-size: 16px;
   line-height: 2rem;
   color: white;
@@ -257,24 +257,24 @@
   object-fit: contain;
 }
 
-.service-box > img {
+.service-box>img {
   width: 200px;
   height: 150px;
   object-fit: contain;
 }
 
-.service-box > p {
+.service-box>p {
   line-height: 2rem;
   font-weight: 600;
   font-size: 18px;
   text-align: center;
 }
 
-.trucks > h1 {
+.trucks>h1 {
   font-size: 74px;
 }
 
-.trucks > p {
+.trucks>p {
   font-size: 16px;
 }
 
@@ -339,7 +339,7 @@
   align-items: center;
 }
 
-.mobile-left > img {
+.mobile-left>img {
   width: 100%;
 }
 
@@ -361,7 +361,7 @@
   /* gap: 30px; */
 }
 
-.footer-box > h2 {
+.footer-box>h2 {
   /* text-decoration: underline; */
 }
 
@@ -371,13 +371,13 @@
   gap: 20px;
 }
 
-.footer-links > a {
+.footer-links>a {
   text-decoration: none;
   color: white;
   cursor: pointer;
 }
 
-.footer-box > img {
+.footer-box>img {
   width: 150px;
   object-fit: contain;
 }
@@ -390,6 +390,23 @@
   /* gap: 20px; */
 }
 
+.socialHandles {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.socialHandles:hover {
+  background-color: #d69f29;
+  transition: 0.5s;
+  curve: ease;
+  color: black;
+}
+
 @media only screen and (max-width: 1024px) {
   .flow {
     /* flex-direction: column; */
@@ -400,7 +417,7 @@
     width: 50%;
   }
 
-  .map > video {
+  .map>video {
     height: 30vh;
     object-fit: cover;
   }
@@ -430,7 +447,7 @@
     flex-direction: column;
   }
 
-  .hero-text > p {
+  .hero-text>p {
     padding: 10px;
   }
 
@@ -449,7 +466,7 @@
     padding: 0px;
   }
 
-  .service-box > p {
+  .service-box>p {
     padding: 20px;
   }
 
@@ -486,14 +503,13 @@
 
 @media only screen and (max-width: 425px) {
   .header {
-    /* position: relative; */
     display: flex;
     flex-direction: row;
     height: auto;
     gap: 10px;
   }
 
-  .hero > video {
+  .hero>video {
     margin-top: 0px;
   }
 
@@ -508,17 +524,10 @@
     margin: 10px;
   }
 
-  .logoutSection {
-    display: none;
-  }
-
   .landing-footer {
-    /* width: 100vw; */
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
-    /* text-align: center; */
   }
 
   .footer-left {
@@ -528,12 +537,8 @@
     margin-left: 0px;
   }
 
-  .footer-left > h1 {
+  .footer-left>h1 {
     text-align: center;
-  }
-
-  .footer-box {
-    /* padding: 10px; */
   }
 
   .footer-right {
@@ -541,8 +546,8 @@
     margin-right: 0px;
   }
 
-  .about-left > img,
-  .about-right > img {
+  .about-left>img,
+  .about-right>img {
     width: 100%;
     height: 100%;
   }
@@ -553,11 +558,11 @@
   }
 
   .mobile-text h1,
-  .trucks > h1,
-  .service > h1,
-  .about-info > h1,
-  .about-split > h1,
-  .hero-text > h1 {
+  .trucks>h1,
+  .service>h1,
+  .about-info>h1,
+  .about-split>h1,
+  .hero-text>h1 {
     font-size: 48px;
   }
 }
