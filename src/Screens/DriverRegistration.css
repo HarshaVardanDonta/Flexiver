@@ -128,29 +128,6 @@
   height: 30px;
 }
 
-.footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 250px;
-  background-color: #323232;
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 2%;
-  padding-bottom: 2%;
-}
-
-.footerLogo {
-  float: left;
-}
-
-.footerContent {
-  float: right;
-  display: flex;
-  flex-direction: row;
-  width: 40%;
-  justify-content: space-between;
-}
 
 .logoText {
   font-size: 60px;
@@ -164,11 +141,51 @@
   color: white;
 }
 
-.footerRightSection {
+.landing-footer {
+  background-color: #323232;
+  width: 100%;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+}
+
+.footer-box {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  /* justify-content: center; */
+  /* align-items: center;s */
+  /* gap: 30px; */
+}
+
+.footer-box>h2 {
+  /* text-decoration: underline; */
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-links>a {
+  text-decoration: none;
   color: white;
+  cursor: pointer;
+}
+
+.footer-box>img {
+  width: 150px;
+  object-fit: contain;
+}
+
+.footer-right {
+  display: flex;
+  justify-content: space-around;
+  /* background-color: red; */
+  margin-right: 50px;
+  /* gap: 20px; */
 }
 
 .submit {
