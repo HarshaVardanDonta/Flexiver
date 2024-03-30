@@ -13,11 +13,20 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import Aos from "aos";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import ReactGA from "react-ga";
 import { Toaster } from "react-hot-toast";
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
+ReactGA.initialize('G-176G8Q4X9H');
 
 export default function DriverMain() {
   useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    history.listen((location) => {
+      console.log("loaction", window.location.search);
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    });
     Aos.init();
     Aos.refresh();
   }, []);

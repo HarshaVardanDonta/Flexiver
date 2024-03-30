@@ -25,6 +25,9 @@ import MenuItem from '@mui/material/MenuItem';
 import React from "react";
 import { Button } from "@mui/material";
 import { Spa } from "@mui/icons-material";
+import ReactGA from "react-ga";
+
+ReactGA.initialize('G-176G8Q4X9H');
 
 export default function DriverLanding() {
   useEffect(() => {
@@ -64,6 +67,11 @@ export default function DriverLanding() {
           <ButtonComp
             text="About Us"
             onClick={() => {
+              const data = ReactGA.event({
+                category: 'User',
+                action: 'Clicked on About Us'
+              });
+              console.log("ReactGA", data);
               const element = document.getElementById("about");
               element?.scrollIntoView({ behavior: "smooth" });
             }}
@@ -71,6 +79,10 @@ export default function DriverLanding() {
           <ButtonComp
             text="Services"
             onClick={() => {
+              ReactGA.event({
+                category: 'User',
+                action: 'Clicked on Services'
+              });
               const element = document.getElementById("service");
               element?.scrollIntoView({ behavior: "smooth" });
             }}
@@ -78,6 +90,10 @@ export default function DriverLanding() {
           <ButtonComp
             text="Available Vehicles"
             onClick={() => {
+              ReactGA.event({
+                category: 'User',
+                action: 'Clicked on Available Vehicles'
+              });
               const element = document.getElementById("available");
               element?.scrollIntoView({ behavior: "smooth" });
             }}
