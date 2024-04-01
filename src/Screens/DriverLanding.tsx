@@ -97,13 +97,22 @@ export default function DriverLanding() {
   const [session, setSession] = useState<any>(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const [anchorUserName, setAnchorUserName] = React.useState<null | HTMLElement>(null);
+  const openUserName = Boolean(anchorUserName);
+  const handleUserNameClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorUserName(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleUserNameClose = () => {
+    setAnchorUserName(null);
+  };
+
+  const [anchorLogin, setAnchorLogin] = React.useState<null | HTMLElement>(null);
+  const openLogin = Boolean(anchorLogin);
+  const handleLoginClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorLogin(event.currentTarget);
+  };
+  const handleLoginClose = () => {
+    setAnchorLogin(null);
   };
 
   return (
@@ -157,10 +166,10 @@ export default function DriverLanding() {
               <div className="logoutSection">
                 <Button
                   id="basic-button"
-                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-controls={openUserName ? 'basic-menu' : undefined}
                   aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
+                  aria-expanded={openUserName ? 'true' : undefined}
+                  onClick={handleUserNameClick}
                   sx={{
                     color: "black",
                   }}
@@ -174,9 +183,9 @@ export default function DriverLanding() {
                 </Button>
                 <Menu
                   id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
+                  anchorEl={anchorUserName}
+                  open={openUserName}
+                  onClose={handleUserNameClose}
                   MenuListProps={{
                     'aria-labelledby': 'basic-button',
                   }}
@@ -187,12 +196,12 @@ export default function DriverLanding() {
                     } else {
                       navigate("/driverSignUp");
                     }
-                    handleClose();
+                    handleUserNameClose();
                   }}>Apply to Drive</MenuItem>
                   <MenuItem onClick={async () => {
                     await supabase.auth.signOut();
                     setIsUserLoggedIn(false);
-                    handleClose();
+                    handleUserNameClose();
                   }}>Logout</MenuItem>
                 </Menu>
               </div>
@@ -214,12 +223,43 @@ export default function DriverLanding() {
                   }}
                 />
                 <Spacer width={20} />
-                <ButtonComp
+                {/* <ButtonComp
                   text="Login"
                   onClick={() => {
                     navigate("/driverLogin");
                   }}
-                />
+                /> */}
+                <Button
+                  id="login-Button"
+                  aria-controls={openLogin ? 'login-Menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openLogin ? 'true' : undefined}
+                  onClick={handleLoginClick}
+                  sx={{
+                    color: "black",
+                  }}
+                >
+                  Login
+                </Button>
+                <Menu
+                  id="login-Menu"
+                  anchorEl={anchorLogin}
+                  open={openLogin}
+                  onClose={handleLoginClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'login-Button',
+                  }}
+                >
+                  <MenuItem onClick={() => {
+                    navigate("/driverLogin");
+                    handleLoginClose();
+                  }}>Driver Portal</MenuItem>
+                  <MenuItem onClick={() => {
+                    navigate("/QuotePage");
+                    handleLoginClose();
+                  }}>Customer Portal</MenuItem>
+
+                </Menu>
               </div>
 
             )
