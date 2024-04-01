@@ -1,0 +1,74 @@
+.vehicleContainer {
+    height: 200px;
+    width: 200px;
+    border-radius: 15px;
+    background-color: #323232;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vehicleImageContainer {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+
+
+.vehicleTextContainer {
+    width: 100%;
+    height: 20%;
+    background-color: #FFECC0;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.5s;
+}
+
+.extraVehicleTextReveal {
+    display: none;
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-top: 5px;
+    transition: 0.5s;
+    justify-content: center;
+    align-items: center;
+}
+
+.vehicleContainer:hover {
+    cursor: pointer;
+}
+
+.vehicleContainer:hover .vehicleImageContainer {
+    cursor: pointer;
+    height: 50%;
+    width: 50%;
+}
+
+.vehicleContainer:hover .vehicleImageContainer img {
+    width: 80%;
+    height: auto;
+
+}
+
+.vehicleContainer:hover .vehicleTextContainer {
+    cursor: pointer;
+    height: 50%;
+}
+
+.vehicleContainer:hover .extraVehicleTextReveal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
