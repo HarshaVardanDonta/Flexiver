@@ -1,0 +1,7 @@
+.vehicleBanner {
+    display: flex;
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+
+}
