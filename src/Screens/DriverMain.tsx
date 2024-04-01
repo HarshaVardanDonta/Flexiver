@@ -6,7 +6,9 @@ import DriverLogin from "./DriverLogin";
 import DriverDashboard from "./DriverDashboard";
 import MobileLogin from "./MobileLogin";
 import DriverProfileScreen from "./DriverProfile/DriverProfileScreen";
-
+import CustomerLogin from "./CustomerPortal/CustomerSignIn/SignIn"
+import CustomerSignUp from "./CustomerPortal/CustomerSignUp/SignUp";
+import QuotePage from "./CustomerPortal/Quote/QuotePage";
 import TearmsAndConditions from "./TearmsAndConditions";
 import PrivacyPolicy from "./PrivacyPolicy";
 
@@ -43,6 +45,9 @@ export default function DriverMain() {
           <Route path="/termsAndConditions" element={<TearmsAndConditions />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/driverProfile" element={<DriverProfileScreen />} />
+          <Route path="/customerLogin" element={<CustomerLogin />} />
+          <Route path="/customerSignUp" element={<CustomerSignUp />} />
+          <Route path="/quotePage" element={<QuotePage />} />
         </Routes>
 
         <Toaster position="bottom-right" />

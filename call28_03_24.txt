@@ -1,0 +1,21 @@
+status change automation possible?
+
+cod system
+
+cannot change vehicle number,
+vehiche no change request in profile page
+
+store images for 10 days -> take while pickup
+
+customer can request hand delivery or door delivery
+
+if customer cancel order before driver pick up, add penality to next order if COD 
+
+Excluded items, illegal items in get a quote page
+
+provide option to select number of persons for customer
+
+Flight of stairs?
+
+How to cal final payment based on surges (traffic, time constraint, weight constraint)
+

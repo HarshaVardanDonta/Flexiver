@@ -1,0 +1,65 @@
+.customerSignUpMain {
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+}
+
+.customerSignUpImageContainer {
+    background-color: #FFF9EB;
+    background-image: url('../../../Assets/CustomerPortal/SignInPageBack.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.customerSignUpImageContainer img {
+    width: auto;
+    height: 50%;
+}
+
+
+.customerSignUpFieldsMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+}
+
+.SignUpFieldsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    border-radius: 15px;
+    background-color: #FFECC1;
+}
+
+.CustomerSignUpButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 89%;
+    height: 50px;
+    border-radius: 15px;
+    background-color: white;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    cursor: pointer;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.CustomerSignUpButton:hover {
+    background-color: #ffe65c;
+    font-weight: bold;
+    box-shadow: 0px 0px 10px 0px #ffe65c;
+}

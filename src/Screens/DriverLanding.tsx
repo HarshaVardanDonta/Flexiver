@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { useRive } from '@rive-app/react-canvas';
 import logo from "../Assets/logo.png";
 import whiteLogo from "../Assets/whiteLogo.png";
 import twoWheeler from "../Assets/2Wheeler.svg";
@@ -26,10 +26,61 @@ import React from "react";
 import { Button } from "@mui/material";
 import { Spa } from "@mui/icons-material";
 import ReactGA from "react-ga";
+import stepperVid from "../Assets/stepper_flexiver.riv"
+import useWindowDimensions from "../Model/WindowDimensions";
 
 ReactGA.initialize('G-176G8Q4X9H');
 
 export default function DriverLanding() {
+  const { height, width } = useWindowDimensions();
+  var element = document.getElementById('rive');
+  var elementHeight = element ? element.clientHeight : 0;
+  document.addEventListener('scroll', function () {
+    if (inView()) {
+      rive?.play();
+      width < 600 && vrive?.play();
+    } else {
+      rive?.pause();
+      width < 600 && vrive?.pause();
+    }
+  });
+
+  const { rive, RiveComponent } = useRive({
+    src: stepperVid,
+    autoplay: false,
+    animations: "Flow",
+    artboard: "Stepper",
+  });
+  const { rive: vrive, RiveComponent: VerticalRiveComponent } = useRive({
+    src: stepperVid,
+    autoplay: false,
+    animations: "Flow",
+    artboard: "Vertical Stepper",
+  });
+
+
+
+  function inView() {
+    // get window height
+    var windowHeight = window.innerHeight;
+    // get number of pixels that the document is scrolled
+    var scrollY = window.scrollY || window.pageYOffset;
+
+    // get current scroll position (distance from the top of the page to the bottom of the current viewport)
+    var scrollPosition = scrollY + windowHeight + 400;
+    // get element position (distance from the top of the page to the bottom of the element)
+    if (element) {
+      var elementPosition = element.getBoundingClientRect().top + scrollY + elementHeight;
+
+      // is scroll position greater than element position? (is element in view?)
+      if (scrollPosition > elementPosition) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   useEffect(() => {
     supabase.auth.getSession().then((session) => {
       console.log("session", session);
@@ -46,13 +97,22 @@ export default function DriverLanding() {
   const [session, setSession] = useState<any>(null);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const [anchorUserName, setAnchorUserName] = React.useState<null | HTMLElement>(null);
+  const openUserName = Boolean(anchorUserName);
+  const handleUserNameClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorUserName(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleUserNameClose = () => {
+    setAnchorUserName(null);
+  };
+
+  const [anchorLogin, setAnchorLogin] = React.useState<null | HTMLElement>(null);
+  const openLogin = Boolean(anchorLogin);
+  const handleLoginClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorLogin(event.currentTarget);
+  };
+  const handleLoginClose = () => {
+    setAnchorLogin(null);
   };
 
   return (
@@ -106,10 +166,10 @@ export default function DriverLanding() {
               <div className="logoutSection">
                 <Button
                   id="basic-button"
-                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-controls={openUserName ? 'basic-menu' : undefined}
                   aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
+                  aria-expanded={openUserName ? 'true' : undefined}
+                  onClick={handleUserNameClick}
                   sx={{
                     color: "black",
                   }}
@@ -123,9 +183,9 @@ export default function DriverLanding() {
                 </Button>
                 <Menu
                   id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
+                  anchorEl={anchorUserName}
+                  open={openUserName}
+                  onClose={handleUserNameClose}
                   MenuListProps={{
                     'aria-labelledby': 'basic-button',
                   }}
@@ -136,12 +196,12 @@ export default function DriverLanding() {
                     } else {
                       navigate("/driverSignUp");
                     }
-                    handleClose();
+                    handleUserNameClose();
                   }}>Apply to Drive</MenuItem>
                   <MenuItem onClick={async () => {
                     await supabase.auth.signOut();
                     setIsUserLoggedIn(false);
-                    handleClose();
+                    handleUserNameClose();
                   }}>Logout</MenuItem>
                 </Menu>
               </div>
@@ -163,12 +223,43 @@ export default function DriverLanding() {
                   }}
                 />
                 <Spacer width={20} />
-                <ButtonComp
+                {/* <ButtonComp
                   text="Login"
                   onClick={() => {
                     navigate("/driverLogin");
                   }}
-                />
+                /> */}
+                <Button
+                  id="login-Button"
+                  aria-controls={openLogin ? 'login-Menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openLogin ? 'true' : undefined}
+                  onClick={handleLoginClick}
+                  sx={{
+                    color: "black",
+                  }}
+                >
+                  Login
+                </Button>
+                <Menu
+                  id="login-Menu"
+                  anchorEl={anchorLogin}
+                  open={openLogin}
+                  onClose={handleLoginClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'login-Button',
+                  }}
+                >
+                  <MenuItem onClick={() => {
+                    navigate("/driverLogin");
+                    handleLoginClose();
+                  }}>Driver Portal</MenuItem>
+                  <MenuItem onClick={() => {
+                    navigate("/QuotePage");
+                    handleLoginClose();
+                  }}>Customer Portal</MenuItem>
+
+                </Menu>
               </div>
 
             )
@@ -183,22 +274,30 @@ export default function DriverLanding() {
               START EARNING <br />
               WITH YOUR VAN.
             </h1>
-            <p>Become a Partner in Our Moving Services Network</p>
+            <p>Become a Partner in Our Moving Services Network </p>
           </div>
         </div>
         <div className="flow">
-          <div className="flow-item" data-aos="fade-up" data-aos-delay="100">
-            <FaFilePen color="black" size={38} />
-            <p>Register</p>
-          </div>
-          <div className="flow-item" data-aos="fade-up" data-aos-delay="200">
-            <FaRegThumbsUp color="black" size={38} />
-            <p>Get Approval</p>
-          </div>
-          <div className="flow-item" data-aos="fade-up" data-aos-delay="300">
-            <FaTruck color="black" size={38} />
-            <p>Start Driving</p>
-          </div>
+          {
+            width > 600 && (
+              <RiveComponent id="rive"
+                data-aos="fade-up"
+                style={{
+                  width: "100%",
+                  height: "300px",
+                }}
+              />
+            )}
+          {
+            width < 600 &&
+            <VerticalRiveComponent id="rive"
+              data-aos="fade-up"
+              style={{
+                width: "100%",
+                height: "700px",
+              }}
+            />
+          }
         </div>
         <div className="map">
           <video src={map} autoPlay loop muted />
@@ -386,7 +485,7 @@ export default function DriverLanding() {
                 // open url in new window
                 window.open("https://www.google.com/maps/place/Ajaka+%26+Co/@-33.9416148,151.2413084,15z/data=!4m6!3m5!1s0x6b12b3d3baf63f73:0x15aaa1e9bdd8986e!8m2!3d-33.9416148!4d151.2413084!16s%2Fg%2F1tfd2kb8?entry=ttu, '_blank', 'noopener'");
               }}>
-                Ajaka and co. Maroubra sydney, <br />1/206 Maroubra Rd, Maroubra NSW 2035
+                Maroubra sydney, <br />1/206 Maroubra Rd, Maroubra NSW 2035
               </a>
             </div>
           </div>

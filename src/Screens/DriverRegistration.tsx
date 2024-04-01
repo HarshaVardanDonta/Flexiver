@@ -492,7 +492,7 @@ function App() {
               // open url in new window
               window.open("https://www.google.com/maps/place/Ajaka+%26+Co/@-33.9416148,151.2413084,15z/data=!4m6!3m5!1s0x6b12b3d3baf63f73:0x15aaa1e9bdd8986e!8m2!3d-33.9416148!4d151.2413084!16s%2Fg%2F1tfd2kb8?entry=ttu, '_blank', 'noopener'");
             }}>
-              Ajaka and co. Maroubra sydney, <br />1/206 Maroubra Rd, Maroubra NSW 2035
+              Maroubra sydney, <br />1/206 Maroubra Rd, Maroubra NSW 2035
             </a>
           </div>
         </div>
