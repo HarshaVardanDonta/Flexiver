@@ -1,18 +1,27 @@
 import React from 'react';
 import './VehicleComp.css';
 import { Typography } from 'antd';
-import logo from '../../../../Assets/CustomerPortal/FlexiverWhiteLogo.png';
 
-export default function VehicleComp() {
+interface VehicleCompProps {
+    vehicleName: string;
+    vehicleImage: string;
+    vehicleDescription: string;
+}
+
+export default function VehicleComp({ vehicleName, vehicleImage, vehicleDescription }: VehicleCompProps) {
     return (
         <div className='vehicleContainer'>
             <div className='vehicleImageContainer'>
-                <img src={logo} alt='logo' className='vehicleLogo' />
+                <img src={vehicleImage} alt='logo' className='vehicleLogo' />
             </div>
             <div className='vehicleTextContainer'>
-                Vehicle Name
+                <Typography.Text>
+                    {vehicleName}
+                </Typography.Text>
                 <div className='extraVehicleTextReveal'>
-                    extra information regarding the vehicle
+                    <Typography.Text>
+                        {vehicleDescription}
+                    </Typography.Text>
                 </div>
             </div>
         </div>
