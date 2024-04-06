@@ -49,7 +49,7 @@ export default function CustomerPortalHeader() {
                 <img src={Person} alt='Person' />
                 <Spacer width={10} />
                 <Typography.Text style={{
-                    fontSize: '1.2rem',
+                    fontSize: '1rem',
                     fontWeight: 'bold'
                 }}>{isUserLoggedIn ? session?.data.session.user?.user_metadata.fullName : "Sign In/Sign Up"}
                 </Typography.Text>
