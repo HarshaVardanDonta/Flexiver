@@ -1,3 +1,5 @@
-class CustomerQuoteInputModel{
-    
+class CustomerQuoteInputModel {
+
 }
+
+export default CustomerQuoteInputModel;

@@ -1,7 +1,117 @@
+.customerQuotePage {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
 .vehicleBanner {
     display: flex;
     gap: 10%;
     justify-content: center;
     align-items: center;
+    height: 200px;
+}
 
+.getQuoteButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    width: 297px;
+    height: 100%;
+    border-radius: 15px;
+    background-color: #FFECC0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    animation: cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.5s;
+}
+
+.getQuoteButton:hover {
+    background-color: #323232;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.dateSelectionSection {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+}
+
+.chooseDateButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    width: 297px;
+    height: 100%;
+    border-radius: 15px;
+    background-color: #FFECC0;
+    padding: 10px;
+}
+
+.pickupAndDropSectionBanner {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+}
+
+.pickupSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quoteItemSpecSection {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-image: url("../../../Assets/CustomerPortal/quoteItemSpecificationBackground.png");
+}
+
+.quoteItemSpecSectionMapSection {
+    margin-left: 10%;
+    width: 35%;
+    height: 80%;
+    background-color: black;
+    border-radius: 15px;
+}
+
+.quoteItemSpecSectionRightSection {
+    margin-right: 10%;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    width: 35%;
+    align-items: start;
+}
+
+.quoteItemSpecSectionRightSectionEntrycontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 89%;
+    align-items: center;
+}
+
+.quoteItemSpecSectionRightSectionText {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4A4A4A;
+}
+
+.excludedItemContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
 }

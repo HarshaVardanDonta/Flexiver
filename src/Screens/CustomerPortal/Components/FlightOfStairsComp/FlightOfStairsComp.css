@@ -1,0 +1,37 @@
+.mainStairsContainer {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.countContainer {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #FFECC0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #686868;
+}
+
+.addContainer {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #FFECC0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.addContainer:hover {
+    background-color: #323232;
+    color: white;
+}
