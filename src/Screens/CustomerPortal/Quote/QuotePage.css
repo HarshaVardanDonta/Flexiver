@@ -108,3 +108,10 @@
     font-weight: 600;
     color: #4A4A4A;
 }
+
+.excludedItemContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}

@@ -9,9 +9,14 @@ import { AiOutlineEnvironment } from "react-icons/ai";
 import { BiCalendar } from "react-icons/bi";
 import CustomTextField from "../../../Components/CustomTextField";
 import { Height, Margin, Padding } from "@mui/icons-material";
-import { Divider, TextField } from "@mui/material";
+import { Checkbox, Divider, TextField } from "@mui/material";
 import FlightOfStairsComp from "../Components/FlightOfStairsComp/FlightOfStairsComp";
 import CustomDropDown from "../Components/CustomDropDown/CustomDropDown";
+import Fire from "../../../Assets/CustomerPortal/Fire.png";
+import Battery from "../../../Assets/CustomerPortal/Charging Battery.png";
+import Chemicals from "../../../Assets/CustomerPortal/Molecule.png";
+import Paint from "../../../Assets/CustomerPortal/Paint Brush.png";
+import Weapon from "../../../Assets/CustomerPortal/saber weapon.png";
 
 export default function QuotePage() {
     const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
@@ -270,8 +275,56 @@ export default function QuotePage() {
                         width: '45%',
                         border: 'none',
                     }} />
-
                 </div>
+                <div style={{
+                    textAlign: 'center',
+                    fontSize: '24px',
+                    fontWeight: '600',
+                }}>
+                    Excluded Items
+                </div>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '50%',
+                    alignSelf: 'center',
+                }}>
+                    <div className="excludedItemContainer">
+                        <img src={Fire} alt="Fire" />
+                        <div>Fire</div>
+                    </div>
+                    <div className="excludedItemContainer">
+                        <img src={Battery} alt="Battery" />
+                        <div>Battery</div>
+                    </div>
+                    <div className="excludedItemContainer">
+                        <img src={Chemicals} alt="Chemicals" />
+                        <div>Chemicals</div>
+                    </div>
+                    <div className="excludedItemContainer">
+                        <img src={Paint} alt="Paint" />
+                        <div>Paint</div>
+                    </div>
+                    <div className="excludedItemContainer">
+                        <img src={Weapon} alt="Weapon" />
+                        <div>Weapon</div>
+                    </div>
+                </div>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignSelf: 'center',
+                    alignItems: 'center',
+                }}>
+                    <Typography.Title level={4}>No Excluded Items</Typography.Title>
+                    <Checkbox
+                        style={{
+                            color: '#FFD700',
+                        }} />
+                </div>
+
+
             </div>
         </div>
     );
