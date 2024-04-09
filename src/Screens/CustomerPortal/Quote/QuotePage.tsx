@@ -9,7 +9,7 @@ import { AiOutlineEnvironment } from "react-icons/ai";
 import { BiCalendar } from "react-icons/bi";
 import CustomTextField from "../../../Components/CustomTextField";
 import { Height, Margin, Padding } from "@mui/icons-material";
-import { Divider } from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 import FlightOfStairsComp from "../Components/FlightOfStairsComp/FlightOfStairsComp";
 import CustomDropDown from "../Components/CustomDropDown/CustomDropDown";
 
@@ -225,9 +225,53 @@ export default function QuotePage() {
                     </div>
                 </div>
             </div>
+            <Spacer height={30} />
             <div className="customerQuotePage">
-                hi
+                <div style={{
+                    fontSize: '24px',
+                }}>
+                    Please provide details regarding the type of package you intend to send, including dimensions, weight, and any other relevant specifications or instructions?
+                </div>
+                <TextField
+                    sx={{
+                        backgroundColor: '#FFECC0',
+                        borderRadius: '15px',
+                        padding: '10px',
+                        height: '100px',
+                    }}
+                    multiline={true}
+                    maxRows={4}
+                    InputProps={{
+                        disableUnderline: true,
+                    }}
+                    variant="standard"
+                    placeholder="for example: a 10x10 Sofa"
+                    onChange={(e) => {
+                    }}
+                />
+                <div style={{
+                    fontSize: '24px',
+                }}>
+                    Alternate Contact Information
+                </div>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                }}>
+                    <CustomTextField placeHolder={'Receivers Name'} onChanged={(e) => { }} style={{
+                        backgroundColor: '#FFECC0',
+                        width: '45%',
+                        border: 'none',
+                    }} />
+                    <CustomTextField placeHolder={'Receivers Contact'} onChanged={(e) => { }} style={{
+                        backgroundColor: '#FFECC0',
+                        width: '45%',
+                        border: 'none',
+                    }} />
 
+                </div>
             </div>
         </div>
     );
