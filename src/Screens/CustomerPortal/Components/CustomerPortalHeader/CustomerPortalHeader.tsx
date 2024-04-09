@@ -35,7 +35,7 @@ export default function CustomerPortalHeader() {
             <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' />
             <Button
                 style={{
-                    backgroundColor: "#FFECC1",
+                    backgroundColor: "#FFECC0",
                     borderRadius: 0,
                 }}
                 id='header-button'
@@ -70,7 +70,7 @@ export default function CustomerPortalHeader() {
                         <>
                             <MenuItem sx={{
                                 borderRadius: "15px",
-                                backgroundColor: "#FFECC1",
+                                backgroundColor: "#FFECC0",
                                 height: 50,
                                 width: 200,
                                 margin: 1,
@@ -85,7 +85,7 @@ export default function CustomerPortalHeader() {
                             </MenuItem>
                             <MenuItem sx={{
                                 borderRadius: "15px",
-                                backgroundColor: "#FFECC1",
+                                backgroundColor: "#FFECC0",
                                 height: 50,
                                 width: 200,
                                 margin: 1,
@@ -100,7 +100,7 @@ export default function CustomerPortalHeader() {
                             </MenuItem>
                             <MenuItem sx={{
                                 borderRadius: "15px",
-                                backgroundColor: "#FFECC1",
+                                backgroundColor: "#FFECC0",
                                 height: 50,
                                 width: 200,
                                 margin: 1,
@@ -123,7 +123,7 @@ export default function CustomerPortalHeader() {
                         <>
                             <MenuItem sx={{
                                 borderRadius: "15px",
-                                backgroundColor: "#FFECC1",
+                                backgroundColor: "#FFECC0",
                                 height: 50,
                                 width: 200,
                                 margin: 1,
@@ -139,7 +139,7 @@ export default function CustomerPortalHeader() {
                             </MenuItem>
                             <MenuItem sx={{
                                 borderRadius: "15px",
-                                backgroundColor: "#FFECC1",
+                                backgroundColor: "#FFECC0",
                                 height: 50,
                                 width: 200,
                                 margin: 1,
