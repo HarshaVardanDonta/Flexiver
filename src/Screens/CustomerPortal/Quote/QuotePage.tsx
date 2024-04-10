@@ -17,10 +17,14 @@ import Battery from "../../../Assets/CustomerPortal/Charging Battery.png";
 import Chemicals from "../../../Assets/CustomerPortal/Molecule.png";
 import Paint from "../../../Assets/CustomerPortal/Paint Brush.png";
 import Weapon from "../../../Assets/CustomerPortal/saber weapon.png";
+import CustomerPortalFooter from "../Components/CustomerPortalFooter/CustomerPortalFooter";
+import { useNavigate } from "react-router-dom";
 
 export default function QuotePage() {
     const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
     const [dropOffStairsCount, setDropOffStairsCount] = useState(0);
+
+    const navigate = useNavigate();
 
     function handlePickUpStairsAdd() {
         if (pickUpStairsCount >= 0) {
@@ -45,7 +49,6 @@ export default function QuotePage() {
     return (
         <div>
             <CustomerPortalHeader />
-            <Spacer height={20} />
             <div className="customerQuotePage">
                 <Typography.Title level={2} style={{
                     textAlign: "center",
@@ -80,24 +83,24 @@ export default function QuotePage() {
                             justifyContent: 'space-between',
                             width: '89%'
                         }}>
-                            <CustomTextField placeHolder={'First Name'} onChanged={(e) => { }} style={{
+                            <CustomTextField placeHolder={'Contact Name'} onChanged={(e) => { }} style={{
                                 backgroundColor: '#FFECC0',
                                 width: '85%',
                                 border: 'none',
                             }} />
                             <Spacer width={20} />
-                            <CustomTextField placeHolder={'Last Name'} onChanged={(e) => { }} style={{
+                            <CustomTextField placeHolder={'Contact Number'} onChanged={(e) => { }} style={{
                                 backgroundColor: '#FFECC0',
                                 width: '85%',
                                 border: 'none',
                             }} />
                         </div>
-                        <CustomTextField placeHolder={'Enter E-Mail'} onChanged={(e) => { }} style={{
+                        <CustomTextField placeHolder={'From Adddress'} onChanged={(e) => { }} style={{
                             backgroundColor: '#FFECC0',
                             width: '85%',
                             border: 'none',
                         }} />
-                        <CustomTextField placeHolder={'Enter Password'} type='password' onChanged={(e) => { }} style={{
+                        <CustomTextField placeHolder={'Instructions for Partner'} onChanged={(e) => { }} style={{
                             backgroundColor: '#FFECC0',
                             width: '85%',
                             border: 'none',
@@ -114,24 +117,24 @@ export default function QuotePage() {
                             justifyContent: 'space-between',
                             width: '89%'
                         }}>
-                            <CustomTextField placeHolder={'First Name'} onChanged={(e) => { }} style={{
+                            <CustomTextField placeHolder={'Contact Name'} onChanged={(e) => { }} style={{
                                 backgroundColor: '#FFECC0',
                                 width: '85%',
                                 border: 'none',
                             }} />
                             <Spacer width={20} />
-                            <CustomTextField placeHolder={'Last Name'} onChanged={(e) => { }} style={{
+                            <CustomTextField placeHolder={'Contact Number'} onChanged={(e) => { }} style={{
                                 backgroundColor: '#FFECC0',
                                 width: '85%',
                                 border: 'none',
                             }} />
                         </div>
-                        <CustomTextField placeHolder={'Enter E-Mail'} onChanged={(e) => { }} style={{
+                        <CustomTextField placeHolder={'To Address'} onChanged={(e) => { }} style={{
                             backgroundColor: '#FFECC0',
                             width: '85%',
                             border: 'none',
                         }} />
-                        <CustomTextField placeHolder={'Enter Password'} type='password' onChanged={(e) => { }} style={{
+                        <CustomTextField placeHolder={'Instructions for Partner'} type='password' onChanged={(e) => { }} style={{
                             backgroundColor: '#FFECC0',
                             width: '85%',
                             border: 'none',
@@ -142,7 +145,6 @@ export default function QuotePage() {
                     </div>
                 </div>
             </div>
-            <Spacer height={30} />
             <div className="quoteItemSpecSection">
                 <div className="quoteItemSpecSectionMapSection">
 
@@ -230,7 +232,6 @@ export default function QuotePage() {
                     </div>
                 </div>
             </div>
-            <Spacer height={30} />
             <div className="customerQuotePage">
                 <div style={{
                     fontSize: '24px',
@@ -316,16 +317,37 @@ export default function QuotePage() {
                     flexDirection: 'row',
                     alignSelf: 'center',
                     alignItems: 'center',
+                    fontSize: '24px',
+                    fontWeight: '600',
                 }}>
-                    <Typography.Title level={4}>No Excluded Items</Typography.Title>
+                    No Excluded Items
                     <Checkbox
                         style={{
                             color: '#FFD700',
                         }} />
                 </div>
-
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    backgroundColor: '#FFECC0',
+                    padding: '10px',
+                    borderRadius: '15px',
+                    width: '20%',
+                    height: '30px',
+                    justifyContent: 'center',
+                    color: '#4A4A4A',
+                    cursor: 'pointer',
+                }} onClick={() => {
+                    navigate('/billingPage');
+                }}>
+                    Submit
+                </div>
 
             </div>
+            <CustomerPortalFooter />
         </div>
     );
 }
