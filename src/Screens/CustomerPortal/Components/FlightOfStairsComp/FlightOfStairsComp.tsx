@@ -1,5 +1,6 @@
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import "./FlightOfStairsComp.css"
+import { Typography } from "antd";
 
 
 interface FlightOfStairsCompProps {
@@ -10,20 +11,35 @@ interface FlightOfStairsCompProps {
 
 export default function FlightOfStairsComp(props: FlightOfStairsCompProps) {
     return (
-        <div className="mainStairsContainer">
-            <div className="addContainer" onClick={
-                props.onRemove
-            }><FaMinus />
-            </div>
-            <div className="countContainer">
-                {props.count}
-            </div>
-            <div className="addContainer" onClick={
-                props.onAdd
-            }>
-                <FaPlus />
+        <div style={
+            {
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "10px",
+                width: "100%",
+            }
+        }>
+            <Typography.Text style={{
+                fontSize: "20px",
+            }}>Flight of Stairs</Typography.Text>
+            <div className="mainStairsContainer">
+                <div className="addContainer" onClick={
+                    props.onRemove
+                }><FaMinus />
+                </div>
+                <div className="countContainer">
+                    {props.count}
+                </div>
+                <div className="addContainer" onClick={
+                    props.onAdd
+                }>
+                    <FaPlus />
+                </div>
             </div>
         </div>
+
 
     );
 }

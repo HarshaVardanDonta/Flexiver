@@ -1,0 +1,44 @@
+.customerPortalFooter {
+    width: 100%;
+    background-color: #323232;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.customerPortalFooter img {
+    margin: 20px;
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+}
+
+.customerPortalHeaderSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+    margin: 20px;
+    font-size: 20px;
+    max-width: 300px;
+}
+
+.customerPortalHeaderSection img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+    .customerPortalFooter {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .customerPortalHeaderSection {
+        text-align: center;
+    }
+}
