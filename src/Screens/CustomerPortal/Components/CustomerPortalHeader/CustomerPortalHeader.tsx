@@ -4,10 +4,16 @@ import Logo from "../../../../Assets/CustomerPortal/FlexiverWhiteLogo.png";
 import Person from "../../../../Assets/CustomerPortal/Person.png";
 import { Typography } from 'antd';
 import Spacer from '../../../../Components/MySpacer';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, IconButton, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import MySupClient from '../../../../SupabaseClient';
-export default function CustomerPortalHeader() {
+import { FaBars } from 'react-icons/fa6';
+
+interface CustomerPortalHeaderProps {
+    driverSide?: boolean
+    onMenuClick?: () => void
+}
+export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
     let navigate = useNavigate();
     const [supabase] = useState(() => MySupClient());
     const [session, setSession] = useState<any>(null);
@@ -32,7 +38,21 @@ export default function CustomerPortalHeader() {
 
     return (
         <div className='CustomerPortalHeader'>
-            <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' />
+
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
+                padding: 10,
+            }}>  {
+                    props.onMenuClick &&
+                    <IconButton onClick={props.onMenuClick}>
+                        <FaBars fontSize={24} color='white' />
+                    </IconButton>
+                }
+
+                <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' />
+            </div>
             <Button
                 style={{
                     backgroundColor: "#FFECC0",
@@ -67,39 +87,44 @@ export default function CustomerPortalHeader() {
                 }}>
                 {
                     isUserLoggedIn && (
-                        <>
-                            <MenuItem sx={{
-                                borderRadius: "15px",
-                                backgroundColor: "#FFECC0",
-                                height: 50,
-                                width: 200,
-                                margin: 1,
-                            }} onClick={() => {
-                                handleAnchorHeaderButtonClose();
-                            }}>
-                                <Typography.Text style={{
-                                    fontSize: '1.2rem',
-                                }}>
-                                    Profile
-                                </Typography.Text>
-                            </MenuItem>
-                            <MenuItem sx={{
-                                borderRadius: "15px",
-                                backgroundColor: "#FFECC0",
-                                height: 50,
-                                width: 200,
-                                margin: 1,
-                            }} onClick={() => {
-                                handleAnchorHeaderButtonClose();
-                            }}>
-                                <Typography.Text style={{
-                                    fontSize: '1.2rem',
+                        <>{
+                            !props.driverSide &&
+                            <div>
+                                <MenuItem sx={{
+                                    borderRadius: "15px",
+                                    backgroundColor: "#FFECC0",
+                                    height: 50,
+                                    width: 200,
+                                    margin: 1,
                                 }} onClick={() => {
-                                    navigate('/orderHistoryPage');
+                                    handleAnchorHeaderButtonClose();
                                 }}>
-                                    Order History
-                                </Typography.Text>
-                            </MenuItem>
+                                    <Typography.Text style={{
+                                        fontSize: '1.2rem',
+                                    }}>
+                                        Profile
+                                    </Typography.Text>
+                                </MenuItem>
+                                <MenuItem sx={{
+                                    borderRadius: "15px",
+                                    backgroundColor: "#FFECC0",
+                                    height: 50,
+                                    width: 200,
+                                    margin: 1,
+                                }} onClick={() => {
+                                    handleAnchorHeaderButtonClose();
+                                }}>
+                                    <Typography.Text style={{
+                                        fontSize: '1.2rem',
+                                    }} onClick={() => {
+                                        navigate('/orderHistoryPage');
+                                    }}>
+                                        Order History
+                                    </Typography.Text>
+                                </MenuItem>
+                            </div>
+                        }
+
                             <MenuItem sx={{
                                 borderRadius: "15px",
                                 backgroundColor: "#FFECC0",

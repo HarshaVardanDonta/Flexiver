@@ -10,6 +10,9 @@ interface CustomDialogProps {
     description: string
     image?: string
     onClose: () => void
+    htmlComponent?: JSX.Element
+    autoHeight?: boolean
+    hideYayButton?: boolean
 }
 
 export default function CustomDialog(props: CustomDialogProps) {
@@ -26,20 +29,24 @@ export default function CustomDialog(props: CustomDialogProps) {
                 justifyContent: "center",
                 alignItems: "center",
                 width: "300px",
-                height: "300px",
+                height: props.autoHeight ? "auto" : "300px",
                 backgroundColor: "white",
                 borderRadius: "20px",
                 padding: "20px",
                 gap: "20px",
             }}>
-                <div style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    cursor: "pointer",
-                }} onClick={props.onClose}>
-                    <FaTimes />
-                </div>
+                {
+                    !props.htmlComponent &&
+                    <div style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        cursor: "pointer",
+                    }} onClick={props.onClose}>
+                        <FaTimes />
+                    </div>
+                }
+
                 {
                     props.image &&
                     <img src={props.image} style={{
@@ -52,16 +59,25 @@ export default function CustomDialog(props: CustomDialogProps) {
                     {props.title}
                 </div>
                 <div>
-                    {props.description}
+                    {
+                        props.htmlComponent ?
+                            props.htmlComponent :
+                            props.description
+
+                    }
                 </div>
-                <Button sx={{
-                    width: "70%",
-                    height: "50px",
-                    borderRadius: "15px",
-                    backgroundColor: "#FFECC1",
-                    color: "black",
-                    fontWeight: "bold",
-                }} onClick={props.onClose}>Yay!</Button>
+                {
+                    !props.hideYayButton &&
+                    <Button sx={{
+                        width: "70%",
+                        height: "50px",
+                        borderRadius: "15px",
+                        backgroundColor: "#FFECC1",
+                        color: "black",
+                        fontWeight: "bold",
+                    }} onClick={props.onClose}>Yay!</Button>
+                }
+
             </div>
         </Dialog>
     )
