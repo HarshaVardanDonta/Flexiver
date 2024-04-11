@@ -1,0 +1,94 @@
+.deliveryStatusScreen {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #ffffff;
+    gap: 50px;
+    overflow-x: hidden;
+}
+
+.deliveryStatusHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.deliverStatusMapSection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    background-color: #ffffff;
+    gap: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.mapSectionLeft {
+    width: 50%;
+    height: 400px;
+    background-color: black;
+    border-radius: 15px;
+}
+
+.mapSectionRight {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.itemDimensions {
+    display: flex;
+    flex-direction: row;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    width: 70%;
+    align-self: center;
+    margin-bottom: 50px;
+
+}
+
+@media screen and (max-width: 768px) {
+    .deliveryStatusScreen {
+        gap: 10px;
+        margin-top: 50px;
+    }
+
+    .deliveryStatusHeader {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .deliverStatusMapSection {
+        margin-left: 10px;
+        margin-right: 10px;
+        flex-direction: column;
+    }
+
+    .mapSectionLeft {
+        width: 85%;
+    }
+
+    .itemDimensions {
+        margin-left: 10px;
+        margin-right: 10px;
+        flex-direction: column;
+    }
+
+    .buttonContainer {
+        flex-direction: column;
+    }
+}

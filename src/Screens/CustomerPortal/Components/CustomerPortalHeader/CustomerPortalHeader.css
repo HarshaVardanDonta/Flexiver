@@ -21,6 +21,7 @@
     transition: background-color 0.3s;
     cursor: pointer;
     border-radius: 0px;
+    width: 300px;
 }
 
 .CustomerPortalHeaderRightButton:hover {

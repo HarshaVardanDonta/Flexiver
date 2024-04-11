@@ -1,0 +1,33 @@
+.customerDetailsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 30%;
+}
+
+.IncommingOrderComp {
+    display: flex;
+    flex-direction: row;
+    padding: 1vw;
+    background-color: #FFECC1;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.incommingOrderCompAddress {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .IncommingOrderComp {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .customerDetailsSection {
+        width: 90%;
+    }
+}
