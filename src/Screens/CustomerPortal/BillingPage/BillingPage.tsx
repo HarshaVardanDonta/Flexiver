@@ -1,9 +1,15 @@
 import "./BillingPage.css";
 import CustomerPortalFooter from "../Components/CustomerPortalFooter/CustomerPortalFooter";
 import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPortalHeader";
-import { Divider } from "@mui/material";
-
+import { Alert, Dialog, Divider } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import CustomDialog from "../Components/SuccessPaymentComp/SuccessPaymentComp";
+import { useState } from "react";
+import { set } from "react-ga";
+import Success from "../../../Assets/CustomerPortal/Approval.png"
 export default function BillingPage() {
+    const navigate = useNavigate();
+    const [dialogOpen, setDialogOpen] = useState(false);
     return (
         <div className="billingPage">
             <CustomerPortalHeader />
@@ -83,7 +89,14 @@ export default function BillingPage() {
                             <div>1000</div>
                         </div>
                     </div>
-                    <div className="payButton">Proceed & Pay</div>
+                    <div className="payButton" onClick={() => {
+                        setDialogOpen(true);
+                        //navigate("/orderTrackingPage");
+                    }}>Proceed & Pay</div>
+                    <CustomDialog open={dialogOpen} image={Success} title="Success!" description="Your Order is placed Successfully" onClose={() => {
+                        setDialogOpen(false);
+                        navigate("/orderTrackingPage");
+                    }} />
                 </div>
             </div>
             <CustomerPortalFooter />
