@@ -10,11 +10,7 @@ export default function OrderTrackingPage() {
             <CustomerPortalHeader />
             <div className="orderTrackingPage">
                 <h2>Current Order Status</h2>
-                <div style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%"
-                }}>
+                <div className="trackPageTop">
                     <div className="trackPageSummary">
                         <h3>Order Id: #123456</h3>
                         <p>Delivered By / Delivery Partner: #DriverId | Name</p>
