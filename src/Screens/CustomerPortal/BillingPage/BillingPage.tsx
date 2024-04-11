@@ -2,8 +2,10 @@ import "./BillingPage.css";
 import CustomerPortalFooter from "../Components/CustomerPortalFooter/CustomerPortalFooter";
 import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPortalHeader";
 import { Divider } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function BillingPage() {
+    const navigate = useNavigate();
     return (
         <div className="billingPage">
             <CustomerPortalHeader />
@@ -83,7 +85,9 @@ export default function BillingPage() {
                             <div>1000</div>
                         </div>
                     </div>
-                    <div className="payButton">Proceed & Pay</div>
+                    <div className="payButton" onClick={() => {
+                        navigate("/orderTrackingPage");
+                    }}>Proceed & Pay</div>
                 </div>
             </div>
             <CustomerPortalFooter />
