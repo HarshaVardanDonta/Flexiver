@@ -13,7 +13,8 @@ import TearmsAndConditions from "./TearmsAndConditions";
 import PrivacyPolicy from "./PrivacyPolicy";
 
 import BillingPage from "./CustomerPortal/BillingPage/BillingPage";
-
+import OrderTrackingPage from "./CustomerPortal/OrderTrackingPage/OrderTrackingPage";
+import OrderHistoryPage from "./CustomerPortal/OrderHistoryPage/OrderHistoryPage";
 import Aos from "aos";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -51,6 +52,8 @@ export default function DriverMain() {
           <Route path="/customerSignUp" element={<CustomerSignUp />} />
           <Route path="/quotePage" element={<QuotePage />} />
           <Route path="/billingPage" element={<BillingPage />} />
+          <Route path="/orderTrackingPage" element={<OrderTrackingPage />} />
+          <Route path="/orderHistoryPage" element={<OrderHistoryPage />} />
         </Routes>
 
         <Toaster position="bottom-right" />
