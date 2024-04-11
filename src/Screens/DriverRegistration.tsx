@@ -88,7 +88,7 @@ function App() {
       .eq("userId", userId);
     console.log("record", record);
     if (record.data!.length === 1) {
-      navigate("/driverDashboard");
+      navigate("/driverProfile");
     } else {
       console.log("No record found");
     }
