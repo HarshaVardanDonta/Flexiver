@@ -1,0 +1,82 @@
+.orderTrackingPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    background-color: white;
+}
+
+.trackPageTop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.trackPageSummary {
+    display: flex;
+    flex-direction: column;
+}
+
+.trackPagePrice {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.trackPageStatusSection {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    background-color: #FFFAEF;
+    border-radius: 15px;
+}
+
+.trackPageStepper {
+    height: 100%;
+    margin: 50px;
+    display: flex;
+    align-self: center;
+}
+
+.trackPageMap {
+    width: 55%;
+    height: 400px;
+    border-radius: 15px;
+    background-color: black;
+    margin: 50px;
+}
+
+@media screen and (max-width: 1024px) {
+    .orderTrackingPage {
+        padding: 20px;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .trackPageTop {
+        flex-direction: column;
+    }
+
+    .trackPageSummary {}
+
+    .trackPagePrice {
+        align-items: center;
+        text-align: center;
+    }
+
+    .trackPageStatusSection {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+    }
+
+    .trackPageStepper {}
+
+    .trackPageMap {
+        width: 90%;
+        height: 200px;
+        margin: 0;
+    }
+}

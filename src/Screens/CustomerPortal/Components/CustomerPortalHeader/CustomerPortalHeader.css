@@ -26,3 +26,21 @@
 .CustomerPortalHeaderRightButton:hover {
     background-color: #FFD700;
 }
+
+@media screen and (max-width: 1024px) {
+    .CustomerPortalHeader {
+        height: 50px;
+        position: fixed;
+        top: 0;
+        z-index: 100;
+    }
+
+    .CustomerPortalHeaderLogo {
+        margin-left: 10px;
+        width: 100px;
+    }
+
+    .CustomerPortalHeaderRightButton {
+        padding: 0 10px;
+    }
+}

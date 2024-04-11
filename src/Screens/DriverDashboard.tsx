@@ -18,7 +18,7 @@ export default function DriverDashboard() {
     async function getDriverRecord() {
         const session = await supabase.auth.getSession()
 
-        const record = await supabase.from('DriverDetails').select('*').eq('userId', session.data.session?.user.id)
+        const record = await supabase.from('DriverDetails').select('*').eq('userId', session.data.session?.user?.id)
 
         if (record && record.data && record.data[0]) {
             setDriver(record.data[0])

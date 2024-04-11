@@ -94,6 +94,8 @@ export default function CustomerPortalHeader() {
                             }}>
                                 <Typography.Text style={{
                                     fontSize: '1.2rem',
+                                }} onClick={() => {
+                                    navigate('/orderHistoryPage');
                                 }}>
                                     Order History
                                 </Typography.Text>
