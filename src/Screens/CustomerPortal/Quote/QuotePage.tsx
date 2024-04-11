@@ -77,6 +77,7 @@ export default function QuotePage() {
                 </div>
                 <div className="pickupAndDropSectionBanner">
                     <div className="pickupSection">
+                        <h3>Pickup Details</h3>
                         <div style={{
                             display: 'flex',
                             flexDirection: 'row',
@@ -111,6 +112,7 @@ export default function QuotePage() {
                     </div>
                     <Divider orientation="vertical" flexItem />
                     <div className="pickupSection">
+                        <h3>DropOff Details</h3>
                         <div style={{
                             display: 'flex',
                             flexDirection: 'row',
@@ -260,12 +262,7 @@ export default function QuotePage() {
                 }}>
                     Alternate Contact Information
                 </div>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    width: '100%',
-                }}>
+                <div className="alternateContactContainer" >
                     <CustomTextField placeHolder={'Receivers Name'} onChanged={(e) => { }} style={{
                         backgroundColor: '#FFECC0',
                         width: '45%',
@@ -284,13 +281,7 @@ export default function QuotePage() {
                 }}>
                     Excluded Items
                 </div>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    width: '50%',
-                    alignSelf: 'center',
-                }}>
+                <div className="mainExcludedItemContainer">
                     <div className="excludedItemContainer">
                         <img src={Fire} alt="Fire" />
                         <div>Fire</div>
