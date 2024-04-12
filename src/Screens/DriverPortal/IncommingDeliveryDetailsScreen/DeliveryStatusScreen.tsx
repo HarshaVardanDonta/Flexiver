@@ -6,12 +6,28 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import CustomDialog from "../../CustomerPortal/Components/SuccessPaymentComp/SuccessPaymentComp";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
+import MapComp from "../../../Components/MapComp";
+import { Icon } from "leaflet";
+import mark from '../../../Assets/Location.png';
+import pin from '../../../Assets/MapPin.png';
+
 export default function DeliverStatusScreen() {
     const { state } = useLocation();
     const [ongoing, setOngoing] = useState(state ? state.ongoing : false);
     const [openSuccess, setOpenSuccess] = useState(false);
     const [openAreUSure, setOpenAreUSure] = useState(false);
     const navigate = useNavigate();
+
+    const LocationIcon = new Icon({
+        iconUrl: mark,
+        iconSize: [30, 30] // size of the icon
+      });
+    
+    const PinIcon = new Icon({
+        iconUrl: pin,
+        iconSize: [30, 30] // size of the icon
+      });
+
     return (
         <div>
             <CustomerPortalHeader driverSide={true} />
@@ -25,7 +41,7 @@ export default function DeliverStatusScreen() {
                 </div>
                 <div className="deliverStatusMapSection">
                     <div className="mapSectionLeft">
-                        <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+                        {/* <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -35,7 +51,11 @@ export default function DeliverStatusScreen() {
                                     A pretty CSS3 popup. <br /> Easily customizable.
                                 </Popup>
                             </Marker>
-                        </MapContainer>
+                        </MapContainer> */}
+                        <MapComp positionWithIconsArray={[{
+                            lat: 51.511, lng: -0.09, marker: LocationIcon,
+                            popup: ""
+                        }, {lat:51.495,lng:-0.055,marker:PinIcon,popup:"POP-UP"}]} centerLat={51.50} centerLng={-0.05}/>
                     </div>
                     <div className="mapSectionRight">
                         <div>
