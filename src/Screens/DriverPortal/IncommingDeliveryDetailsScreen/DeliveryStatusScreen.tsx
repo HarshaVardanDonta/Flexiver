@@ -2,16 +2,16 @@ import { Button, Typography } from "@mui/material";
 import CustomerPortalHeader from "../../CustomerPortal/Components/CustomerPortalHeader/CustomerPortalHeader";
 import "./DeliveryStatusScreen.css";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import CustomDialog from "../../CustomerPortal/Components/SuccessPaymentComp/SuccessPaymentComp";
-
-
-
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css';
 export default function DeliverStatusScreen() {
     const { state } = useLocation();
     const [ongoing, setOngoing] = useState(state ? state.ongoing : false);
     const [openSuccess, setOpenSuccess] = useState(false);
     const [openAreUSure, setOpenAreUSure] = useState(false);
+    const navigate = useNavigate();
     return (
         <div>
             <CustomerPortalHeader driverSide={true} />
@@ -25,6 +25,17 @@ export default function DeliverStatusScreen() {
                 </div>
                 <div className="deliverStatusMapSection">
                     <div className="mapSectionLeft">
+                        <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker position={[51.505, -0.09]}>
+                                <Popup>
+                                    A pretty CSS3 popup. <br /> Easily customizable.
+                                </Popup>
+                            </Marker>
+                        </MapContainer>
                     </div>
                     <div className="mapSectionRight">
                         <div>
@@ -101,6 +112,7 @@ export default function DeliverStatusScreen() {
                             </>}
                                 onClose={function (): void {
                                     setOpenSuccess(false);
+                                    navigate("/activeDeliveryScreen");
                                 }} />
 
                             <CustomDialog hideYayButton={true} autoHeight={true} open={openAreUSure} title={""} description={""}
