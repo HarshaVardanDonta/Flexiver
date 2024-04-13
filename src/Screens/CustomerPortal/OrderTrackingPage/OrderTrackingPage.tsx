@@ -2,6 +2,21 @@ import { Divider, Step, StepLabel, Stepper } from "@mui/material";
 import CustomerPortalFooter from "../Components/CustomerPortalFooter/CustomerPortalFooter";
 import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPortalHeader";
 import "./OrderTrackingPage.css";
+import MapComp from "../../../Components/MapComp";
+import { Icon } from "leaflet";
+import mark from '../../../Assets/Location.png';
+import pin from '../../../Assets/MapPin.png';
+
+const LocationIcon = new Icon({
+    iconUrl: mark,
+    iconSize: [30, 30] // size of the icon
+  });
+
+const PinIcon = new Icon({
+    iconUrl: pin,
+    iconSize: [30, 30] // size of the icon
+  });
+
 export default function OrderTrackingPage() {
 
     const orderStatus = ['Order Confirmed', 'Partner Assigned', 'Package Picked Up', 'Package Enroute', 'Package Delivered'];
@@ -57,7 +72,12 @@ export default function OrderTrackingPage() {
                             ))}
                         </Stepper>
                     </div>
-                    <div className="trackPageMap"></div>
+                    <div className="trackPageMap">
+                    <MapComp positionWithIconsArray={[{
+                            lat: 51.511, lng: -0.09, marker: LocationIcon,
+                            popup: ""
+                        }, {lat:51.495,lng:-0.055,marker:PinIcon,popup:"POP-UP"}]} centerLat={51.50} centerLng={-0.05}/>
+                    </div>
                 </div>
             </div>
             <CustomerPortalFooter />
