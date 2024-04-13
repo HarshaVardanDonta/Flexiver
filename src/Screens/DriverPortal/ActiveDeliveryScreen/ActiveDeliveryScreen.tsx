@@ -11,12 +11,12 @@ import pin from "../../../Assets/MapPin.png";
 const LocationIcon = new Icon({
     iconUrl: mark,
     iconSize: [30, 30] // size of the icon
-  });
+});
 
 const PinIcon = new Icon({
     iconUrl: pin,
     iconSize: [30, 30] // size of the icon
-  });
+});
 
 export default function ActiveDeliveryScreen() {
     return (
@@ -25,10 +25,10 @@ export default function ActiveDeliveryScreen() {
             <div className="activeDeliveryPage">
                 <h3>Delivery ID : DID-12-12-12-1212</h3>
                 <div className="activeDeliveryMapComp">
-                <MapComp positionWithIconsArray={[{
-                            lat: 51.511, lng: -0.09, marker: LocationIcon,
-                            popup: ""
-                        }, {lat:51.495,lng:-0.055,marker:PinIcon,popup:"POP-UP"}]} centerLat={51.50} centerLng={-0.05}/>
+                    <MapComp positionWithIconsArray={[{
+                        lat: 51.511, lng: -0.09, marker: LocationIcon,
+                        popup: ""
+                    }, { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" }]} />
                 </div>
                 <div className="buttonContainer">
                     <div className="buttonContainer1">

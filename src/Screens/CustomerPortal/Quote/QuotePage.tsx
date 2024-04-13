@@ -54,12 +54,12 @@ export default function QuotePage() {
     const LocationIcon = new Icon({
         iconUrl: mark,
         iconSize: [30, 30] // size of the icon
-      });
-    
+    });
+
     const PinIcon = new Icon({
         iconUrl: pin,
         iconSize: [30, 30] // size of the icon
-      });
+    });
 
     return (
         <div>
@@ -164,10 +164,10 @@ export default function QuotePage() {
             </div>
             <div className="quoteItemSpecSection">
                 <div className="quoteItemSpecSectionMapSection">
-                <MapComp positionWithIconsArray={[{
-                            lat: 51.511, lng: -0.09, marker: LocationIcon,
-                            popup: ""
-                        }, {lat:51.495,lng:-0.055,marker:PinIcon,popup:"POP-UP"}]} centerLat={51.50} centerLng={-0.05}/>
+                    <MapComp positionWithIconsArray={[{
+                        lat: 51.511, lng: -0.09, marker: LocationIcon,
+                        popup: ""
+                    }, { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" }]} />
                 </div>
                 <div className="quoteItemSpecSectionRightSection">
                     <Typography.Title level={4}>Provide Item Specifications</Typography.Title>
