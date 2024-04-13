@@ -31,7 +31,6 @@ export default function CustomDropDown(props: CustomDropDownProps) {
             width: '100%',
         }}>
             <Button
-
                 style={
                     props.style
                         ? props.style
