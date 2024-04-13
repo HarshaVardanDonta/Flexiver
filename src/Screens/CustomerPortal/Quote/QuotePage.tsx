@@ -19,6 +19,10 @@ import Paint from "../../../Assets/CustomerPortal/Paint Brush.png";
 import Weapon from "../../../Assets/CustomerPortal/saber weapon.png";
 import CustomerPortalFooter from "../Components/CustomerPortalFooter/CustomerPortalFooter";
 import { useNavigate } from "react-router-dom";
+import { Icon } from "leaflet";
+import MapComp from "../../../Components/MapComp";
+import mark from "../../../Assets/Location.png";
+import pin from "../../../Assets/MapPin.png";
 
 export default function QuotePage() {
     const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
@@ -46,6 +50,17 @@ export default function QuotePage() {
             setDropOffStairsCount(dropOffStairsCount - 1);
         }
     }
+
+    const LocationIcon = new Icon({
+        iconUrl: mark,
+        iconSize: [30, 30] // size of the icon
+    });
+
+    const PinIcon = new Icon({
+        iconUrl: pin,
+        iconSize: [30, 30] // size of the icon
+    });
+
     return (
         <div>
             <CustomerPortalHeader />
@@ -149,7 +164,10 @@ export default function QuotePage() {
             </div>
             <div className="quoteItemSpecSection">
                 <div className="quoteItemSpecSectionMapSection">
-
+                    <MapComp positionWithIconsArray={[{
+                        lat: 51.511, lng: -0.09, marker: LocationIcon,
+                        popup: ""
+                    }, { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" }]} />
                 </div>
                 <div className="quoteItemSpecSectionRightSection">
                     <Typography.Title level={4}>Provide Item Specifications</Typography.Title>

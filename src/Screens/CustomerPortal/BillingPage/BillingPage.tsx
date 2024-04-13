@@ -6,7 +6,22 @@ import { useNavigate } from "react-router-dom";
 import CustomDialog from "../Components/SuccessPaymentComp/SuccessPaymentComp";
 import { useState } from "react";
 import { set } from "react-ga";
-import Success from "../../../Assets/CustomerPortal/Approval.png"
+import Success from "../../../Assets/CustomerPortal/Approval.png";
+import MapComp from "../../../Components/MapComp";
+import { Icon } from "leaflet";
+import mark from '../../../Assets/Location.png';
+import pin from '../../../Assets/MapPin.png';
+
+const LocationIcon = new Icon({
+    iconUrl: mark,
+    iconSize: [30, 30] // size of the icon
+});
+
+const PinIcon = new Icon({
+    iconUrl: pin,
+    iconSize: [30, 30] // size of the icon
+});
+
 export default function BillingPage() {
     const navigate = useNavigate();
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -18,7 +33,10 @@ export default function BillingPage() {
                     <h2>Order Summary</h2>
                     <div className="mapAndDescription">
                         <div className="summaryMap">
-
+                            <MapComp positionWithIconsArray={[{
+                                lat: 51.511, lng: -0.09, marker: LocationIcon,
+                                popup: ""
+                            }, { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" }]} />
                         </div>
                         <div className="description">
                             <div>

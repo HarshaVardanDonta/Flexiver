@@ -2,16 +2,32 @@ import { Button, Typography } from "@mui/material";
 import CustomerPortalHeader from "../../CustomerPortal/Components/CustomerPortalHeader/CustomerPortalHeader";
 import "./DeliveryStatusScreen.css";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import CustomDialog from "../../CustomerPortal/Components/SuccessPaymentComp/SuccessPaymentComp";
-
-
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css';
+import MapComp from "../../../Components/MapComp";
+import { Icon } from "leaflet";
+import mark from '../../../Assets/Location.png';
+import pin from '../../../Assets/MapPin.png';
 
 export default function DeliverStatusScreen() {
     const { state } = useLocation();
     const [ongoing, setOngoing] = useState(state ? state.ongoing : false);
     const [openSuccess, setOpenSuccess] = useState(false);
     const [openAreUSure, setOpenAreUSure] = useState(false);
+    const navigate = useNavigate();
+
+    const LocationIcon = new Icon({
+        iconUrl: mark,
+        iconSize: [30, 30] // size of the icon
+    });
+
+    const PinIcon = new Icon({
+        iconUrl: pin,
+        iconSize: [30, 30] // size of the icon
+    });
+
     return (
         <div>
             <CustomerPortalHeader driverSide={true} />
@@ -25,6 +41,10 @@ export default function DeliverStatusScreen() {
                 </div>
                 <div className="deliverStatusMapSection">
                     <div className="mapSectionLeft">
+                        <MapComp positionWithIconsArray={[{
+                            lat: 51.511, lng: -0.09, marker: LocationIcon,
+                            popup: "Pick UP Location"
+                        }, { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "Drop Off Location" }]} />
                     </div>
                     <div className="mapSectionRight">
                         <div>
@@ -101,6 +121,7 @@ export default function DeliverStatusScreen() {
                             </>}
                                 onClose={function (): void {
                                     setOpenSuccess(false);
+                                    navigate("/activeDeliveryScreen");
                                 }} />
 
                             <CustomDialog hideYayButton={true} autoHeight={true} open={openAreUSure} title={""} description={""}
