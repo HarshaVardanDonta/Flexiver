@@ -15,12 +15,12 @@ import pin from '../../../Assets/MapPin.png';
 const LocationIcon = new Icon({
     iconUrl: mark,
     iconSize: [30, 30] // size of the icon
-  });
+});
 
 const PinIcon = new Icon({
     iconUrl: pin,
     iconSize: [30, 30] // size of the icon
-  });
+});
 
 export default function BillingPage() {
     const navigate = useNavigate();
@@ -33,10 +33,10 @@ export default function BillingPage() {
                     <h2>Order Summary</h2>
                     <div className="mapAndDescription">
                         <div className="summaryMap">
-                        <MapComp positionWithIconsArray={[{
-                            lat: 51.511, lng: -0.09, marker: LocationIcon,
-                            popup: ""
-                        }, {lat:51.495,lng:-0.055,marker:PinIcon,popup:"POP-UP"}]} centerLat={51.50} centerLng={-0.05}/>
+                            <MapComp positionWithIconsArray={[{
+                                lat: 51.511, lng: -0.09, marker: LocationIcon,
+                                popup: ""
+                            }, { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" }]} />
                         </div>
                         <div className="description">
                             <div>

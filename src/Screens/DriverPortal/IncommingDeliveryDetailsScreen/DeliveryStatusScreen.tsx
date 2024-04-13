@@ -21,12 +21,12 @@ export default function DeliverStatusScreen() {
     const LocationIcon = new Icon({
         iconUrl: mark,
         iconSize: [30, 30] // size of the icon
-      });
-    
+    });
+
     const PinIcon = new Icon({
         iconUrl: pin,
         iconSize: [30, 30] // size of the icon
-      });
+    });
 
     return (
         <div>
@@ -41,21 +41,10 @@ export default function DeliverStatusScreen() {
                 </div>
                 <div className="deliverStatusMapSection">
                     <div className="mapSectionLeft">
-                        {/* <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-                            <TileLayer
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <Marker position={[51.505, -0.09]}>
-                                <Popup>
-                                    A pretty CSS3 popup. <br /> Easily customizable.
-                                </Popup>
-                            </Marker>
-                        </MapContainer> */}
                         <MapComp positionWithIconsArray={[{
                             lat: 51.511, lng: -0.09, marker: LocationIcon,
-                            popup: ""
-                        }, {lat:51.495,lng:-0.055,marker:PinIcon,popup:"POP-UP"}]} centerLat={51.50} centerLng={-0.05}/>
+                            popup: "Pick UP Location"
+                        }, { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "Drop Off Location" }]} />
                     </div>
                     <div className="mapSectionRight">
                         <div>
