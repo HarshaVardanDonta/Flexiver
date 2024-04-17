@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
+    "@mui/x-date-pickers": "^7.2.0",
     "@rive-app/react-canvas": "^4.8.4",
     "@supabase/supabase-js": "^2.39.5",
     "@testing-library/jest-dom": "^5.17.0",
