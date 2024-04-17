@@ -4,7 +4,7 @@ import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPor
 import VehicleComp from "../Components/VehicleComp/VehicleComp";
 import Spacer from "../../../Components/MySpacer";
 import Logo from "../../../Assets/CustomerPortal/FlexiverWhiteLogo.png";
-import { Typography } from "antd";
+import { DatePicker, Typography } from "antd";
 import { AiOutlineEnvironment } from "react-icons/ai";
 import { BiCalendar } from "react-icons/bi";
 import CustomTextField from "../../../Components/CustomTextField";
@@ -23,15 +23,23 @@ import { Icon } from "leaflet";
 import MapComp from "../../../Components/MapComp";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Camera from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 
 import ImagePreview from "../../../Components/ImagePreview";
+import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 export default function QuotePage() {
   const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
   const [dropOffStairsCount, setDropOffStairsCount] = useState(0);
+
+  const quote = new CustomerQuoteModel();
+  const [quoteDateAndTime, setQuoteDateAndTime] = useState(new Date());
+  const [twoWheelerSelected, settwoWheelerSelected] = useState(false);
+  const [uteVanSelected, setuteVanSelected] = useState(false);
+  const [refrigeratedVanSelected, setrefrigeratedVanSelected] = useState(false);
 
   const [openCamera, setOpenCamera] = useState(false);
   const [dataUri, setDataUri] = useState("");
@@ -42,22 +50,27 @@ export default function QuotePage() {
     if (pickUpStairsCount >= 0) {
       setPickUpStairsCount(pickUpStairsCount + 1);
     }
+    quote.pickUpStairs = pickUpStairsCount;
   }
   function handlePickUpStairsRemove() {
     if (pickUpStairsCount > 0) {
       setPickUpStairsCount(pickUpStairsCount - 1);
     }
+    quote.pickUpStairs = pickUpStairsCount;
   }
   function handleDropOffStairsAdd() {
     if (dropOffStairsCount >= 0) {
       setDropOffStairsCount(dropOffStairsCount + 1);
     }
+    quote.dropOffStairs = dropOffStairsCount;
   }
   function handleDropOffStairsRemove() {
     if (dropOffStairsCount > 0) {
       setDropOffStairsCount(dropOffStairsCount - 1);
     }
+    quote.dropOffStairs = dropOffStairsCount;
   }
+
 
   const LocationIcon = new Icon({
     iconUrl: mark,
@@ -121,16 +134,37 @@ export default function QuotePage() {
             vehicleName={"Two Wheeler"}
             vehicleImage={Logo}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            onClick={() => {
+              quote.vehicleType = "Two Wheeler";
+              settwoWheelerSelected(true);
+              setuteVanSelected(false);
+              setrefrigeratedVanSelected(false);
+            }}
+            selected={twoWheelerSelected}
           />
           <VehicleComp
-            vehicleName={"Two Wheeler"}
+            vehicleName={"UTE / Van"}
             vehicleImage={Logo}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            onClick={() => {
+              quote.vehicleType = "UTE / Van";
+              setuteVanSelected(true);
+              settwoWheelerSelected(false);
+              setrefrigeratedVanSelected(false);
+            }}
+            selected={uteVanSelected}
           />
           <VehicleComp
-            vehicleName={"Two Wheeler"}
+            vehicleName={"Refreigerated Van"}
             vehicleImage={Logo}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            onClick={() => {
+              quote.vehicleType = "Refreigerated Van";
+              setrefrigeratedVanSelected(true);
+              settwoWheelerSelected(false);
+              setuteVanSelected(false);
+            }}
+            selected={refrigeratedVanSelected}
           />
           <div className="getQuoteButton">
             Get an Instant
@@ -149,9 +183,20 @@ export default function QuotePage() {
           >
             Choose a Date and Time:
           </Typography.Title>
-          <div className="chooseDateButton">
-            <BiCalendar /> <Spacer width={10} /> Open Calender
-          </div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+              onChange={(newDate) => {
+                setQuoteDateAndTime(newDate!.toDate());
+                quote.dateAndTime = newDate!.toDate().getTime();
+                console.log(quote.dateAndTime);
+              }}
+              sx={{
+                backgroundColor: "#FFECC0",
+                borderRadius: "15px",
+              }}
+              label="Select Date And Time"
+            />
+          </LocalizationProvider>
         </div>
         <div className="pickupAndDropSectionBanner">
           <div className="pickupSection">
@@ -166,7 +211,9 @@ export default function QuotePage() {
             >
               <CustomTextField
                 placeHolder={"Contact Name"}
-                onChanged={(e) => {}}
+                onChanged={(e) => {
+                  quote.pickUpContactName = e.target.value;
+                }}
                 style={{
                   backgroundColor: "#FFECC0",
                   width: "85%",
@@ -176,7 +223,9 @@ export default function QuotePage() {
               <Spacer width={20} />
               <CustomTextField
                 placeHolder={"Contact Number"}
-                onChanged={(e) => {}}
+                onChanged={(e) => {
+                  quote.pickUpContactNumber = e.target.value;
+                }}
                 style={{
                   backgroundColor: "#FFECC0",
                   width: "85%",
@@ -186,7 +235,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"From Adddress"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                quote.pickUpAddress = e.target.value;
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "85%",
@@ -195,7 +246,9 @@ export default function QuotePage() {
             />
             <CustomTextField
               placeHolder={"Instructions for Partner"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                quote.pickUpInstructions = e.target.value;
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "85%",
@@ -221,7 +274,9 @@ export default function QuotePage() {
             >
               <CustomTextField
                 placeHolder={"Contact Name"}
-                onChanged={(e) => {}}
+                onChanged={(e) => {
+                  quote.dropOffContactName = e.target.value;
+                }}
                 style={{
                   backgroundColor: "#FFECC0",
                   width: "85%",
@@ -231,7 +286,9 @@ export default function QuotePage() {
               <Spacer width={20} />
               <CustomTextField
                 placeHolder={"Contact Number"}
-                onChanged={(e) => {}}
+                onChanged={(e) => {
+                  quote.dropOffContactNumber = e.target.value;
+                }}
                 style={{
                   backgroundColor: "#FFECC0",
                   width: "85%",
@@ -241,7 +298,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"To Address"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                quote.dropOffAddress = e.target.value;
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "85%",
@@ -251,7 +310,9 @@ export default function QuotePage() {
             <CustomTextField
               placeHolder={"Instructions for Partner"}
               type="password"
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                quote.dropOffInstructions = e.target.value;
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "85%",
@@ -290,7 +351,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"How many items"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                quote.noOfItems = e.target.value as number;
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "40%",
@@ -304,7 +367,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"Maximum for selected Vehicle"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                quote.approxWeight = e.target.value;
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "40%",
@@ -318,7 +383,7 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"Maximum 2 Haulers"}
-              onChanged={(e) => {}}
+              onChanged={(e) => { }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "40%",
@@ -339,7 +404,7 @@ export default function QuotePage() {
                 label={"Select an Option"}
                 options={["Yes", "No"]}
                 selectedOption={"Select"}
-                onOptionChange={(option) => {}}
+                onOptionChange={(option) => { }}
                 buttonId={"parkingSpaceAvailableDropButton"}
                 menuId={"parkingSpaceAvailableMenu"}
                 style={{
@@ -403,7 +468,7 @@ export default function QuotePage() {
           }}
           variant="standard"
           placeholder="for example: a 10x10 Sofa"
-          onChange={(e) => {}}
+          onChange={(e) => { }}
         />
         <div
           style={{
@@ -415,7 +480,7 @@ export default function QuotePage() {
         <div className="alternateContactContainer">
           <CustomTextField
             placeHolder={"Receivers Name"}
-            onChanged={(e) => {}}
+            onChanged={(e) => { }}
             style={{
               backgroundColor: "#FFECC0",
               width: "45%",
@@ -424,7 +489,7 @@ export default function QuotePage() {
           />
           <CustomTextField
             placeHolder={"Receivers Contact"}
-            onChanged={(e) => {}}
+            onChanged={(e) => { }}
             style={{
               backgroundColor: "#FFECC0",
               width: "45%",
