@@ -11,6 +11,8 @@ import MapComp from "../../../Components/MapComp";
 import { Icon } from "leaflet";
 import mark from '../../../Assets/Location.png';
 import pin from '../../../Assets/MapPin.png';
+import MySupClient from "../../../SupabaseClient";
+import toast from "react-hot-toast";
 
 const LocationIcon = new Icon({
     iconUrl: mark,
@@ -25,6 +27,20 @@ const PinIcon = new Icon({
 export default function BillingPage() {
     const navigate = useNavigate();
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [supabase] = useState(() => MySupClient());
+
+    async function checkUserLogin() {
+        const session = await supabase.auth.getSession();
+        if (session.data.session === null) {
+            toast.error("Please Login to Proceed", {
+                duration: 4000,
+                position: 'bottom-right',
+            });
+        }
+        else {
+            setDialogOpen(true);
+        }
+    }
     return (
         <div className="billingPage">
             <CustomerPortalHeader />
@@ -107,8 +123,8 @@ export default function BillingPage() {
                             <div>1000</div>
                         </div>
                     </div>
-                    <div className="payButton" onClick={() => {
-                        setDialogOpen(true);
+                    <div className="payButton" onClick={async () => {
+                        await checkUserLogin();
                         //navigate("/orderTrackingPage");
                     }}>Proceed & Pay</div>
                     <CustomDialog open={dialogOpen} image={Success} title="Success!" description="Your Order is placed Successfully" onClose={() => {
