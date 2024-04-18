@@ -23,13 +23,15 @@ import { Icon } from "leaflet";
 import MapComp from "../../../Components/MapComp";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Camera from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 
 import ImagePreview from "../../../Components/ImagePreview";
 import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import MySupClient from "../../../SupabaseClient";
+import toast from "react-hot-toast";
 
 export default function QuotePage() {
   const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
@@ -43,6 +45,8 @@ export default function QuotePage() {
 
   const [openCamera, setOpenCamera] = useState(false);
   const [dataUri, setDataUri] = useState("");
+
+  const [supabase] = useState(() => MySupClient());
 
   const navigate = useNavigate();
 
@@ -67,7 +71,7 @@ export default function QuotePage() {
     }
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (noExcludedItems) {
       quote.city = city;
       quote.vehicleType = vehicleType;
@@ -89,14 +93,35 @@ export default function QuotePage() {
       quote.itemNote = itemSpecs;
       quote.alternateContactName = alternateContactName;
       quote.alternateContactNumber = alternateContactNumber;
+      quote.imageUrl = dataUri;
       console.log(quote);
-      // navigate("/billingPage");
-    }
-    else {
+      navigate("/billingPage", { state: { quote } });
+
+      // supabase.auth
+      //   .getSession()
+      //   .then(async (session) => {
+      //     if (session.data.session) {
+      //       console.log("User logged in successfully");
+      // const data = await supabase.from("CustomerQuote").insert(quote.toJson());
+
+      // console.log(data);
+      // if (data.status === 201) {
+      // console.log(data);
+      // toast.success("Quote added successfully");
+
+      // } else {
+      // console.log("Error");
+      // toast.error("Quote added failed");
+      // }
+      //   } else {
+      //     console.log("Error");
+      //   }
+      // })
+      // .catch((error) => {});
+    } else {
       return;
     }
   }
-
 
   const LocationIcon = new Icon({
     iconUrl: mark,
@@ -233,7 +258,7 @@ export default function QuotePage() {
           </Typography.Title>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
-              onChange={(newDate) => {
+              onChange={(newDate: any) => {
                 setQuoteDateAndTime(newDate!.toDate());
               }}
               sx={{
@@ -600,11 +625,9 @@ export default function QuotePage() {
           No Excluded Items
           <Checkbox
             value={noExcludedItems}
-            onChange={
-              (e) => {
-                setNoExcludedItems(e.target.checked);
-              }
-            }
+            onChange={(e) => {
+              setNoExcludedItems(e.target.checked);
+            }}
             style={{
               color: "#FFD700",
             }}

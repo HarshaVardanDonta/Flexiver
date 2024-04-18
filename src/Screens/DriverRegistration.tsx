@@ -42,10 +42,12 @@ function App() {
   const [supabase] = useState(() => MySupClient());
 
   let navigate = useNavigate();
+
   async function insertDriver(driverDetails: DriverDetails) {
     var currentDriver = await supabase.from("variables").select("*");
     console.log(" current driver ", currentDriver.data![0].currentDriver);
     const date = new Date();
+
     const driverId = `FV-${date.getDate().toLocaleString("en-US", {
       minimumIntegerDigits: 2,
       useGrouping: false,
@@ -58,7 +60,9 @@ function App() {
       minimumIntegerDigits: 4,
       useGrouping: false,
     })}`;
+
     driver.driverId = driverId;
+
     const data = await supabase.from("DriverDetails").insert(driver.toJson());
     if (data.status === 201) {
       toast.success("Driver details updated successfully");
@@ -481,18 +485,26 @@ function App() {
         </div>
         <div className="footer-box">
           <h2>Socials</h2>
-          <a className="socialHandles" onClick={() => { }}><FaInstagram /> Insta.Handle</a>
-          <a className="socialHandles"><FaFacebook /> Facebook.handle</a>
-
+          <a className="socialHandles" onClick={() => {}}>
+            <FaInstagram /> Insta.Handle
+          </a>
+          <a className="socialHandles">
+            <FaFacebook /> Facebook.handle
+          </a>
         </div>
         <div className="footer-box">
           <h2>Contact Us</h2>
           <div className="footer-links">
-            <a onClick={() => {
-              // open url in new window
-              window.open("https://www.google.com/maps/place/Ajaka+%26+Co/@-33.9416148,151.2413084,15z/data=!4m6!3m5!1s0x6b12b3d3baf63f73:0x15aaa1e9bdd8986e!8m2!3d-33.9416148!4d151.2413084!16s%2Fg%2F1tfd2kb8?entry=ttu, '_blank', 'noopener'");
-            }}>
-              Maroubra sydney, <br />1/206 Maroubra Rd, Maroubra NSW 2035
+            <a
+              onClick={() => {
+                // open url in new window
+                window.open(
+                  "https://www.google.com/maps/place/Ajaka+%26+Co/@-33.9416148,151.2413084,15z/data=!4m6!3m5!1s0x6b12b3d3baf63f73:0x15aaa1e9bdd8986e!8m2!3d-33.9416148!4d151.2413084!16s%2Fg%2F1tfd2kb8?entry=ttu, '_blank', 'noopener'"
+                );
+              }}
+            >
+              Maroubra sydney, <br />
+              1/206 Maroubra Rd, Maroubra NSW 2035
             </a>
           </div>
         </div>
