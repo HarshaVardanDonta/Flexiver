@@ -6,21 +6,26 @@ interface VehicleCompProps {
     vehicleName: string;
     vehicleImage: string;
     vehicleDescription: string;
+    onClick: () => void;
+    selected: boolean;
 }
 
-export default function VehicleComp({ vehicleName, vehicleImage, vehicleDescription }: VehicleCompProps) {
+export default function VehicleComp(props: VehicleCompProps) {
     return (
-        <div className='vehicleContainer'>
+        <div className={props.selected === true ? 'vehicleContainerSelected' : 'vehicleContainer'} onClick={() => {
+            props.onClick();
+        }
+        }>
             <div className='vehicleImageContainer'>
-                <img src={vehicleImage} alt='logo' className='vehicleLogo' />
+                <img src={props.vehicleImage} alt='logo' className='vehicleLogo' />
             </div>
             <div className='vehicleTextContainer'>
                 <Typography.Text>
-                    {vehicleName}
+                    {props.vehicleName}
                 </Typography.Text>
                 <div className='extraVehicleTextReveal'>
                     <Typography.Text>
-                        {vehicleDescription}
+                        {props.vehicleDescription}
                     </Typography.Text>
                 </div>
             </div>

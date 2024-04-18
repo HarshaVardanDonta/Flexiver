@@ -4,7 +4,7 @@ import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPor
 import VehicleComp from "../Components/VehicleComp/VehicleComp";
 import Spacer from "../../../Components/MySpacer";
 import Logo from "../../../Assets/CustomerPortal/FlexiverWhiteLogo.png";
-import { Typography } from "antd";
+import { DatePicker, Typography } from "antd";
 import { AiOutlineEnvironment } from "react-icons/ai";
 import { BiCalendar } from "react-icons/bi";
 import CustomTextField from "../../../Components/CustomTextField";
@@ -23,18 +23,30 @@ import { Icon } from "leaflet";
 import MapComp from "../../../Components/MapComp";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
-
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Camera from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 
 import ImagePreview from "../../../Components/ImagePreview";
+import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import MySupClient from "../../../SupabaseClient";
+import toast from "react-hot-toast";
 
 export default function QuotePage() {
   const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
   const [dropOffStairsCount, setDropOffStairsCount] = useState(0);
 
+  const quote = new CustomerQuoteModel();
+  const [quoteDateAndTime, setQuoteDateAndTime] = useState(new Date());
+  const [twoWheelerSelected, settwoWheelerSelected] = useState(false);
+  const [uteVanSelected, setuteVanSelected] = useState(false);
+  const [refrigeratedVanSelected, setrefrigeratedVanSelected] = useState(false);
+
   const [openCamera, setOpenCamera] = useState(false);
   const [dataUri, setDataUri] = useState("");
+
+  const [supabase] = useState(() => MySupClient());
 
   const navigate = useNavigate();
 
@@ -59,6 +71,58 @@ export default function QuotePage() {
     }
   }
 
+  async function handleSubmit() {
+    if (noExcludedItems) {
+      quote.city = city;
+      quote.vehicleType = vehicleType;
+      quote.dateAndTime = dateAndTime.getTime();
+      quote.pickUpContactName = pickUpContactName;
+      quote.pickUpContactNumber = pickUpContactNumber;
+      quote.pickUpAddress = pickUpAddress;
+      quote.pickUpInstructions = pickUpInstructions;
+      quote.pickUpStairs = pickUpStairs;
+      quote.dropOffContactName = dropOffContactName;
+      quote.dropOffContactNumber = dropOffContactNumber;
+      quote.dropOffAddress = dropOffAddress;
+      quote.dropOffInstructions = dropOffInstructions;
+      quote.dropOffStairs = dropOffStairs;
+      quote.noOfItems = noOfItems;
+      quote.approxWeight = approxWeight;
+      quote.noOfHaulers = noOfHaulers;
+      quote.parkingSpaceAvailable = parkingSpaceAvailable;
+      quote.itemNote = itemSpecs;
+      quote.alternateContactName = alternateContactName;
+      quote.alternateContactNumber = alternateContactNumber;
+      quote.imageUrl = dataUri;
+      console.log(quote);
+      navigate("/billingPage", { state: { quote } });
+
+      // supabase.auth
+      //   .getSession()
+      //   .then(async (session) => {
+      //     if (session.data.session) {
+      //       console.log("User logged in successfully");
+      // const data = await supabase.from("CustomerQuote").insert(quote.toJson());
+
+      // console.log(data);
+      // if (data.status === 201) {
+      // console.log(data);
+      // toast.success("Quote added successfully");
+
+      // } else {
+      // console.log("Error");
+      // toast.error("Quote added failed");
+      // }
+      //   } else {
+      //     console.log("Error");
+      //   }
+      // })
+      // .catch((error) => {});
+    } else {
+      return;
+    }
+  }
+
   const LocationIcon = new Icon({
     iconUrl: mark,
     iconSize: [30, 30], // size of the icon
@@ -74,6 +138,28 @@ export default function QuotePage() {
     console.log(dataUri);
     setDataUri(dataUri);
   };
+
+  const [city, setCity] = useState("Sydney");
+  const [vehicleType, setVehicleType] = useState("");
+  const [dateAndTime, setDateAndTime] = useState(new Date());
+  const [pickUpContactName, setPickUpContactName] = useState("");
+  const [pickUpContactNumber, setPickUpContactNumber] = useState("");
+  const [pickUpAddress, setPickUpAddress] = useState("");
+  const [pickUpInstructions, setPickUpInstructions] = useState("");
+  const [pickUpStairs, setPickUpStairs] = useState(0);
+  const [dropOffContactName, setDropOffContactName] = useState("");
+  const [dropOffContactNumber, setDropOffContactNumber] = useState("");
+  const [dropOffAddress, setDropOffAddress] = useState("");
+  const [dropOffInstructions, setDropOffInstructions] = useState("");
+  const [dropOffStairs, setDropOffStairs] = useState(0);
+  const [noOfItems, setNoOfItems] = useState(0);
+  const [approxWeight, setApproxWeight] = useState(0);
+  const [noOfHaulers, setNoOfHaulers] = useState(0);
+  const [parkingSpaceAvailable, setParkingSpaceAvailable] = useState(false);
+  const [itemSpecs, setItemSpecs] = useState("");
+  const [alternateContactName, setAlternateContactName] = useState("");
+  const [alternateContactNumber, setAlternateContactNumber] = useState("");
+  const [noExcludedItems, setNoExcludedItems] = useState(false);
 
   if (openCamera) {
     return (
@@ -121,16 +207,37 @@ export default function QuotePage() {
             vehicleName={"Two Wheeler"}
             vehicleImage={Logo}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            onClick={() => {
+              settwoWheelerSelected(true);
+              setuteVanSelected(false);
+              setrefrigeratedVanSelected(false);
+              setVehicleType("Two Wheeler");
+            }}
+            selected={twoWheelerSelected}
           />
           <VehicleComp
-            vehicleName={"Two Wheeler"}
+            vehicleName={"UTE / Van"}
             vehicleImage={Logo}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            onClick={() => {
+              setuteVanSelected(true);
+              settwoWheelerSelected(false);
+              setrefrigeratedVanSelected(false);
+              setVehicleType("UTE / Van");
+            }}
+            selected={uteVanSelected}
           />
           <VehicleComp
-            vehicleName={"Two Wheeler"}
+            vehicleName={"Refreigerated Van"}
             vehicleImage={Logo}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            onClick={() => {
+              setrefrigeratedVanSelected(true);
+              settwoWheelerSelected(false);
+              setuteVanSelected(false);
+              setVehicleType("Refreigerated Van");
+            }}
+            selected={refrigeratedVanSelected}
           />
           <div className="getQuoteButton">
             Get an Instant
@@ -149,9 +256,18 @@ export default function QuotePage() {
           >
             Choose a Date and Time:
           </Typography.Title>
-          <div className="chooseDateButton">
-            <BiCalendar /> <Spacer width={10} /> Open Calender
-          </div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+              onChange={(newDate: any) => {
+                setQuoteDateAndTime(newDate!.toDate());
+              }}
+              sx={{
+                backgroundColor: "#FFECC0",
+                borderRadius: "15px",
+              }}
+              label="Select Date And Time"
+            />
+          </LocalizationProvider>
         </div>
         <div className="pickupAndDropSectionBanner">
           <div className="pickupSection">
@@ -166,7 +282,9 @@ export default function QuotePage() {
             >
               <CustomTextField
                 placeHolder={"Contact Name"}
-                onChanged={(e) => {}}
+                onChanged={(e) => {
+                  setPickUpContactName(e.target.value);
+                }}
                 style={{
                   backgroundColor: "#FFECC0",
                   width: "85%",
@@ -176,7 +294,9 @@ export default function QuotePage() {
               <Spacer width={20} />
               <CustomTextField
                 placeHolder={"Contact Number"}
-                onChanged={(e) => {}}
+                onChanged={(e) => {
+                  setPickUpContactNumber(e.target.value);
+                }}
                 style={{
                   backgroundColor: "#FFECC0",
                   width: "85%",
@@ -186,7 +306,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"From Adddress"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                setPickUpAddress(e.target.value);
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "85%",
@@ -195,7 +317,9 @@ export default function QuotePage() {
             />
             <CustomTextField
               placeHolder={"Instructions for Partner"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                setPickUpInstructions(e.target.value);
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "85%",
@@ -221,7 +345,9 @@ export default function QuotePage() {
             >
               <CustomTextField
                 placeHolder={"Contact Name"}
-                onChanged={(e) => {}}
+                onChanged={(e) => {
+                  setDropOffContactName(e.target.value);
+                }}
                 style={{
                   backgroundColor: "#FFECC0",
                   width: "85%",
@@ -231,7 +357,9 @@ export default function QuotePage() {
               <Spacer width={20} />
               <CustomTextField
                 placeHolder={"Contact Number"}
-                onChanged={(e) => {}}
+                onChanged={(e) => {
+                  setDropOffContactNumber(e.target.value);
+                }}
                 style={{
                   backgroundColor: "#FFECC0",
                   width: "85%",
@@ -241,7 +369,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"To Address"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                setDropOffAddress(e.target.value);
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "85%",
@@ -250,8 +380,9 @@ export default function QuotePage() {
             />
             <CustomTextField
               placeHolder={"Instructions for Partner"}
-              type="password"
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                setDropOffInstructions(e.target.value);
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "85%",
@@ -290,7 +421,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"How many items"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                setNoOfItems(parseInt(e.target.value));
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "40%",
@@ -304,7 +437,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"Maximum for selected Vehicle"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                setApproxWeight(e.target.value);
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "40%",
@@ -318,7 +453,9 @@ export default function QuotePage() {
             </div>
             <CustomTextField
               placeHolder={"Maximum 2 Haulers"}
-              onChanged={(e) => {}}
+              onChanged={(e) => {
+                setNoOfHaulers(parseInt(e.target.value));
+              }}
               style={{
                 backgroundColor: "#FFECC0",
                 width: "40%",
@@ -339,7 +476,14 @@ export default function QuotePage() {
                 label={"Select an Option"}
                 options={["Yes", "No"]}
                 selectedOption={"Select"}
-                onOptionChange={(option) => {}}
+                onOptionChange={(option) => {
+                  if (option === "Yes") {
+                    setParkingSpaceAvailable(true);
+                  }
+                  if (option === "No") {
+                    setParkingSpaceAvailable(false);
+                  }
+                }}
                 buttonId={"parkingSpaceAvailableDropButton"}
                 menuId={"parkingSpaceAvailableMenu"}
                 style={{
@@ -357,7 +501,6 @@ export default function QuotePage() {
             </div>
           </div>
           <div className="quoteItemSpecSectionRightSectionEntrycontainer">
-            <div></div>
             <div
               style={{
                 display: "flex",
@@ -403,7 +546,9 @@ export default function QuotePage() {
           }}
           variant="standard"
           placeholder="for example: a 10x10 Sofa"
-          onChange={(e) => {}}
+          onChange={(e) => {
+            setItemSpecs(e.target.value);
+          }}
         />
         <div
           style={{
@@ -415,7 +560,9 @@ export default function QuotePage() {
         <div className="alternateContactContainer">
           <CustomTextField
             placeHolder={"Receivers Name"}
-            onChanged={(e) => {}}
+            onChanged={(e) => {
+              setAlternateContactName(e.target.value);
+            }}
             style={{
               backgroundColor: "#FFECC0",
               width: "45%",
@@ -424,7 +571,9 @@ export default function QuotePage() {
           />
           <CustomTextField
             placeHolder={"Receivers Contact"}
-            onChanged={(e) => {}}
+            onChanged={(e) => {
+              setAlternateContactNumber(e.target.value);
+            }}
             style={{
               backgroundColor: "#FFECC0",
               width: "45%",
@@ -475,6 +624,10 @@ export default function QuotePage() {
         >
           No Excluded Items
           <Checkbox
+            value={noExcludedItems}
+            onChange={(e) => {
+              setNoExcludedItems(e.target.checked);
+            }}
             style={{
               color: "#FFD700",
             }}
@@ -497,7 +650,7 @@ export default function QuotePage() {
             cursor: "pointer",
           }}
           onClick={() => {
-            navigate("/billingPage");
+            handleSubmit();
           }}
         >
           Submit
