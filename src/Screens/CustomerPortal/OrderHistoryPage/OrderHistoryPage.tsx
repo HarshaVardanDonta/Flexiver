@@ -4,9 +4,38 @@ import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPor
 import OrderComponent from "../Components/OrderComponent/OrderComponent";
 import "./OrderHistoryPage.css";
 import Spacer from "../../../Components/MySpacer";
+import { useEffect, useState } from "react";
+import MySupClient from "../../../SupabaseClient";
+import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
 
 export default function OrderHistoryPage() {
   const orders = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [supabase] = useState(() => MySupClient());
+  const [records, setRecords] = useState<CustomerQuoteModel[]>([]);
+
+  useEffect(() => {
+    fetchDetails();
+  }, []);
+
+  const fetchDetails = async () => {
+    const session = await supabase.auth.getSession();
+
+    if (session.data.session) {
+      const { data, error } = await supabase
+        .from("CustomerQuote")
+        .select("*")
+        .eq("customerId", session.data.session?.user.id);
+
+      console.log(data);
+      console.log(typeof data);
+
+      if (data) {
+        setRecords(Object.values(data));
+        console.log("records: ", records);
+      }
+    }
+  };
+
   return (
     <div>
       <CustomerPortalHeader />
@@ -20,10 +49,10 @@ export default function OrderHistoryPage() {
           }}
         />
         <Spacer height={10} />
-        {orders.map((order, index) => {
+        {records?.map((item, index) => {
           return (
             <div key={index}>
-              <OrderComponent key={index} />
+              <OrderComponent key={index} data={item} />
               <Spacer height={10} />
             </div>
           );

@@ -23,7 +23,7 @@ const PinIcon = new Icon({
 
 export default function OrderTrackingPage() {
   const orderStatusArray = [
-    "Order Confirmed",
+    "Order Pending",
     "Partner Assigned",
     "Package Picked Up",
     "Package Enroute",

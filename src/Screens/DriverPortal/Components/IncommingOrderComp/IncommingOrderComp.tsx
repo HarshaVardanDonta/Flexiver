@@ -1,48 +1,59 @@
-import { FaMapMarker } from "react-icons/fa"
-import "./IncommingOrderComp.css"
+import { FaMapMarker } from "react-icons/fa";
+import "./IncommingOrderComp.css";
 import { FaMapPin } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import CustomerQuoteModel from "../../../../Model/CustomerQuoteModel";
 
-export default function IncommingOrderComp() {
-    const navigate = useNavigate();
-    return (
+interface incomingOrderProps {
+  order: CustomerQuoteModel;
+}
 
-        <div className="IncommingOrderComp" onClick={() => {
-            navigate("/deliveryStatusScreen", { state: { ongoing: true } })
-        }}>
-            <div className="customerDetailsSection">
-                <div >Customer Name: Some Name</div>
-                <div >Receiver Name: Some Name</div>
-                <div >Delivery Id: #DID-001-2024</div>
-            </div>
-            <hr />
-            <div className="customerDetailsSection">
-                <div >
-                    Item Dimensions: 3ft x 3ft x 3ft
-                </div>
-                <div >Item Weight: 4Kg</div>
-                <div >Quantity: 1Nos</div>
-            </div>
-            <hr />
-            <div className="customerDetailsSection">
-                <div className="incommingOrderCompAddress">
-                    <FaMapPin />
-                    <div>
-                        <b >Pick up Address</b>
-                        <br />
-                        jasdkjksdhfjkhjkdas askdj alsdjkh aslkdjksda
-                    </div>
-                </div>
+export default function IncommingOrderComp(props: incomingOrderProps) {
+  const navigate = useNavigate();
+  const { order } = props;
 
-                <div className="incommingOrderCompAddress">
-                    <FaMapMarker />
-                    <div>
-                        <b >Drop Address</b>
-                        <br />
-                        jasdkjksdhfjkhjkdas askdj alsdjkh aslkdjksda
-                    </div>
-                </div>
-            </div>
+  return (
+    <div
+      className="IncommingOrderComp"
+      onClick={() => {
+        navigate("/deliveryStatusScreen", {
+          state: { ongoing: true, order: order },
+        });
+      }}
+    >
+      <div className="customerDetailsSection">
+        <div>Customer Name: {order.pickUpContactName}</div>
+        <div>Receiver Name: {order.dropOffContactName}</div>
+        <div>
+          Delivery Id: #DID-{order.id}-{new Date().getFullYear()}
         </div>
-    );
+      </div>
+      <hr />
+      <div className="customerDetailsSection">
+        <div>Item Dimensions: {order.itemNote}</div>
+        <div>Item Weight: {order.approxWeight} Kg</div>
+        <div>Quantity: {order.noOfItems}</div>
+      </div>
+      <hr />
+      <div className="customerDetailsSection">
+        <div className="incommingOrderCompAddress">
+          <FaMapPin />
+          <div>
+            <b>Pick up Address</b>
+            <br />
+            {order.pickUpAddress}
+          </div>
+        </div>
+
+        <div className="incommingOrderCompAddress">
+          <FaMapMarker />
+          <div>
+            <b>Drop Address</b>
+            <br />
+            {order.dropOffAddress}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

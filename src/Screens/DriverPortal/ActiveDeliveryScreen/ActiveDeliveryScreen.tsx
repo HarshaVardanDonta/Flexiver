@@ -10,6 +10,8 @@ import pin from "../../../Assets/MapPin.png";
 import { useState } from "react";
 import ImagePreview from "../../../Components/ImagePreview";
 import Camera from "react-html5-camera-photo";
+import { useLocation } from "react-router-dom";
+import MySupClient from "../../../SupabaseClient";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
@@ -26,13 +28,28 @@ export default function ActiveDeliveryScreen() {
   const [openCamera, setOpenCamera] = useState(false);
   const [dataUri, setDataUri] = useState("");
 
-  const handleDropDownChange = (option: string) => {
+  const { state } = useLocation();
+  console.log(state);
+  const [supabase] = useState(() => MySupClient());
+
+  const handleDropDownChange = async (option: string) => {
     // Check if the selected option is 'Package Picked Up' or 'Package Delivered'
     if (option === "Package Picked Up" || option === "Package Delivered") {
       setShowCameraButton(true); // Show camera button
     } else {
       setShowCameraButton(false); // Hide camera button
     }
+
+    console.log(option);
+
+    const { error } = await supabase
+      .from("CustomerQuote")
+      .update({ orderStatus: option })
+      .eq("id", state.id);
+    if (error) {
+      alert(error.message);
+    }
+    console.log("updated");
   };
 
   const handleTakePhotoAnimationDone = (dataUri: any) => {
@@ -68,12 +85,17 @@ export default function ActiveDeliveryScreen() {
           <MapComp
             positionWithIconsArray={[
               {
-                lat: 51.511,
-                lng: -0.09,
+                lat: state.pickUpLat,
+                lng: state.pickUpLng,
                 marker: LocationIcon,
                 popup: "",
               },
-              { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" },
+              {
+                lat: state.dropOffLat,
+                lng: state.dropOffLng,
+                marker: PinIcon,
+                popup: "POP-UP",
+              },
             ]}
           />
         </div>
