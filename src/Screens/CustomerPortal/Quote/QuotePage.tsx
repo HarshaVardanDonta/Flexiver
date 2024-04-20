@@ -32,8 +32,16 @@ import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import MySupClient from "../../../SupabaseClient";
 import toast from "react-hot-toast";
+import PlacesInput from "../../../Components/Abcd";
+import { useLoadScript } from "@react-google-maps/api";
 
 export default function QuotePage() {
+   const { isLoaded } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU',
+    libraries: ["places"],
+  });
+  const [from, setFrom] = useState({lat: null, lng: null});
+  const [to, setTo] = useState({lat: null, lng: null});
   const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
   const [dropOffStairsCount, setDropOffStairsCount] = useState(0);
 
@@ -304,8 +312,8 @@ export default function QuotePage() {
                 }}
               />
             </div>
-            <CustomTextField
-              placeHolder={"From Adddress"}
+            {/* <CustomTextField
+              placeHolder={"From Address"}
               onChanged={(e) => {
                 setPickUpAddress(e.target.value);
               }}
@@ -314,7 +322,14 @@ export default function QuotePage() {
                 width: "85%",
                 border: "none",
               }}
-            />
+            /> */}
+            {
+              isLoaded ? (
+                <PlacesInput label="From Address" setSelected={setFrom}/>
+              ) : (
+                <div>Loading...</div>
+              )
+            }
             <CustomTextField
               placeHolder={"Instructions for Partner"}
               onChanged={(e) => {
@@ -367,7 +382,7 @@ export default function QuotePage() {
                 }}
               />
             </div>
-            <CustomTextField
+            {/* <CustomTextField
               placeHolder={"To Address"}
               onChanged={(e) => {
                 setDropOffAddress(e.target.value);
@@ -377,7 +392,14 @@ export default function QuotePage() {
                 width: "85%",
                 border: "none",
               }}
-            />
+            /> */}
+            {
+              isLoaded ? (
+                <PlacesInput label="To Address" setSelected={setTo}/>
+              ) : (
+                <div>Loading...</div>
+              )
+            }
             <CustomTextField
               placeHolder={"Instructions for Partner"}
               onChanged={(e) => {
@@ -399,6 +421,16 @@ export default function QuotePage() {
       </div>
       <div className="quoteItemSpecSection">
         <div className="quoteItemSpecSectionMapSection">
+          {(from.lat && from.lng) && (to.lat && to.lng) ? <MapComp
+            positionWithIconsArray={[
+              {
+                lat: from.lat,
+                lng: from.lng,
+                marker: LocationIcon,
+                popup: "",
+              },
+              { lat: to.lat, lng: to.lng, marker: PinIcon, popup: "" },
+            ]}/>:
           <MapComp
             positionWithIconsArray={[
               {
@@ -409,7 +441,7 @@ export default function QuotePage() {
               },
               { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" },
             ]}
-          />
+          />}
         </div>
         <div className="quoteItemSpecSectionRightSection">
           <Typography.Title level={4}>
