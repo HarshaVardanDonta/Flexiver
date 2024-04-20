@@ -27,6 +27,7 @@ class CustomerQuoteModel {
   pickUpLng!: number;
   dropOffLat!: number;
   dropOffLng!: number;
+  orderStatus!: string;
 
   fromJson(json: any) {
     this.id = json.id;
@@ -55,6 +56,7 @@ class CustomerQuoteModel {
     this.pickUpLng = json.pickUpLng;
     this.dropOffLat = json.dropOffLat;
     this.dropOffLng = json.dropOffLng;
+    this.orderStatus = json.orderStatus;
   }
 
   toJson() {
@@ -83,6 +85,7 @@ class CustomerQuoteModel {
       pickUpLng: this.pickUpLng,
       dropOffLat: this.dropOffLat,
       dropOffLng: this.dropOffLng,
+      orderStatus: this.orderStatus,
     };
   }
 }

@@ -106,6 +106,7 @@ export default function QuotePage() {
       quote.pickUpLng = from.lng;
       quote.dropOffLat = to.lat;
       quote.dropOffLng = to.lng;
+      quote.orderStatus = "off";
 
       console.log(quote);
       navigate("/billingPage", { state: { quote } });

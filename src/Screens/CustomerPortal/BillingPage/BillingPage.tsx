@@ -102,7 +102,7 @@ export default function BillingPage() {
 
         const res = await supabase
           .from("CustomerQuote")
-          .update({ paymentDone: true })
+          .update({ paymentDone: true, orderStatus: "Order Confirmed" })
           .eq("id", id_);
         console.log("payment done updated", res);
       } else {
