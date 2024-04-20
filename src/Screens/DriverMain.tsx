@@ -22,6 +22,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactGA from "react-ga";
 import { Toaster } from "react-hot-toast";
 import { createBrowserHistory } from 'history';
+import Places from "../Components/Abcd";
 
 const history = createBrowserHistory();
 ReactGA.initialize('G-176G8Q4X9H');
@@ -56,6 +57,7 @@ export default function DriverMain() {
           <Route path="/orderHistoryPage" element={<OrderHistoryPage />} />
           <Route path="/deliveryStatusScreen" element={<DeliveryStatusScreen />} />
           <Route path="/activeDeliveryScreen" element={<ActiveDeliveryScreen />} />
+          <Route path="/Abcd" element={<Places/>} />
         </Routes>
 
         <Toaster position="bottom-right" />
