@@ -23,6 +23,10 @@ class CustomerQuoteModel {
   alternateContactNumber!: string;
   customerId!: string;
   imageUrl!: string;
+  pickUpLat!: number;
+  pickUpLng!: number;
+  dropOffLat!: number;
+  dropOffLng!: number;
 
   fromJson(json: any) {
     this.id = json.id;
@@ -47,6 +51,10 @@ class CustomerQuoteModel {
     this.alternateContactNumber = json.alternateContactNumber;
     this.customerId = json.customerId;
     this.imageUrl = json.imageUrl;
+    this.pickUpLat = json.pickUpLat;
+    this.pickUpLng = json.pickUpLng;
+    this.dropOffLat = json.dropOffLat;
+    this.dropOffLng = json.dropOffLng;
   }
 
   toJson() {
@@ -71,6 +79,10 @@ class CustomerQuoteModel {
       alternateContactNumber: this.alternateContactNumber,
       customerId: this.customerId,
       imageUrl: this.imageUrl,
+      pickUpLat: this.pickUpLat,
+      pickUpLng: this.pickUpLng,
+      dropOffLat: this.dropOffLat,
+      dropOffLng: this.dropOffLng,
     };
   }
 }
