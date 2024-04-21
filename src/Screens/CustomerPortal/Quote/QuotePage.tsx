@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./QuotePage.css";
 import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPortalHeader";
 import VehicleComp from "../Components/VehicleComp/VehicleComp";
@@ -36,12 +36,12 @@ import PlacesInput from "../../../Components/Abcd";
 import { useLoadScript } from "@react-google-maps/api";
 
 export default function QuotePage() {
-   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU',
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
     libraries: ["places"],
   });
-  const [from, setFrom] = useState({lat: null, lng: null});
-  const [to, setTo] = useState({lat: null, lng: null});
+  const [from, setFrom] = useState({ lat: 0, lng: 0 });
+  const [to, setTo] = useState({ lat: 0, lng: 0 });
   const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
   const [dropOffStairsCount, setDropOffStairsCount] = useState(0);
 
@@ -88,12 +88,12 @@ export default function QuotePage() {
       quote.pickUpContactNumber = pickUpContactNumber;
       quote.pickUpAddress = pickUpAddress;
       quote.pickUpInstructions = pickUpInstructions;
-      quote.pickUpStairs = pickUpStairs;
+      quote.pickUpStairs = pickUpStairsCount;
       quote.dropOffContactName = dropOffContactName;
       quote.dropOffContactNumber = dropOffContactNumber;
       quote.dropOffAddress = dropOffAddress;
       quote.dropOffInstructions = dropOffInstructions;
-      quote.dropOffStairs = dropOffStairs;
+      quote.dropOffStairs = dropOffStairsCount;
       quote.noOfItems = noOfItems;
       quote.approxWeight = approxWeight;
       quote.noOfHaulers = noOfHaulers;
@@ -102,6 +102,12 @@ export default function QuotePage() {
       quote.alternateContactName = alternateContactName;
       quote.alternateContactNumber = alternateContactNumber;
       quote.imageUrl = dataUri;
+      quote.pickUpLat = from.lat;
+      quote.pickUpLng = from.lng;
+      quote.dropOffLat = to.lat;
+      quote.dropOffLng = to.lng;
+      quote.orderStatus = "off";
+
       console.log(quote);
       navigate("/billingPage", { state: { quote } });
 
@@ -323,13 +329,16 @@ export default function QuotePage() {
                 border: "none",
               }}
             /> */}
-            {
-              isLoaded ? (
-                <PlacesInput label="From Address" setSelected={setFrom}/>
-              ) : (
-                <div>Loading...</div>
-              )
-            }
+            {isLoaded ? (
+              <PlacesInput
+                label="From Address"
+                setSelected={setFrom}
+                setPickUpAddress={setPickUpAddress}
+                to={true}
+              />
+            ) : (
+              <div>Loading...</div>
+            )}
             <CustomTextField
               placeHolder={"Instructions for Partner"}
               onChanged={(e) => {
@@ -393,13 +402,16 @@ export default function QuotePage() {
                 border: "none",
               }}
             /> */}
-            {
-              isLoaded ? (
-                <PlacesInput label="To Address" setSelected={setTo}/>
-              ) : (
-                <div>Loading...</div>
-              )
-            }
+            {isLoaded ? (
+              <PlacesInput
+                label="To Address"
+                setSelected={setTo}
+                setDropOffAddress={setDropOffAddress}
+                to={false}
+              />
+            ) : (
+              <div>Loading...</div>
+            )}
             <CustomTextField
               placeHolder={"Instructions for Partner"}
               onChanged={(e) => {
@@ -421,27 +433,31 @@ export default function QuotePage() {
       </div>
       <div className="quoteItemSpecSection">
         <div className="quoteItemSpecSectionMapSection">
-          {(from.lat && from.lng) && (to.lat && to.lng) ? <MapComp
-            positionWithIconsArray={[
-              {
-                lat: from.lat,
-                lng: from.lng,
-                marker: LocationIcon,
-                popup: "",
-              },
-              { lat: to.lat, lng: to.lng, marker: PinIcon, popup: "" },
-            ]}/>:
-          <MapComp
-            positionWithIconsArray={[
-              {
-                lat: 51.511,
-                lng: -0.09,
-                marker: LocationIcon,
-                popup: "",
-              },
-              { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" },
-            ]}
-          />}
+          {from.lat && from.lng && to.lat && to.lng ? (
+            <MapComp
+              positionWithIconsArray={[
+                {
+                  lat: from.lat,
+                  lng: from.lng,
+                  marker: LocationIcon,
+                  popup: "",
+                },
+                { lat: to.lat, lng: to.lng, marker: PinIcon, popup: "" },
+              ]}
+            />
+          ) : (
+            <MapComp
+              positionWithIconsArray={[
+                {
+                  lat: 51.511,
+                  lng: -0.09,
+                  marker: LocationIcon,
+                  popup: "",
+                },
+                { lat: 51.495, lng: -0.055, marker: PinIcon, popup: "POP-UP" },
+              ]}
+            />
+          )}
         </div>
         <div className="quoteItemSpecSectionRightSection">
           <Typography.Title level={4}>
