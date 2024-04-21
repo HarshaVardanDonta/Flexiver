@@ -60,13 +60,15 @@ export default function BillingPage() {
       quote.customerId = session.data.session.user?.id;
 
       //insert the quote to DB
-      const { data, error } = await supabase
+      const { data: insertedData, error } = await supabase
         .from("CustomerQuote")
-        .insert(quote);
+        .insert(quote)
+        .select();
 
-      console.log(data);
-      if (error != null) {
-        console.log("data: ", data);
+      console.log(insertedData);
+      if (error == null) {
+        console.log("data: ", insertedData);
+        setId(insertedData[0].id);
         toast.success("Quote added successfully");
         setDialogOpen(true);
       } else {
@@ -87,7 +89,7 @@ export default function BillingPage() {
       const { data, error } = await supabase
         .from("CustomerQuote")
         .select("id")
-        .eq("customerId", session.data.session.user?.id);
+        .eq("id", id);
 
       if (error) {
         alert(error.message);
@@ -100,7 +102,7 @@ export default function BillingPage() {
 
         const res = await supabase
           .from("CustomerQuote")
-          .update({ paymentDone: true })
+          .update({ paymentDone: true, orderStatus: "Order Confirmed" })
           .eq("id", id_);
         console.log("payment done updated", res);
       } else {
@@ -119,22 +121,41 @@ export default function BillingPage() {
           <h2>Order Summary</h2>
           <div className="mapAndDescription">
             <div className="summaryMap">
-              <MapComp
-                positionWithIconsArray={[
-                  {
-                    lat: 51.511,
-                    lng: -0.09,
-                    marker: LocationIcon,
-                    popup: "",
-                  },
-                  {
-                    lat: 51.495,
-                    lng: -0.055,
-                    marker: PinIcon,
-                    popup: "POP-UP",
-                  },
-                ]}
-              />
+              {quote ? (
+                <MapComp
+                  positionWithIconsArray={[
+                    {
+                      lat: state.quote?.pickUpLat,
+                      lng: state.quote?.pickUpLng,
+                      marker: LocationIcon,
+                      popup: "",
+                    },
+                    {
+                      lat: state.quote?.dropOffLat,
+                      lng: state.quote?.dropOffLng,
+                      marker: PinIcon,
+                      popup: "POP-UP",
+                    },
+                  ]}
+                />
+              ) : (
+                <MapComp
+                  positionWithIconsArray={[
+                    {
+                      lat: 51.511,
+                      lng: -0.09,
+                      marker: LocationIcon,
+                      popup: "",
+                    },
+                    {
+                      lat: 51.495,
+                      lng: -0.055,
+                      marker: PinIcon,
+                      popup: "POP-UP",
+                    },
+                  ]}
+                />
+              )}
             </div>
             <div className="description">
               <div>
