@@ -4,9 +4,22 @@ import mappin from "../../../Assets/MapPin.png";
 import locationpin from "../../../Assets/Location.png";
 import { useEffect, useState } from "react";
 import CustomTextField from "../../../Components/CustomTextField";
-import { Box, CSSObject, CssBaseline, IconButton, List, ListItem, ListItemButton, ListItemText, Theme, Toolbar, styled, useTheme } from "@mui/material";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import MuiDrawer from '@mui/material/Drawer';
+import {
+  Box,
+  CSSObject,
+  CssBaseline,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Theme,
+  Toolbar,
+  styled,
+  useTheme,
+} from "@mui/material";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import MuiDrawer from "@mui/material/Drawer";
 import React from "react";
 import { FaArrowLeft, FaBars, FaBreadSlice } from "react-icons/fa6";
 import Logo from "../../../Assets/whiteLogo.png";
@@ -16,35 +29,38 @@ import OrderHistoryComp from "../Components/OrderHistoryComp/OrderHistoryComp";
 import MySupClient from "../../../SupabaseClient";
 import DriverDetails from "../../../Model/DriverDetailsModel";
 import ButtonComp from "../../../Components/ButtonComp";
-import "../../DriverDashboard.css"
+import "../../DriverDashboard.css";
 import CustomDropDown from "../../CustomerPortal/Components/CustomDropDown/CustomDropDown";
 import CustomerPortalHeader from "../../CustomerPortal/Components/CustomerPortalHeader/CustomerPortalHeader";
+import IncomingOrders from "../IncomingOrders";
+import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
+import OngoingOrders from "../OngoingOrders";
 const drawerWidth = 260;
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
-  width: '0px',
-  [theme.breakpoints.up('sm')]: {
-    width: '0px',
+  overflowX: "hidden",
+  width: "0px",
+  [theme.breakpoints.up("sm")]: {
+    width: "0px",
   },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-start",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -55,40 +71,39 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
   }),
-);
-
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
 
 export default function DriverProfileScreen() {
   const [selectedId, setSelectedId] = useState(1);
@@ -104,62 +119,134 @@ export default function DriverProfileScreen() {
   };
 
   const [supabase] = useState(() => MySupClient());
-  var [driver, setDriver] = useState(new DriverDetails())
-  var [editDriver, setEditDriver] = useState(new DriverDetails())
-  var [isVerified, setIsVerified] = useState(false)
-  var [isRejected, setIsRejected] = useState(false)
-  var [underReview, setUnderReview] = useState(false)
+  var [driver, setDriver] = useState(new DriverDetails());
+  var [editDriver, setEditDriver] = useState(new DriverDetails());
+  var [isVerified, setIsVerified] = useState(false);
+  var [isRejected, setIsRejected] = useState(false);
+  var [underReview, setUnderReview] = useState(false);
+  var [ongoingOrders, setOngoingOrders] = useState<CustomerQuoteModel[]>([]);
+  var [historyOrders, setHistoryOrders] = useState<CustomerQuoteModel[]>([]);
 
   async function getDriverRecord() {
-    const session = await supabase.auth.getSession()
+    const session = await supabase.auth.getSession();
 
-    const record = await supabase.from('DriverDetails').select('*').eq('userId', session.data.session?.user?.id)
+    const record = await supabase
+      .from("DriverDetails")
+      .select("*")
+      .eq("userId", session.data.session?.user?.id);
 
     if (record && record.data && record.data[0]) {
-      setDriver(record.data[0])
-      editDriver = record.data[0]
-      if (record.data[0].rejectionReason === null || record.data[0].rejectionReason === '') {
-        setIsRejected(false)
+      setDriver(record.data[0]);
+      console.log(driver);
+      editDriver = record.data[0];
+      if (
+        record.data[0].rejectionReason === null ||
+        record.data[0].rejectionReason === ""
+      ) {
+        setIsRejected(false);
       } else {
-        setIsRejected(true)
+        setIsRejected(true);
       }
       if (record.data[0].isVerified) {
-        setIsVerified(true)
+        setIsVerified(true);
       }
     }
   }
 
-  async function updateDriver() {
-    if (editDriver.mobileNo === '' || editDriver.subUrb === '' || editDriver.city === '' || editDriver.vehicleMake === '' || editDriver.vehicleModel === '' || editDriver.vehicleYear === '' || editDriver.availability === '' || editDriver.canYouLiftAndGroove === '' || editDriver.flexerTale === '' || editDriver.flexerStyle === '' || editDriver.lastDanceMove === '') {
-      console.log(editDriver)
-      alert('Please fill all the fields')
-      return
+  const getOngoingOrders = async () => {
+    try {
+      const session = await supabase.auth.getSession();
+
+      if (session) {
+        const { data, error } = await supabase
+          .from("CustomerQuote")
+          .select("*")
+          .eq("driverId", driver.driverId)
+          .eq("orderStatus", "Partner Assigned"); //this can be any status except delivered
+
+        console.log("data", data, "error", error);
+
+        if (error) {
+          console.error("Error fetching ongoing orders:", error.message);
+        } else {
+          console.log("Ongoing orders:", data);
+          setOngoingOrders(data);
+        }
+      } else {
+        console.log("User is not authenticated. Please log in.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
-    console.log(editDriver.toJson())
-    const session = await supabase.auth.getSession()
-    var { data, error } = await supabase.from('DriverDetails').update(editDriver.toJson()).eq('userId', session.data.session?.user.id)
+  };
+
+  const getOrdersHistory = async () => {
+    const { data, error } = await supabase
+      .from("CustomerQuote")
+      .select("*")
+      .eq("driverId", driver.driverId)
+      .eq("orderStatus", "Package Delivered");
+
     if (error) {
-      alert(error.message)
-      return
+      console.error("Error fetching ongoing orders:", error.message);
+    } else {
+      console.log("all orders:", data);
+      setHistoryOrders(data);
     }
-    else {
-      alert('Updated Successfully')
+  };
+
+  async function updateDriver() {
+    if (
+      editDriver.mobileNo === "" ||
+      editDriver.subUrb === "" ||
+      editDriver.city === "" ||
+      editDriver.vehicleMake === "" ||
+      editDriver.vehicleModel === "" ||
+      editDriver.vehicleYear === "" ||
+      editDriver.availability === "" ||
+      editDriver.canYouLiftAndGroove === "" ||
+      editDriver.flexerTale === "" ||
+      editDriver.flexerStyle === "" ||
+      editDriver.lastDanceMove === ""
+    ) {
+      console.log(editDriver);
+      alert("Please fill all the fields");
+      return;
+    }
+    console.log(editDriver.toJson());
+    const session = await supabase.auth.getSession();
+    var { data, error } = await supabase
+      .from("DriverDetails")
+      .update(editDriver.toJson())
+      .eq("userId", session.data.session?.user.id);
+    if (error) {
+      alert(error.message);
+      return;
+    } else {
+      alert("Updated Successfully");
     }
 
     getDriverRecord();
-
   }
   useEffect(() => {
-    getDriverRecord()
-  }, [])
+    getDriverRecord();
+  }, []);
+
+  useEffect(() => {
+    getOngoingOrders();
+    getOrdersHistory();
+  }, [driver, selectedId]);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <CustomerPortalHeader driverSide={true} onMenuClick={() => {
-          handleDrawerOpen()
-        }} />
+        <CustomerPortalHeader
+          driverSide={true}
+          onMenuClick={() => {
+            handleDrawerOpen();
+          }}
+        />
         {/* <Toolbar sx={{
           backgroundColor: "#323232",
           width: "100%",
@@ -186,21 +273,36 @@ export default function DriverProfileScreen() {
           </IconButton>
         </DrawerHeader>
         <List>
-          {['Dashboard', 'Incomming Orders', 'Order History', 'Profile'].map((text, index) => (
-            <ListItem onClick={() => {
-              setSelectedId(index + 1);
-            }} key={text} disablePadding sx={{ display: 'block', backgroundColor: selectedId == index + 1 ? '#323232' : 'white', borderRadius: '15px', margin: '6px', width: '240px', color: selectedId == index + 1 ? "white" : "black" }}>
-              <ListItemButton
+          {["Dashboard", "Incomming Orders", "Order History", "Profile"].map(
+            (text, index) => (
+              <ListItem
+                onClick={() => {
+                  setSelectedId(index + 1);
+                }}
+                key={text}
+                disablePadding
                 sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  display: "block",
+                  backgroundColor:
+                    selectedId == index + 1 ? "#323232" : "white",
+                  borderRadius: "15px",
+                  margin: "6px",
+                  width: "240px",
+                  color: selectedId == index + 1 ? "white" : "black",
                 }}
               >
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            )
+          )}
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -216,247 +318,309 @@ export default function DriverProfileScreen() {
               }}
             >
               {/* Dashboard */}
-              {selectedId == 1 && <>
-                <div>
+              {selectedId == 1 && (
+                <>
                   <div>
-                    <div
-                      style={{ display: "flex", alignItems: "center", gap: "0.5vw" }}
-                    >
-                      <img
-                        src={catprofile}
-                        alt="profilePic"
-                        height="45px"
-                        width="45px"
-                      />
-                      <div style={{ width: "100%" }}>
-                        <div style={{ fontSize: "20px", fontWeight: "bolder" }}>
-                          User Name
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <div>Driver ID: # FV-26032024-0004</div>
-                          <div>Current Earnings: $300</div>
+                    <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5vw",
+                        }}
+                      >
+                        <img
+                          src={catprofile}
+                          alt="profilePic"
+                          height="45px"
+                          width="45px"
+                        />
+                        <div style={{ width: "100%" }}>
+                          <div
+                            style={{ fontSize: "20px", fontWeight: "bolder" }}
+                          >
+                            {driver.firstName + " " + driver.lastName}
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div>Driver ID: # {driver.driverId}</div>
+                            <div>Current Earnings: $0</div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <hr />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginTop: "7vh",
+                        padding: "0.5vh",
+                      }}
+                    >
+                      <div>Ongoing Delivery</div>
+                      <div>Status: Order Confirmed</div>
+                    </div>
+                    <div>
+                      {ongoingOrders?.map((order, index) => (
+                        <div key={index}>
+                          <OngoingOrders order={order} />
+                          <Spacer height={20} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <hr />
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginTop: "7vh",
-                      padding: "0.5vh",
-                    }}
-                  >
-                    <div>Ongoing Delivery</div>
-                    <div>Status: Order Confirmed</div>
-                  </div>
-                  <IncommingOrderComp />
-                </div>
 
-                <div>
-                  <div style={{ marginBottom: "2vh" }}>
-                    Number of Successful Deliveries: 30
-                  </div>
-                  <div style={{ marginBottom: "4vh" }}>No Of Complains: 0</div>
+                  <div>
+                    <div style={{ marginBottom: "2vh" }}>
+                      Number of Successful Deliveries: 30
+                    </div>
+                    <div style={{ marginBottom: "4vh" }}>
+                      No Of Complains: 0
+                    </div>
 
-                  <a href="" style={{ color: "#0085FF" }}>
-                    Request Vehicle Change
-                  </a>
-                </div>
-              </>}
+                    <a href="" style={{ color: "#0085FF" }}>
+                      Request Vehicle Change
+                    </a>
+                  </div>
+                </>
+              )}
               {/* Incomming Orders */}
-              {selectedId == 2 && <>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: "3vh",
-                    padding: "0.5vh",
-                  }}
-                >
-                  <b>Available Deliveries</b>
-                  <b>Sort By</b>
-                </div>
-                <IncommingOrderComp />
-                <Spacer height={20} />
-                <IncommingOrderComp />
-                <Spacer height={20} />
-                <IncommingOrderComp />
-                <Spacer height={20} />
-                <IncommingOrderComp />
-                <Spacer height={20} />
-                <IncommingOrderComp />
-              </>
-              }
+              {selectedId == 2 && <IncomingOrders />}
               {/* Order History */}
-              {selectedId == 3 && <>
-                <div>
+              {selectedId == 3 && (
+                <>
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "3vh",
+                        padding: "0.5vh",
+                      }}
+                    >
+                      <b>Order History</b>
+                      <b>Sort By</b>
+                    </div>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: "3vh",
-                      padding: "0.5vh",
-                    }}
-                  >
-                    <b>Order History</b>
-                    <b>Sort By</b>
+                    <div>
+                      {historyOrders?.map((order, index) => (
+                        <div key={index}>
+                          <OrderHistoryComp order={order} />
+                          <Spacer height={20} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-
-                  <OrderHistoryComp />
-                  <Spacer height={20} />
-                  <OrderHistoryComp />
-                  <Spacer height={20} />
-                  <OrderHistoryComp />
-
-
-                </div>
-              </>}
+                </>
+              )}
               {/* Profile */}
-              {
-                selectedId == 4 && <>
+              {selectedId == 4 && (
+                <>
                   <div className="dashboard">
                     <div className="dashboard-content">
-                      <h2>{driver.firstName} {driver.lastName}</h2>
-                      <p style={{
-                        color: 'grey',
-                        fontSize: '20px',
-                        fontWeight: 'bold'
-                      }}>ABN Number: {driver.aBNNo}</p>
+                      <h2>
+                        {driver.firstName} {driver.lastName}
+                      </h2>
+                      <p
+                        style={{
+                          color: "grey",
+                          fontSize: "20px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ABN Number: {driver.aBNNo}
+                      </p>
                       <div className="status">
-                        {
-                          !isVerified &&
+                        {!isVerified && (
                           <p>Your profile is not verified yet!</p>
-                        }
-                        {
-                          isVerified &&
-                          <p style={{
-                            color: 'green'
-                          }}>Verified Profile</p>
-                        }
-                        {isRejected &&
+                        )}
+                        {isVerified && (
+                          <p
+                            style={{
+                              color: "green",
+                            }}
+                          >
+                            Verified Profile
+                          </p>
+                        )}
+                        {isRejected && (
                           <>
-                            <h3 style={{
-                              color: 'red',
-                              fontWeight: 'bold'
-                            }}>Reason for Rejection: {driver.rejectionReason}</h3>
+                            <h3
+                              style={{
+                                color: "red",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Reason for Rejection: {driver.rejectionReason}
+                            </h3>
                           </>
-                        }
+                        )}
                       </div>
                       <div className="dash-grid">
                         <div className="dash-left">
                           Driver Id : {driver.driverId}
-                          <input name="test" type="text" placeholder='Email' disabled={isRejected} defaultValue={driver.email} />
-                          <input type="text" placeholder='Phone No' defaultValue={driver.mobileNo} onChange={
-                            (e) => {
+                          <input
+                            name="test"
+                            type="text"
+                            placeholder="Email"
+                            disabled={isRejected}
+                            defaultValue={driver.email}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Phone No"
+                            defaultValue={driver.mobileNo}
+                            onChange={(e) => {
                               editDriver.mobileNo = e.target.value;
-                            }
-                          } />
-                          <input type="text" placeholder='Suburb' defaultValue={driver.subUrb} onChange={
-                            (e) => {
+                            }}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Suburb"
+                            defaultValue={driver.subUrb}
+                            onChange={(e) => {
                               editDriver.subUrb = e.target.value;
-                            }
-                          } />
-                          <input type="text" placeholder='City' defaultValue={driver.city} onChange={
-                            (e) => {
+                            }}
+                          />
+                          <input
+                            type="text"
+                            placeholder="City"
+                            defaultValue={driver.city}
+                            onChange={(e) => {
                               editDriver.city = e.target.value;
-                            }
-                          } />
+                            }}
+                          />
                         </div>
                         <br />
                         <br />
                         <div className="dash-right">
-                          <select name="type" defaultValue={driver.vehicleType} onChange={
-                            (e) => {
+                          <select
+                            name="type"
+                            defaultValue={driver.vehicleType}
+                            onChange={(e) => {
                               editDriver.vehicleType = e.target.value;
-                            }
-                          }>
-                            <option value="Select Vehicle">Select Vehicle</option>
+                            }}
+                          >
+                            <option value="Select Vehicle">
+                              Select Vehicle
+                            </option>
                             <option value="2 Wheeler">2 Wheeler</option>
                             <option value="UTE / Van">UTE / Van</option>
-                            <option value="Refregerated Van">Refregerated Van</option>
+                            <option value="Refregerated Van">
+                              Refregerated Van
+                            </option>
                           </select>
                           {/* <input type="text" placeholder='Vehicle Type' defaultValue={driver.vehicleType} /> */}
-                          <input type="text" placeholder='Vehicle Make' defaultValue={driver.vehicleMake} onChange={
-                            (e) => {
+                          <input
+                            type="text"
+                            placeholder="Vehicle Make"
+                            defaultValue={driver.vehicleMake}
+                            onChange={(e) => {
                               editDriver.vehicleMake = e.target.value;
-                            }
-                          } />
-                          <input type="text" placeholder='Vehicle Model' defaultValue={driver.vehicleModel} onChange={
-                            (e) => {
+                            }}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Vehicle Model"
+                            defaultValue={driver.vehicleModel}
+                            onChange={(e) => {
                               editDriver.vehicleModel = e.target.value;
-                            }
-                          } />
-                          <input type="text" placeholder='Vehicle Year' defaultValue={driver.vehicleYear} onChange={
-                            (e) => {
+                            }}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Vehicle Year"
+                            defaultValue={driver.vehicleYear}
+                            onChange={(e) => {
                               editDriver.vehicleYear = e.target.value;
-                            }
-                          } />
+                            }}
+                          />
                         </div>
                       </div>
 
-                      <p className='title'>APPLICATION</p>
-                      <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.availability} onChange={
-                        (e) => {
+                      <p className="title">APPLICATION</p>
+                      <textarea
+                        name=""
+                        rows={10}
+                        placeholder="Answer"
+                        defaultValue={driver.availability}
+                        onChange={(e) => {
                           editDriver.availability = e.target.value;
-                        }
-                      } />
-                      <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.canYouLiftAndGroove} onChange={
-                        (e) => {
+                        }}
+                      />
+                      <textarea
+                        name=""
+                        rows={10}
+                        placeholder="Answer"
+                        defaultValue={driver.canYouLiftAndGroove}
+                        onChange={(e) => {
                           editDriver.canYouLiftAndGroove = e.target.value;
-                        }
-                      } />
+                        }}
+                      />
 
-                      <p className='title'>PARTY PREFERENCES</p>
-                      <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.flexerTale} onChange={
-                        (e) => {
+                      <p className="title">PARTY PREFERENCES</p>
+                      <textarea
+                        name=""
+                        rows={10}
+                        placeholder="Answer"
+                        defaultValue={driver.flexerTale}
+                        onChange={(e) => {
                           editDriver.flexerTale = e.target.value;
-                        }
-                      } />
-                      <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.flexerStyle} onChange={
-                        (e) => {
+                        }}
+                      />
+                      <textarea
+                        name=""
+                        rows={10}
+                        placeholder="Answer"
+                        defaultValue={driver.flexerStyle}
+                        onChange={(e) => {
                           editDriver.flexerStyle = e.target.value;
-                        }
-                      } />
+                        }}
+                      />
 
-                      <p className='title'>LAST DANCE MOVE</p>
-                      <textarea name="" rows={10} placeholder='Answer' defaultValue={driver.lastDanceMove} onChange={
-                        (e) => {
+                      <p className="title">LAST DANCE MOVE</p>
+                      <textarea
+                        name=""
+                        rows={10}
+                        placeholder="Answer"
+                        defaultValue={driver.lastDanceMove}
+                        onChange={(e) => {
                           editDriver.lastDanceMove = e.target.value;
-                        }
-                      } />
+                        }}
+                      />
                       <br />
                       <br />
                       <br />
-                      <ButtonComp style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        backgroundColor: "#D69F29",
-                        color: "white",
-                        width: "50%",
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                        borderRadius: "10px",
-                        height: "40px",
-                      }} text="Update" onClick={async () => {
-                        editDriver.isVerified = false
-                        await updateDriver()
-                      }} />
+                      <ButtonComp
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          backgroundColor: "#D69F29",
+                          color: "white",
+                          width: "50%",
+                          fontWeight: "bold",
+                          fontSize: "20px",
+                          borderRadius: "10px",
+                          height: "40px",
+                        }}
+                        text="Update"
+                        onClick={async () => {
+                          editDriver.isVerified = false;
+                          await updateDriver();
+                        }}
+                      />
                     </div>
                   </div>
                 </>
-              }
+              )}
             </div>
           </div>
         </div>

@@ -1,14 +1,13 @@
 import { FaMapMarker } from "react-icons/fa";
-import "./IncommingOrderComp.css";
+import "./Components/IncommingOrderComp/IncommingOrderComp.css";
 import { FaMapPin } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import CustomerQuoteModel from "../../../../Model/CustomerQuoteModel";
-
-interface incomingOrderProps {
+import CustomerQuoteModel from "../../Model/CustomerQuoteModel";
+interface ongoingProps {
   order: CustomerQuoteModel;
 }
 
-export default function IncommingOrderComp(props: incomingOrderProps) {
+const OngoingOrders = (props: ongoingProps) => {
   const navigate = useNavigate();
   const { order } = props;
 
@@ -16,9 +15,7 @@ export default function IncommingOrderComp(props: incomingOrderProps) {
     <div
       className="IncommingOrderComp"
       onClick={() => {
-        navigate("/deliveryStatusScreen", {
-          state: { ongoing: true, order: order },
-        });
+        navigate("/activeDeliveryScreen", { state: order });
       }}
     >
       <div className="customerDetailsSection">
@@ -56,4 +53,6 @@ export default function IncommingOrderComp(props: incomingOrderProps) {
       </div>
     </div>
   );
-}
+};
+
+export default OngoingOrders;

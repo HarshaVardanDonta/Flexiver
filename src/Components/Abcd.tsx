@@ -76,10 +76,9 @@
 //   );
 // };
 
-
-import React from 'react'
-import CustomTextField from './CustomTextField'
-import { useState } from 'react'
+import React from "react";
+import CustomTextField from "./CustomTextField";
+import { useState } from "react";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -95,11 +94,10 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
-const PlacesInput = (props:any) => {
-  const { label, setSelected } = props;
-  const [pickUpAddress, setPickUpAddress] = React.useState("");
+const PlacesInput = (props: any) => {
+  const { label, setSelected, setPickUpAddress, setDropOffAddress, to } = props;
 
-    const {
+  const {
     ready,
     value,
     setValue,
@@ -107,47 +105,51 @@ const PlacesInput = (props:any) => {
     clearSuggestions,
   } = usePlacesAutocomplete();
 
-  const handleSelect = async (address:any) => {
+  const handleSelect = async (address: any) => {
     setValue(address, false);
     clearSuggestions();
 
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
-    setSelected({ lat:lat, lng:lng });
+    setSelected({ lat: lat, lng: lng });
+
+    if (to) {
+      setPickUpAddress(address);
+    } else {
+      setDropOffAddress(address);
+    }
   };
 
   return (
     <>
-       <Combobox onSelect={handleSelect} style={{}}>
-       <ComboboxInput
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        disabled={!ready}
-        className="combobox-input"
-        placeholder={label}
-        style={
-          {
+      <Combobox onSelect={handleSelect} style={{}}>
+        <ComboboxInput
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          disabled={!ready}
+          className="combobox-input"
+          placeholder={label}
+          style={{
             backgroundColor: "#FFECC0",
             width: "80%",
             border: "none",
-            padding:"auto 20px",
-            borderRadius:"15px",
-            display:"flex",
-            justifyContent:"left"
-          }
-        }
-      />
-      <ComboboxPopover>
-        <ComboboxList>
-          {status === "OK" &&
-            data.map(({ place_id, description }) => (
-              <ComboboxOption key={place_id} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
-    </Combobox>
+            padding: "auto 20px",
+            borderRadius: "15px",
+            display: "flex",
+            justifyContent: "left",
+          }}
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ place_id, description }) => (
+                <ComboboxOption key={place_id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
 
-{/*     
+      {/*     
                 <CustomTextField
               placeHolder={label}
               onChanged={(e) => {
@@ -160,7 +162,7 @@ const PlacesInput = (props:any) => {
               }}
             /> */}
     </>
-  )
-}
+  );
+};
 
-export default PlacesInput
+export default PlacesInput;
