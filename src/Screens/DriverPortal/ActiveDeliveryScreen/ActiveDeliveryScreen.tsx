@@ -31,6 +31,7 @@ export default function ActiveDeliveryScreen() {
   const { state } = useLocation();
   console.log(state);
   const [supabase] = useState(() => MySupClient());
+  const [status, setStatus] = useState("");
 
   const handleDropDownChange = async (option: string) => {
     // Check if the selected option is 'Package Picked Up' or 'Package Delivered'
@@ -41,6 +42,7 @@ export default function ActiveDeliveryScreen() {
     }
 
     console.log(option);
+    setStatus(option);
 
     const { error } = await supabase
       .from("CustomerQuote")
@@ -115,6 +117,7 @@ export default function ActiveDeliveryScreen() {
         </div>
         <div className="dropContainer">
           <h3>Current Delivery Status: &nbsp;</h3>
+          <p>{status}</p>
           <CustomDropDown
             style={{
               backgroundColor: "#323232",
