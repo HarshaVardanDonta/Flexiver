@@ -33,6 +33,8 @@ import "../../DriverDashboard.css";
 import CustomDropDown from "../../CustomerPortal/Components/CustomDropDown/CustomDropDown";
 import CustomerPortalHeader from "../../CustomerPortal/Components/CustomerPortalHeader/CustomerPortalHeader";
 import IncomingOrders from "../IncomingOrders";
+import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
+import OngoingOrders from "../OngoingOrders";
 const drawerWidth = 260;
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -122,6 +124,8 @@ export default function DriverProfileScreen() {
   var [isVerified, setIsVerified] = useState(false);
   var [isRejected, setIsRejected] = useState(false);
   var [underReview, setUnderReview] = useState(false);
+  var [ongoingOrders, setOngoingOrders] = useState<CustomerQuoteModel[]>([]);
+  var [historyOrders, setHistoryOrders] = useState<CustomerQuoteModel[]>([]);
 
   async function getDriverRecord() {
     const session = await supabase.auth.getSession();
@@ -133,6 +137,7 @@ export default function DriverProfileScreen() {
 
     if (record && record.data && record.data[0]) {
       setDriver(record.data[0]);
+      console.log(driver);
       editDriver = record.data[0];
       if (
         record.data[0].rejectionReason === null ||
@@ -147,6 +152,48 @@ export default function DriverProfileScreen() {
       }
     }
   }
+
+  const getOngoingOrders = async () => {
+    try {
+      const session = await supabase.auth.getSession();
+
+      if (session) {
+        const { data, error } = await supabase
+          .from("CustomerQuote")
+          .select("*")
+          .eq("driverId", driver.driverId)
+          .eq("orderStatus", "Partner Assigned"); //this can be any status except delivered
+
+        console.log("data", data, "error", error);
+
+        if (error) {
+          console.error("Error fetching ongoing orders:", error.message);
+        } else {
+          console.log("Ongoing orders:", data);
+          setOngoingOrders(data);
+        }
+      } else {
+        console.log("User is not authenticated. Please log in.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const getOrdersHistory = async () => {
+    const { data, error } = await supabase
+      .from("CustomerQuote")
+      .select("*")
+      .eq("driverId", driver.driverId)
+      .eq("orderStatus", "Package Delivered");
+
+    if (error) {
+      console.error("Error fetching ongoing orders:", error.message);
+    } else {
+      console.log("all orders:", data);
+      setHistoryOrders(data);
+    }
+  };
 
   async function updateDriver() {
     if (
@@ -184,6 +231,11 @@ export default function DriverProfileScreen() {
   useEffect(() => {
     getDriverRecord();
   }, []);
+
+  useEffect(() => {
+    getOngoingOrders();
+    getOrdersHistory();
+  }, [driver, selectedId]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -287,7 +339,7 @@ export default function DriverProfileScreen() {
                           <div
                             style={{ fontSize: "20px", fontWeight: "bolder" }}
                           >
-                            User Name
+                            {driver.firstName + " " + driver.lastName}
                           </div>
                           <div
                             style={{
@@ -296,8 +348,8 @@ export default function DriverProfileScreen() {
                               justifyContent: "space-between",
                             }}
                           >
-                            <div>Driver ID: # FV-26032024-0004</div>
-                            <div>Current Earnings: $300</div>
+                            <div>Driver ID: # {driver.driverId}</div>
+                            <div>Current Earnings: $0</div>
                           </div>
                         </div>
                       </div>
@@ -315,7 +367,14 @@ export default function DriverProfileScreen() {
                       <div>Ongoing Delivery</div>
                       <div>Status: Order Confirmed</div>
                     </div>
-                    {/* <IncommingOrderComp /> */}
+                    <div>
+                      {ongoingOrders?.map((order, index) => (
+                        <div key={index}>
+                          <OngoingOrders order={order} />
+                          <Spacer height={20} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   <div>
@@ -351,11 +410,14 @@ export default function DriverProfileScreen() {
                       <b>Sort By</b>
                     </div>
 
-                    <OrderHistoryComp />
-                    <Spacer height={20} />
-                    <OrderHistoryComp />
-                    <Spacer height={20} />
-                    <OrderHistoryComp />
+                    <div>
+                      {historyOrders?.map((order, index) => (
+                        <div key={index}>
+                          <OrderHistoryComp order={order} />
+                          <Spacer height={20} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </>
               )}

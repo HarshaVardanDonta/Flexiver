@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./OrderComponent.css";
 import CustomerQuoteModel from "../../../../Model/CustomerQuoteModel";
+import { useEffect, useState } from "react";
 
 interface OrderProps {
   data: CustomerQuoteModel;
@@ -8,6 +9,18 @@ interface OrderProps {
 
 export default function OrderComponent(props: OrderProps) {
   const { data } = props;
+
+  const [date, setDate] = useState("");
+
+  useEffect(() => {
+    const timestamp = parseInt(data.dateAndTime.toString(), 10);
+    const formattedDate = new Date(timestamp).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+    setDate(formattedDate);
+  }, []);
 
   const navigate = useNavigate();
   return (

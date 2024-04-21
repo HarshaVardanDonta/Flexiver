@@ -9,7 +9,6 @@ import MySupClient from "../../../SupabaseClient";
 import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
 
 export default function OrderHistoryPage() {
-  const orders = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [supabase] = useState(() => MySupClient());
   const [records, setRecords] = useState<CustomerQuoteModel[]>([]);
 
@@ -25,6 +24,8 @@ export default function OrderHistoryPage() {
         .from("CustomerQuote")
         .select("*")
         .eq("customerId", session.data.session?.user.id);
+
+      console.log(session.data.session.user.id);
 
       console.log(data);
       console.log(typeof data);

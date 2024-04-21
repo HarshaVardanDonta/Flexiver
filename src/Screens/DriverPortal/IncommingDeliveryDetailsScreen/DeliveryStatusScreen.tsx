@@ -20,6 +20,8 @@ export default function DeliverStatusScreen() {
   const navigate = useNavigate();
 
   console.log(state);
+  const record = state.order;
+  console.log(record);
 
   const LocationIcon = new Icon({
     iconUrl: mark,
@@ -53,12 +55,35 @@ export default function DeliverStatusScreen() {
         return;
       }
 
-      console.log(data);
-      //   setDriverId(data.driverId);
+      console.log("data", data);
+      setDriverId(data[0].driverId);
     }
   };
 
   const acceptOrder = async () => {
+    const session = await supabase.auth.getSession();
+
+    if (session.data.session) {
+      const { error } = await supabase
+        .from("CustomerQuote")
+        .update({ driverId: driverId })
+        .eq("id", state.order.id);
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      console.log("driver assigned");
+
+      changeStatus();
+
+      console.log("Status updated");
+    }
+
+    // setOpenSuccess(true);
+  };
+
+  const changeStatus = async () => {
     console.log("Accept order");
     const session = await supabase.auth.getSession();
 
@@ -81,8 +106,6 @@ export default function DeliverStatusScreen() {
     }
     console.log("done");
     setOpenAreUSure(false);
-
-    // setOpenSuccess(true);
   };
 
   return (
@@ -216,7 +239,7 @@ export default function DeliverStatusScreen() {
                 }
                 onClose={function (): void {
                   setOpenSuccess(false);
-                  //   navigate("/activeDeliveryScreen", { state: state.order });
+                  navigate("/activeDeliveryScreen", { state: record });
                 }}
               />
 
