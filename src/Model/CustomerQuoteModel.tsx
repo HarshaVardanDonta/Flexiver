@@ -30,6 +30,8 @@ class CustomerQuoteModel {
   orderStatus!: string;
   distance!: string;
   polyString!: string;
+  pickUpElevator!: boolean;
+  dropOffElevator!: boolean;
 
   fromJson(json: any) {
     this.id = json.id;
@@ -61,6 +63,8 @@ class CustomerQuoteModel {
     this.orderStatus = json.orderStatus;
     this.distance = json.distance;
     this.polyString = json.polyLine;
+    this.pickUpElevator = json.pickUpElevator;
+    this.dropOffElevator = json.dropOffElevator;
   }
 
   toJson() {
@@ -92,6 +96,8 @@ class CustomerQuoteModel {
       orderStatus: this.orderStatus,
       distance: this.distance,
       polyString: this.polyString,
+      pickUpElevator: this.pickUpElevator,
+      dropOffElevator: this.dropOffElevator,
     };
   }
 }

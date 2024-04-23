@@ -1,10 +1,18 @@
-.customerSignUpMain {
+/* .customerSignUpMain {
     height: 100vh;
     width: 100vw;
     background-color: white;
     display: grid;
     grid-template-columns: 6fr 4fr;
+} */
+
+.customerSignUpMain {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    min-height: 100dvh;
 }
+
 
 .customerSignUpImageContainer {
     background-color: #FFF9EB;
@@ -16,6 +24,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 60%;
 }
 
 .customerSignUpImageContainer img {
@@ -29,7 +38,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 100px;
+    padding: 5%;
+    width: 30%;
 }
 
 .SignUpFieldsContainer {
@@ -63,3 +73,36 @@
     font-weight: bold;
     box-shadow: 0px 0px 10px 0px #ffe65c;
 }
+
+
+@media only screen and (max-width: 768px) {
+    .customerSignUpMain {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .customerSignUpImageContainer{
+        padding: 5%;
+        background-color: #FFF9EB;
+        background-image: url('../../../Assets/CustomerPortal/SignInPageBack.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+        height: 60%;
+    }
+
+    .customerSignUpFieldsMain{
+        width: 90%;
+    }
+
+    .customerSignUpImageContainer img {
+        padding-top: 10%;
+        max-width: 100%;
+        height: 50%;
+    }
+  }
