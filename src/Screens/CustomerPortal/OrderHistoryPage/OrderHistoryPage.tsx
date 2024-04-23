@@ -52,10 +52,7 @@ export default function OrderHistoryPage() {
         <Spacer height={10} />
         {records?.map((item, index) => {
           return (
-            <div key={index}>
-              <OrderComponent key={index} data={item} />
-              <Spacer height={10} />
-            </div>
+            <OrderComponent key={index} data={item} />
           );
         })}
       </div>

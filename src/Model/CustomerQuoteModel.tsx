@@ -28,6 +28,8 @@ class CustomerQuoteModel {
   dropOffLat!: number;
   dropOffLng!: number;
   orderStatus!: string;
+  distance!: string;
+  polyString!: string;
 
   fromJson(json: any) {
     this.id = json.id;
@@ -57,6 +59,8 @@ class CustomerQuoteModel {
     this.dropOffLat = json.dropOffLat;
     this.dropOffLng = json.dropOffLng;
     this.orderStatus = json.orderStatus;
+    this.distance = json.distance;
+    this.polyString = json.polyLine;
   }
 
   toJson() {
@@ -86,6 +90,8 @@ class CustomerQuoteModel {
       dropOffLat: this.dropOffLat,
       dropOffLng: this.dropOffLng,
       orderStatus: this.orderStatus,
+      distance: this.distance,
+      polyString: this.polyString,
     };
   }
 }

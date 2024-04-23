@@ -95,7 +95,7 @@ import {
 import "@reach/combobox/styles.css";
 
 const PlacesInput = (props: any) => {
-  const { label, setSelected, setPickUpAddress, setDropOffAddress, to } = props;
+  const { label, setSelected, setPickUpAddress, setDropOffAddress, to, callBack } = props;
 
   const {
     ready,
@@ -117,6 +117,7 @@ const PlacesInput = (props: any) => {
       setPickUpAddress(address);
     } else {
       setDropOffAddress(address);
+      callBack();
     }
   };
 
@@ -131,9 +132,10 @@ const PlacesInput = (props: any) => {
           placeholder={label}
           style={{
             backgroundColor: "#FFECC0",
-            width: "80%",
+            width: "85%",
+            height: "30px",
+            padding: "10px",
             border: "none",
-            padding: "auto 20px",
             borderRadius: "15px",
             display: "flex",
             justifyContent: "left",

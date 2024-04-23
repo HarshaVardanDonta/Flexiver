@@ -11,6 +11,8 @@ import { Icon } from "leaflet";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
 import MySupClient from "../../../SupabaseClient";
+import { set } from "react-ga";
+import toast from "react-hot-toast";
 
 export default function DeliverStatusScreen() {
   const { state } = useLocation();
@@ -25,16 +27,17 @@ export default function DeliverStatusScreen() {
 
   const LocationIcon = new Icon({
     iconUrl: mark,
-    iconSize: [30, 30], // size of the icon
+    iconSize: [30, 60], // size of the icon
   });
 
   const PinIcon = new Icon({
     iconUrl: pin,
-    iconSize: [30, 30], // size of the icon
+    iconSize: [30, 60], // size of the icon
   });
 
   const [supabase] = useState(() => MySupClient());
   const [driverId, setDriverId] = useState();
+  const [isDriverVerified, setIsDriverVerified] = useState(false);
 
   useEffect(() => {
     getDriver();
@@ -57,6 +60,9 @@ export default function DeliverStatusScreen() {
 
       console.log("data", data);
       setDriverId(data[0].driverId);
+      setIsDriverVerified(data[0].isVerified);
+      console.log("driverId", driverId);
+      console.log("isDriverVerified", isDriverVerified);
     }
   };
 
@@ -66,47 +72,21 @@ export default function DeliverStatusScreen() {
     if (session.data.session) {
       const { error } = await supabase
         .from("CustomerQuote")
-        .update({ driverId: driverId })
+        .update({ driverId: driverId, orderStatus: "Partner Assigned" })
         .eq("id", state.order.id);
       if (error) {
         alert(error.message);
         return;
       }
+      setOpenAreUSure(false);
 
       console.log("driver assigned");
 
-      changeStatus();
-
       console.log("Status updated");
     }
-
-    // setOpenSuccess(true);
   };
 
-  const changeStatus = async () => {
-    console.log("Accept order");
-    const session = await supabase.auth.getSession();
 
-    if (session.data.session) {
-      console.log("Session: ", session.data.session.user.id);
-    }
-
-    const { data, error } = await supabase
-      .from("CustomerQuote")
-      .update({ orderStatus: "Partner Assigned" })
-      .eq("id", state.order.id)
-      .select();
-    console.log("start update");
-    console.log(data);
-
-    if (data) {
-      console.log("success");
-
-      setOpenSuccess(true);
-    }
-    console.log("done");
-    setOpenAreUSure(false);
-  };
 
   return (
     <div>
@@ -148,7 +128,7 @@ export default function DeliverStatusScreen() {
             </div>
             <div>
               <Typography variant="h5">Total Trip Distance</Typography>
-              <Typography variant="h6">20 Km</Typography>
+              <Typography variant="h6">{state.order.distance}</Typography>
             </div>
             <div>
               <Typography variant="h5">Total Trip Fare</Typography>
@@ -207,6 +187,9 @@ export default function DeliverStatusScreen() {
                 variant="contained"
                 color="success"
                 onClick={() => {
+                  if (isDriverVerified === false) {
+                    return toast.error("Your account is not verified yet!");
+                  }
                   setOpenAreUSure(true);
                 }}
               >
