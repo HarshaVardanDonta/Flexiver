@@ -275,6 +275,22 @@ export default function DriverLanding() {
               WITH YOUR VAN.
             </h1>
             <p>Become a Partner in Our Moving Services Network </p>
+            {
+              width > 600 && (
+                <div>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                </div>
+              )
+            }
+
+            <div className="getQButton" onClick={() => {
+              navigate("/tempQuotePage");
+            }}>
+              Get an instant Quote!
+            </div>
           </div>
         </div>
         <div className="flow">
