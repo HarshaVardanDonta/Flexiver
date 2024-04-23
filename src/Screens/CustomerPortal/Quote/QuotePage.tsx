@@ -10,7 +10,7 @@ import { AiOutlineEnvironment } from "react-icons/ai";
 import { BiCalendar } from "react-icons/bi";
 import CustomTextField from "../../../Components/CustomTextField";
 import { Height, Margin, Padding } from "@mui/icons-material";
-import { Checkbox, Divider, TextField } from "@mui/material";
+import { Checkbox, Divider, FormControlLabel, TextField } from "@mui/material";
 import FlightOfStairsComp from "../Components/FlightOfStairsComp/FlightOfStairsComp";
 import CustomDropDown from "../Components/CustomDropDown/CustomDropDown";
 import Fire from "../../../Assets/CustomerPortal/Fire.png";
@@ -64,6 +64,8 @@ export default function QuotePage() {
   const [dataUri, setDataUri] = useState("");
   const [distanceBetweenPoints, setDistanceBetweenPoints] = useState("");
   const { height, width } = useWindowDimensions();
+  const [pickUpElevator,setPickUpElevator] = useState(false);
+  const [dropOffElevator,setDropOffElevator] = useState(false);
 
 
   const [supabase] = useState(() => MySupClient());
@@ -128,6 +130,8 @@ export default function QuotePage() {
       quote.orderStatus = "off";
       quote.distance = distance;
       quote.polyString = polyString;
+      quote.pickUpElevator = pickUpElevator;
+      quote.dropOffElevator = dropOffElevator;
 
 
       console.log(quote);
@@ -406,6 +410,19 @@ export default function QuotePage() {
               onRemove={handlePickUpStairsRemove}
               count={pickUpStairsCount}
             />
+            <div style={{display:"flex",justifyContent:"center"}}>
+            <FormControlLabel control={<Checkbox
+            // aria-label="Is elevator available"
+            value={pickUpElevator}
+            onChange={(e) => {
+              setPickUpElevator(e.target.checked);
+            }}
+            style={{
+              color: "#FFD700",
+            }}
+          />} label="Is elevator available" />
+          </div>
+
           </div>
           <Divider orientation="vertical" flexItem />
           <div className="pickupSection">
@@ -481,6 +498,18 @@ export default function QuotePage() {
               onRemove={handleDropOffStairsRemove}
               count={dropOffStairsCount}
             />
+            <div style={{display:"flex",justifyContent:"center"}}>
+            <FormControlLabel control={<Checkbox
+            value={dropOffElevator}
+            onChange={(e) => {
+              setDropOffElevator(e.target.checked);
+            }}
+            style={{
+              color: "#FFD700",
+            }}
+          />} label="Is elevator available" />
+          </div>
+            
           </div>
         </div>
       </div>
