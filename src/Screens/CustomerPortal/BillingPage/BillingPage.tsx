@@ -19,12 +19,12 @@ import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
-  iconSize: [30, 30], // size of the icon
+  iconSize: [30, 60], // size of the icon
 });
 
 const PinIcon = new Icon({
   iconUrl: pin,
-  iconSize: [30, 30], // size of the icon
+  iconSize: [30, 60], // size of the icon
 });
 
 export default function BillingPage() {
@@ -102,7 +102,7 @@ export default function BillingPage() {
 
         const res = await supabase
           .from("CustomerQuote")
-          .update({ paymentDone: true, orderStatus: "Order Confirmed" })
+          .update({ paymentDone: true, orderStatus: "Order Pending" })
           .eq("id", id_);
         console.log("payment done updated", res);
       } else {
@@ -193,7 +193,7 @@ export default function BillingPage() {
               </div>
             </div>
           </div>
-          <h3>Total Distance: 50Km</h3>
+          <h3>Total Distance: {state.quote.distance}</h3>
         </div>
         <div className="billingSection">
           <h2>Date: {new Date(state.quote.dateAndTime).toLocaleString()}</h2>

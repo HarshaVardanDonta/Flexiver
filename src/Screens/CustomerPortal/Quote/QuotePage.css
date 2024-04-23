@@ -180,6 +180,12 @@
         align-items: center;
     }
 
+    .pickupSection {
+        gap: 5px;
+        align-items: center;
+        width: 100%;
+    }
+
     .quoteItemSpecSection {
         height: auto;
         flex-direction: column;
@@ -195,12 +201,15 @@
     }
 
     .quoteItemSpecSectionRightSection {
-        width: 100vw;
+        width: 100%;
+        margin: 0px;
+        align-items: center;
     }
 
     .quoteItemSpecSectionRightSectionEntrycontainer {
-        width: 80%;
+        width: 100%;
         flex-direction: column;
+        gap: 5px;
     }
 
     .quoteItemSpecSectionRightSectionText {

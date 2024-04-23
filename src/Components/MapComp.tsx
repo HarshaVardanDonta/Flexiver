@@ -1,17 +1,16 @@
 import "./MapComp.css";
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
-import { Bounds, Icon, LatLngExpression, Point, divIcon, point } from "leaflet";
+import { Bounds, Icon, LatLngExpression, divIcon, point } from "leaflet";
 
 interface positionWithIcon { lat: number; lng: number; marker: Icon; popup?: string }
 
 interface MapProps {
   positionWithIconsArray: Array<positionWithIcon>
+  polyPoints?: Array<LatLngExpression>
 }
 const MapComp = (props: MapProps) => {
-
-
   const { positionWithIconsArray } = props;
   interface LatLngExpression {
     lat: number;
@@ -30,7 +29,6 @@ const MapComp = (props: MapProps) => {
 
     // Calculate control points at a fixed distance from the midpoint along the perpendicular bisector
     const distance = Math.sqrt((startPoint.lat - midPoint.lat) ** 2 + (startPoint.lng - midPoint.lng) ** 2) * tension;
-    console.log("distance", distance);
     const controlPoint1: LatLngExpression = {
       lat: midPoint.lat + distance / Math.sqrt(1 + perpendicularSlope ** 2),
       lng: midPoint.lng + perpendicularSlope * distance / Math.sqrt(1 + perpendicularSlope ** 2)
@@ -41,7 +39,7 @@ const MapComp = (props: MapProps) => {
     };
 
     // Number of segments in the curve
-    const segments = 500;
+    const segments = 10000;
 
     // Calculate points on the curve
     const points: LatLngExpression[] = [];
@@ -67,21 +65,18 @@ const MapComp = (props: MapProps) => {
   const centerLat = (startPoint.lat + endPoint.lat) / 2;
   const centerLng = (startPoint.lng + endPoint.lng) / 2;
 
-  const [bounds, setBounds] = useState<Bounds >(new Bounds([new Point(startPoint.lat, startPoint.lng), new Point(endPoint.lat, endPoint.lng)]));
-
   useEffect(() => {
-    //  auto update map when coordinates change
-    setBounds(new Bounds([new Point(startPoint.lat, startPoint.lng), new Point(endPoint.lat, endPoint.lng)]));
-  }, [props]);
-  
+    //new bounds
+  }, [props.positionWithIconsArray])
+
   return (<>
     <MapContainer
-      center={[centerLat, centerLng]}
-      // zoom={13}
+      bounds={[[startPoint.lat, startPoint.lng], [endPoint.lat, endPoint.lng]]}
+
+      //center={[centerLat, centerLng]}
+      //zoom={13}
       scrollWheelZoom={true}
-      style={{ height: "100%", width: "100%" }}
-      bounds={bounds as any}
-      >
+      style={{ height: "100%", width: "100%" }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
@@ -98,7 +93,7 @@ const MapComp = (props: MapProps) => {
         })
       }
 
-      <Polyline pathOptions={{ color: 'black' }} positions={smoothCurveBetweenPoints(startPoint, endPoint, tension)} />
+      <Polyline pathOptions={{ color: 'black' }} positions={props.polyPoints ?? smoothCurveBetweenPoints(startPoint, endPoint, tension)} />
     </MapContainer>
   </>
   )
