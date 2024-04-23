@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from "react";
 import "./QuotePage.css";
 import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPortalHeader";
@@ -19,7 +20,7 @@ import Paint from "../../../Assets/CustomerPortal/Paint Brush.png";
 import Weapon from "../../../Assets/CustomerPortal/saber weapon.png";
 import CustomerPortalFooter from "../Components/CustomerPortalFooter/CustomerPortalFooter";
 import { useNavigate } from "react-router-dom";
-import { Icon } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
 import MapComp from "../../../Components/MapComp";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
@@ -34,8 +35,16 @@ import MySupClient from "../../../SupabaseClient";
 import toast from "react-hot-toast";
 import PlacesInput from "../../../Components/Abcd";
 import { useLoadScript } from "@react-google-maps/api";
+import { DirectionsService } from "@react-google-maps/api";
+import { get } from "http";
+import polyline from "@mapbox/polyline";
+import TwoWheeler from "../../../Assets/CustomerPortal/TwoWheeler.png";
+import UteVan from "../../../Assets/CustomerPortal/UTEVan.png";
+import RefrigeratedVan from "../../../Assets/CustomerPortal/RefreigeratedVan.png";
+import useWindowDimensions from "../../../Model/WindowDimensions";
 
 export default function QuotePage() {
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
     libraries: ["places"],
@@ -53,10 +62,17 @@ export default function QuotePage() {
 
   const [openCamera, setOpenCamera] = useState(false);
   const [dataUri, setDataUri] = useState("");
+  const [distanceBetweenPoints, setDistanceBetweenPoints] = useState("");
+  const { height, width } = useWindowDimensions();
+
 
   const [supabase] = useState(() => MySupClient());
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getRouteDistance();
+  }, [to, from]);
 
   function handlePickUpStairsAdd() {
     if (pickUpStairsCount >= 0) {
@@ -78,6 +94,9 @@ export default function QuotePage() {
       setDropOffStairsCount(dropOffStairsCount - 1);
     }
   }
+
+  var [distance, setDistance] = useState("");
+  var [polyString, setPolyString] = useState("");
 
   async function handleSubmit() {
     if (noExcludedItems) {
@@ -107,6 +126,9 @@ export default function QuotePage() {
       quote.dropOffLat = to.lat;
       quote.dropOffLng = to.lng;
       quote.orderStatus = "off";
+      quote.distance = distance;
+      quote.polyString = polyString;
+
 
       console.log(quote);
       navigate("/billingPage", { state: { quote } });
@@ -139,12 +161,12 @@ export default function QuotePage() {
 
   const LocationIcon = new Icon({
     iconUrl: mark,
-    iconSize: [30, 30], // size of the icon
+    iconSize: [30, 60], // size of the icon
   });
 
   const PinIcon = new Icon({
     iconUrl: pin,
-    iconSize: [30, 30], // size of the icon
+    iconSize: [30, 60], // size of the icon
   });
 
   const handleTakePhotoAnimationDone = (dataUri: any) => {
@@ -152,6 +174,31 @@ export default function QuotePage() {
     console.log(dataUri);
     setDataUri(dataUri);
   };
+  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+
+
+  // function to get exact distance between from and to points
+  async function getRouteDistance() {
+
+    const directionService = new google.maps.DirectionsService();
+
+    var data = await directionService.route(
+      {
+        origin: new google.maps.LatLng(from.lat, from.lng),
+        destination: new google.maps.LatLng(to.lat, to.lng),
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+    );
+    console.log(data);
+    var decodedPoly = await polyline.decode(data?.routes[0]?.overview_polyline);
+    setPolyString(data?.routes[0]?.overview_polyline);
+    quote.polyString = data?.routes[0]?.overview_polyline;
+    console.log("polystring", polyString);
+    setPolyPoints(decodedPoly);
+    setDistance(data?.routes[0]?.legs[0]?.distance?.text ?? "");
+    console.log(polyPoints);
+    return data?.routes[0]?.legs[0]?.distance?.text;
+  }
 
   const [city, setCity] = useState("Sydney");
   const [vehicleType, setVehicleType] = useState("");
@@ -214,12 +261,12 @@ export default function QuotePage() {
           Select vehicle type
         </Typography.Title>
         <Typography.Title level={4}>
-          <AiOutlineEnvironment /> City
+          <AiOutlineEnvironment /> {city}
         </Typography.Title>
         <div className="vehicleBanner">
           <VehicleComp
             vehicleName={"Two Wheeler"}
-            vehicleImage={Logo}
+            vehicleImage={TwoWheeler}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
             onClick={() => {
               settwoWheelerSelected(true);
@@ -231,7 +278,7 @@ export default function QuotePage() {
           />
           <VehicleComp
             vehicleName={"UTE / Van"}
-            vehicleImage={Logo}
+            vehicleImage={UteVan}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
             onClick={() => {
               setuteVanSelected(true);
@@ -243,7 +290,7 @@ export default function QuotePage() {
           />
           <VehicleComp
             vehicleName={"Refreigerated Van"}
-            vehicleImage={Logo}
+            vehicleImage={RefrigeratedVan}
             vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
             onClick={() => {
               setrefrigeratedVanSelected(true);
@@ -272,6 +319,7 @@ export default function QuotePage() {
           </Typography.Title>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
+              disablePast={true}
               onChange={(newDate: any) => {
                 setQuoteDateAndTime(newDate!.toDate());
               }}
@@ -335,6 +383,9 @@ export default function QuotePage() {
                 setSelected={setFrom}
                 setPickUpAddress={setPickUpAddress}
                 to={true}
+                callBack={() => {
+                  console.log("From Address: ", from);
+                }}
               />
             ) : (
               <div>Loading...</div>
@@ -408,6 +459,8 @@ export default function QuotePage() {
                 setSelected={setTo}
                 setDropOffAddress={setDropOffAddress}
                 to={false}
+                callBack={async () => {
+                }}
               />
             ) : (
               <div>Loading...</div>
@@ -435,6 +488,7 @@ export default function QuotePage() {
         <div className="quoteItemSpecSectionMapSection">
           {from.lat && from.lng && to.lat && to.lng ? (
             <MapComp
+              polyPoints={polyPoints}
               positionWithIconsArray={[
                 {
                   lat: from.lat,
@@ -474,7 +528,7 @@ export default function QuotePage() {
               }}
               style={{
                 backgroundColor: "#FFECC0",
-                width: "40%",
+                width: width > 600 ? "40%" : "80%",
                 border: "none",
               }}
             />
@@ -490,7 +544,7 @@ export default function QuotePage() {
               }}
               style={{
                 backgroundColor: "#FFECC0",
-                width: "40%",
+                width: width > 600 ? "40%" : "80%",
                 border: "none",
               }}
             />
@@ -506,7 +560,7 @@ export default function QuotePage() {
               }}
               style={{
                 backgroundColor: "#FFECC0",
-                width: "40%",
+                width: width > 600 ? "40%" : "80%",
                 border: "none",
               }}
             />
@@ -517,7 +571,7 @@ export default function QuotePage() {
             </div>
             <div
               style={{
-                width: "43%",
+                width: width > 600 ? "43%" : "80%",
               }}
             >
               <CustomDropDown
@@ -549,7 +603,7 @@ export default function QuotePage() {
             </div>
           </div>
           <div className="quoteItemSpecSectionRightSectionEntrycontainer">
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -558,7 +612,7 @@ export default function QuotePage() {
                 backgroundColor: "#FFECC0",
                 padding: "10px",
                 borderRadius: "15px",
-                width: "40%",
+                width:width>600? "40%": "100%",
                 justifyContent: "center",
                 color: "#4A4A4A",
                 cursor: "pointer",
@@ -566,7 +620,7 @@ export default function QuotePage() {
               onClick={() => setOpenCamera(!openCamera)}
             >
               Take a Picture!
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
