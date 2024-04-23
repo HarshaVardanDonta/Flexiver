@@ -254,10 +254,10 @@ export default function DriverLanding() {
                     navigate("/driverLogin");
                     handleLoginClose();
                   }}>Driver Portal</MenuItem>
-                  <MenuItem onClick={() => {
+                  {/* <MenuItem onClick={() => {
                     navigate("/QuotePage");
                     handleLoginClose();
-                  }}>Customer Portal</MenuItem>
+                  }}>Customer Portal</MenuItem> */}
 
                 </Menu>
               </div>
@@ -275,6 +275,22 @@ export default function DriverLanding() {
               WITH YOUR VAN.
             </h1>
             <p>Become a Partner in Our Moving Services Network </p>
+            {
+              width > 600 && (
+                <div>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                </div>
+              )
+            }
+
+            <div className="getQButton" onClick={() => {
+              navigate("/tempQuotePage");
+            }}>
+              Get an instant Quote!
+            </div>
           </div>
         </div>
         <div className="flow">
