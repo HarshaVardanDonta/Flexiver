@@ -16,6 +16,7 @@ import OrderTrackingPage from "./CustomerPortal/OrderTrackingPage/OrderTrackingP
 import OrderHistoryPage from "./CustomerPortal/OrderHistoryPage/OrderHistoryPage";
 import DeliveryStatusScreen from "./DriverPortal/IncommingDeliveryDetailsScreen/DeliveryStatusScreen";
 import ActiveDeliveryScreen from "./DriverPortal/ActiveDeliveryScreen/ActiveDeliveryScreen";
+import TempQuotePage from "./TempQuotePage";
 import Aos from "aos";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -57,7 +58,8 @@ export default function DriverMain() {
           <Route path="/orderHistoryPage" element={<OrderHistoryPage />} />
           <Route path="/deliveryStatusScreen" element={<DeliveryStatusScreen />} />
           <Route path="/activeDeliveryScreen" element={<ActiveDeliveryScreen />} />
-          <Route path="/Abcd" element={<Places/>} />
+          <Route path="/Abcd" element={<Places />} />
+          <Route path="/tempQuotePage" element={<TempQuotePage />} />
         </Routes>
 
         <Toaster position="bottom-right" />
