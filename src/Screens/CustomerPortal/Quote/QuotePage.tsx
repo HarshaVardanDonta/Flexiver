@@ -179,25 +179,26 @@ export default function QuotePage() {
 
   // function to get exact distance between from and to points
   async function getRouteDistance() {
+    if (isLoaded) {
+      const directionService = new google.maps.DirectionsService();
 
-    const directionService = new google.maps.DirectionsService();
-
-    var data = await directionService.route(
-      {
-        origin: new google.maps.LatLng(from.lat, from.lng),
-        destination: new google.maps.LatLng(to.lat, to.lng),
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-    );
-    console.log(data);
-    var decodedPoly = await polyline.decode(data?.routes[0]?.overview_polyline);
-    setPolyString(data?.routes[0]?.overview_polyline);
-    quote.polyString = data?.routes[0]?.overview_polyline;
-    console.log("polystring", polyString);
-    setPolyPoints(decodedPoly);
-    setDistance(data?.routes[0]?.legs[0]?.distance?.text ?? "");
-    console.log(polyPoints);
-    return data?.routes[0]?.legs[0]?.distance?.text;
+      var data = await directionService.route(
+        {
+          origin: new google.maps.LatLng(from.lat, from.lng),
+          destination: new google.maps.LatLng(to.lat, to.lng),
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+      );
+      console.log(data);
+      var decodedPoly = await polyline.decode(data?.routes[0]?.overview_polyline);
+      setPolyString(data?.routes[0]?.overview_polyline);
+      quote.polyString = data?.routes[0]?.overview_polyline;
+      console.log("polystring", polyString);
+      setPolyPoints(decodedPoly);
+      setDistance(data?.routes[0]?.legs[0]?.distance?.text ?? "");
+      console.log(polyPoints);
+      return data?.routes[0]?.legs[0]?.distance?.text;
+    }
   }
 
   const [city, setCity] = useState("Sydney");
@@ -603,7 +604,7 @@ export default function QuotePage() {
             </div>
           </div>
           <div className="quoteItemSpecSectionRightSectionEntrycontainer">
-            {/* <div
+            <div
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -612,7 +613,7 @@ export default function QuotePage() {
                 backgroundColor: "#FFECC0",
                 padding: "10px",
                 borderRadius: "15px",
-                width:width>600? "40%": "100%",
+                width: width > 600 ? "40%" : "100%",
                 justifyContent: "center",
                 color: "#4A4A4A",
                 cursor: "pointer",
@@ -620,7 +621,7 @@ export default function QuotePage() {
               onClick={() => setOpenCamera(!openCamera)}
             >
               Take a Picture!
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
