@@ -13,12 +13,12 @@ import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
-  iconSize: [30, 30], // size of the icon
+  iconSize: [30, 60], // size of the icon
 });
 
 const PinIcon = new Icon({
   iconUrl: pin,
-  iconSize: [30, 30], // size of the icon
+  iconSize: [30, 60], // size of the icon
 });
 
 export default function OrderTrackingPage() {
@@ -73,7 +73,7 @@ export default function OrderTrackingPage() {
     <div>
       <CustomerPortalHeader />
       <div className="orderTrackingPage">
-        <h2>Current Order Status</h2>
+        <h2>Current Order Status: {orderDetails?.orderStatus}</h2>
         <div className="trackPageTop">
           <div className="trackPageSummary">
             <h3>Order Id: #{orderDetails?.id}</h3>

@@ -15,12 +15,12 @@ import MySupClient from "../../../SupabaseClient";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
-  iconSize: [30, 30], // size of the icon
+  iconSize: [30, 60], // size of the icon
 });
 
 const PinIcon = new Icon({
   iconUrl: pin,
-  iconSize: [30, 30], // size of the icon
+  iconSize: [30, 60], // size of the icon
 });
 
 export default function ActiveDeliveryScreen() {
@@ -103,21 +103,25 @@ export default function ActiveDeliveryScreen() {
         </div>
         <div className="buttonContainer">
           <div className="buttonContainer1">
-            <div className="buttonStyle" onClick={function (): void {}}>
+            <div className="buttonStyle" onClick={function (): void {
+              window.open(`https://www.google.com/maps/dir/?api=1&origin=${state.pickUpLat},${state.pickUpLng}&destination=${state.dropOffLat},${state.dropOffLng}`);
+            }}>
               Get Directions
             </div>
             <Spacer width={20} />
-            <div className="buttonStyle" onClick={function (): void {}}>
+            <div className="buttonStyle" onClick={function (): void {
+              window.open(`tel:${state.receiverPhoneNumber}`);
+            }}>
               Call Receiver
             </div>
           </div>
-          <div className="buttonStyle" onClick={function (): void {}}>
+          <div className="buttonStyle" onClick={function (): void { }}>
             Report a Problem
           </div>
         </div>
         <div className="dropContainer">
           <h3>Current Delivery Status: &nbsp;</h3>
-          <p>{status}</p>
+          <p>{state.orderStatus}</p>
           <CustomDropDown
             style={{
               backgroundColor: "#323232",
