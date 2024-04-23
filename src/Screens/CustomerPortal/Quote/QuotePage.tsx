@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import "./QuotePage.css";
 import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPortalHeader";
 import VehicleComp from "../Components/VehicleComp/VehicleComp";
@@ -25,7 +25,7 @@ import MapComp from "../../../Components/MapComp";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import Camera from "react-html5-camera-photo";
+// import Camera from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 
 import ImagePreview from "../../../Components/ImagePreview";
@@ -43,8 +43,9 @@ import UteVan from "../../../Assets/CustomerPortal/UTEVan.png";
 import RefrigeratedVan from "../../../Assets/CustomerPortal/RefreigeratedVan.png";
 import useWindowDimensions from "../../../Model/WindowDimensions";
 
-export default function QuotePage() {
+import { Camera } from "react-camera-pro";
 
+export default function QuotePage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
     libraries: ["places"],
@@ -65,10 +66,11 @@ export default function QuotePage() {
   const [distanceBetweenPoints, setDistanceBetweenPoints] = useState("");
   const { height, width } = useWindowDimensions();
 
-
   const [supabase] = useState(() => MySupClient());
 
   const navigate = useNavigate();
+  const camera = useRef(null);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     getRouteDistance();
@@ -129,7 +131,6 @@ export default function QuotePage() {
       quote.distance = distance;
       quote.polyString = polyString;
 
-
       console.log(quote);
       navigate("/billingPage", { state: { quote } });
 
@@ -176,19 +177,15 @@ export default function QuotePage() {
   };
   var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
 
-
   // function to get exact distance between from and to points
   async function getRouteDistance() {
-
     const directionService = new google.maps.DirectionsService();
 
-    var data = await directionService.route(
-      {
-        origin: new google.maps.LatLng(from.lat, from.lng),
-        destination: new google.maps.LatLng(to.lat, to.lng),
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-    );
+    var data = await directionService.route({
+      origin: new google.maps.LatLng(from.lat, from.lng),
+      destination: new google.maps.LatLng(to.lat, to.lng),
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
     console.log(data);
     var decodedPoly = await polyline.decode(data?.routes[0]?.overview_polyline);
     setPolyString(data?.routes[0]?.overview_polyline);
@@ -222,23 +219,47 @@ export default function QuotePage() {
   const [alternateContactNumber, setAlternateContactNumber] = useState("");
   const [noExcludedItems, setNoExcludedItems] = useState(false);
 
-  if (openCamera) {
-    return (
-      <div>
-        {dataUri ? (
-          <>
-            <ImagePreview dataUri={dataUri} isFullscreen={true} />
-            <button onClick={() => setOpenCamera(false)}>back</button>
-          </>
-        ) : (
-          <Camera
-            onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
-            isFullscreen={true}
-          />
-        )}
-      </div>
-    );
-  }
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]; // Access files safely using optional chaining
+    if (!file) return; // Ensure a file is selected
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        console.log(reader.result);
+        setDataUri(reader.result);
+      } else {
+        // Handle error: FileReader result is not a string
+      }
+    };
+    reader.onerror = () => {
+      // Handle error: FileReader encountered an error
+    };
+  };
+
+  // if (openCamera) {
+  //   return (
+  //     <div>
+  //       {dataUri ? (
+  //         <div>
+  //           <img
+  //             src={dataUri}
+  //             alt="selected image"
+  //             style={{ maxWidth: "100%", maxHeight: "200px" }}
+  //           />
+  //         </div>
+  //       ) : (
+  //         <div className="">
+  //           <input
+  //             type="file"
+  //             name="upload image"
+  //             onChange={handleImageUpload}
+  //           />
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
@@ -459,8 +480,7 @@ export default function QuotePage() {
                 setSelected={setTo}
                 setDropOffAddress={setDropOffAddress}
                 to={false}
-                callBack={async () => {
-                }}
+                callBack={async () => {}}
               />
             ) : (
               <div>Loading...</div>
@@ -484,7 +504,142 @@ export default function QuotePage() {
           </div>
         </div>
       </div>
-      <div className="quoteItemSpecSection">
+      <div
+        className="quoteItemSpecSection"
+        style={{
+          position: "relative",
+        }}
+      >
+        {openCamera && (
+          <div
+            style={{
+              position: "absolute",
+              top: "0",
+              left: "0",
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(44, 33, 33, 0.5)",
+              zIndex: "10000",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                width: "600px",
+                height: "300px",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                backgroundColor: "#FFF8EC",
+                borderRadius: "20px",
+                overflow: "hidden",
+              }}
+            >
+              {/* image */}
+              <div
+                style={{
+                  width: "92%",
+                  height: "92%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#d4d4d4",
+                  borderRadius: "20px",
+                  margin: "4%",
+                }}
+              >
+                {dataUri && (
+                  <img
+                    src={dataUri}
+                    alt="uploaded image"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "20px",
+                      objectFit: "contain",
+                    }}
+                  />
+                )}
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  margin: "2%",
+                }}
+              >
+                <h2>Upload the Image</h2>
+                <label
+                  style={{
+                    display: "inline-block",
+                    padding: "6px 12px",
+                    cursor: "pointer",
+                    border: "1px solid rgba(0,0,0,0.8)",
+                    borderRadius: "4px",
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                  }}
+                  htmlFor="file-upload"
+                >
+                  Take Image
+                </label>
+                <br />
+                <input
+                  type="file"
+                  name="upload image"
+                  onChange={handleImageUpload}
+                  style={{
+                    display: "none",
+                  }}
+                  id="file-upload"
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "30px",
+                  }}
+                >
+                  <button
+                    style={{
+                      backgroundColor: "#67C158",
+                      color: "white",
+                      padding: "10px",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      marginTop: "10px",
+                    }}
+                    onClick={() => {
+                      setOpenCamera(false);
+                    }}
+                  >
+                    Upload
+                  </button>
+                  <button
+                    style={{
+                      backgroundColor: "#FF3E3E",
+                      color: "white",
+                      padding: "10px",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      marginTop: "10px",
+                    }}
+                    onClick={() => {
+                      setOpenCamera(false);
+                      setDataUri("");
+                    }}
+                  >
+                    close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="quoteItemSpecSectionMapSection">
           {from.lat && from.lng && to.lat && to.lng ? (
             <MapComp
@@ -603,7 +758,7 @@ export default function QuotePage() {
             </div>
           </div>
           <div className="quoteItemSpecSectionRightSectionEntrycontainer">
-            {/* <div
+            <div
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -612,15 +767,15 @@ export default function QuotePage() {
                 backgroundColor: "#FFECC0",
                 padding: "10px",
                 borderRadius: "15px",
-                width:width>600? "40%": "100%",
+                width: width > 600 ? "40%" : "100%",
                 justifyContent: "center",
                 color: "#4A4A4A",
                 cursor: "pointer",
               }}
               onClick={() => setOpenCamera(!openCamera)}
             >
-              Take a Picture!
-            </div> */}
+              {dataUri ? "Image Uploaded" : "Take a Picture!"}
+            </div>
           </div>
         </div>
       </div>
