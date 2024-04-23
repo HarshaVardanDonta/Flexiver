@@ -6,6 +6,7 @@
     justify-content: space-between;
     padding: 10px;
     cursor: pointer;
+    width: 80vw;
 }
 
 .orderCompLeft {

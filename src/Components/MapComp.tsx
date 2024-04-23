@@ -1,5 +1,5 @@
 import "./MapComp.css";
-import React from 'react'
+import React, { useEffect } from 'react'
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import { Bounds, Icon, LatLngExpression, divIcon, point } from "leaflet";
@@ -8,6 +8,7 @@ interface positionWithIcon { lat: number; lng: number; marker: Icon; popup?: str
 
 interface MapProps {
   positionWithIconsArray: Array<positionWithIcon>
+  polyPoints?: Array<LatLngExpression>
 }
 const MapComp = (props: MapProps) => {
   const { positionWithIconsArray } = props;
@@ -38,7 +39,7 @@ const MapComp = (props: MapProps) => {
     };
 
     // Number of segments in the curve
-    const segments = 500;
+    const segments = 10000;
 
     // Calculate points on the curve
     const points: LatLngExpression[] = [];
@@ -63,10 +64,17 @@ const MapComp = (props: MapProps) => {
 
   const centerLat = (startPoint.lat + endPoint.lat) / 2;
   const centerLng = (startPoint.lng + endPoint.lng) / 2;
+
+  useEffect(() => {
+    //new bounds
+  }, [props.positionWithIconsArray])
+
   return (<>
     <MapContainer
-      center={[centerLat, centerLng]}
-      zoom={13}
+      bounds={[[startPoint.lat, startPoint.lng], [endPoint.lat, endPoint.lng]]}
+
+      //center={[centerLat, centerLng]}
+      //zoom={13}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}>
       <TileLayer
@@ -85,7 +93,7 @@ const MapComp = (props: MapProps) => {
         })
       }
 
-      <Polyline pathOptions={{ color: 'black' }} positions={smoothCurveBetweenPoints(startPoint, endPoint, tension)} />
+      <Polyline pathOptions={{ color: 'black' }} positions={props.polyPoints ?? smoothCurveBetweenPoints(startPoint, endPoint, tension)} />
     </MapContainer>
   </>
   )
