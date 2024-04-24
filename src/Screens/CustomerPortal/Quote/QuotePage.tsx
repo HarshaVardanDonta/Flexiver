@@ -65,8 +65,12 @@ export default function QuotePage() {
   const [dataUri, setDataUri] = useState("");
   const [distanceBetweenPoints, setDistanceBetweenPoints] = useState("");
   const { height, width } = useWindowDimensions();
-  const [pickUpElevator,setPickUpElevator] = useState(false);
-  const [dropOffElevator,setDropOffElevator] = useState(false);
+  const [pickUpElevator, setPickUpElevator] = useState(false);
+  const [pickUpParkingSpace, setPickUpParkingSpace] = useState(false);
+  const [dropOffElevator, setDropOffElevator] = useState(false);
+  const [dropOffParkingSpace, setDropOffParkingSpace] = useState(false);
+  const [onDemandDelivery, setOnDemandDelivery] = useState(false);
+  const [itemDimensions, setItemDimensions] = useState("");
 
   const [supabase] = useState(() => MySupClient());
 
@@ -120,7 +124,6 @@ export default function QuotePage() {
       quote.noOfItems = noOfItems;
       quote.approxWeight = approxWeight;
       quote.noOfHaulers = noOfHaulers;
-      quote.parkingSpaceAvailable = parkingSpaceAvailable;
       quote.itemNote = itemSpecs;
       quote.alternateContactName = alternateContactName;
       quote.alternateContactNumber = alternateContactNumber;
@@ -134,8 +137,11 @@ export default function QuotePage() {
       quote.polyString = polyString;
       quote.pickUpElevator = pickUpElevator;
       quote.dropOffElevator = dropOffElevator;
+      quote.pickUpParkingSpace = pickUpParkingSpace;
+      quote.dropOffParkingSpace = dropOffParkingSpace;
+      quote.itemDimensions = itemDimensions;
+      quote.onDemandDelivery = onDemandDelivery;
 
-      console.log(quote);
       navigate("/billingPage", { state: { quote } });
 
       // supabase.auth
@@ -281,14 +287,14 @@ export default function QuotePage() {
         >
           Let's plan your move!
         </Typography.Title>
-        <Typography.Title
+        {/* <Typography.Title
           level={4}
           style={{
             textAlign: "center",
           }}
         >
           Select vehicle type
-        </Typography.Title>
+        </Typography.Title> */}
         <Typography.Title level={4}>
           <AiOutlineEnvironment /> {city}
         </Typography.Title>
@@ -296,7 +302,7 @@ export default function QuotePage() {
           <VehicleComp
             vehicleName={"Two Wheeler"}
             vehicleImage={TwoWheeler}
-            vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            vehicleDescription={"Can Carry upto 5Kg"}
             onClick={() => {
               settwoWheelerSelected(true);
               setuteVanSelected(false);
@@ -308,7 +314,7 @@ export default function QuotePage() {
           <VehicleComp
             vehicleName={"UTE / Van"}
             vehicleImage={UteVan}
-            vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            vehicleDescription={"Can Carry upto 5Kg"}
             onClick={() => {
               setuteVanSelected(true);
               settwoWheelerSelected(false);
@@ -320,7 +326,7 @@ export default function QuotePage() {
           <VehicleComp
             vehicleName={"Refreigerated Van"}
             vehicleImage={RefrigeratedVan}
-            vehicleDescription={"Can Carry upto 5Kg and 3ftx3ftx3ft package"}
+            vehicleDescription={"Can Carry upto 5Kg"}
             onClick={() => {
               setrefrigeratedVanSelected(true);
               settwoWheelerSelected(false);
@@ -338,27 +344,45 @@ export default function QuotePage() {
           </div>
         </div>
         <div className="dateSelectionSection">
-          <Typography.Title
-            level={4}
-            style={{
-              textAlign: "center",
-            }}
-          >
-            Choose a Date and Time:
-          </Typography.Title>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker
-              disablePast={true}
-              onChange={(newDate: any) => {
-                setQuoteDateAndTime(newDate!.toDate());
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <FormControlLabel control={<Checkbox
+              value={onDemandDelivery}
+              onChange={(e) => {
+                setOnDemandDelivery(e.target.checked);
               }}
-              sx={{
-                backgroundColor: "#FFECC0",
-                borderRadius: "15px",
+              style={{
+                color: "#FFD700",
               }}
-              label="Select Date And Time"
-            />
-          </LocalizationProvider>
+            />} label="On Demand Delivery?" />
+          </div>
+          <div>
+            <Typography.Title
+              level={4}>
+              Choose a Date and Time:
+            </Typography.Title>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker
+                slotProps={{
+                  textField: {
+                    variant: 'filled',
+                    disabled: onDemandDelivery,
+                  }
+                }}
+                disablePast={true}
+                onChange={(newDate: any) => {
+                  setQuoteDateAndTime(newDate!.toDate());
+                }}
+                sx={{
+                  backgroundColor: "#FFECC0",
+                  borderRadius: "15px",
+                  border: "none",
+                  textDecoration: "none"
+                }}
+                label="Select Date And Time"
+              />
+            </LocalizationProvider>
+          </div>
+
         </div>
         <div className="pickupAndDropSectionBanner">
           <div className="pickupSection">
@@ -435,23 +459,39 @@ export default function QuotePage() {
               onRemove={handlePickUpStairsRemove}
               count={pickUpStairsCount}
             />
-            <div style={{display:"flex",justifyContent:"center"}}>
-            <FormControlLabel control={<Checkbox
-            // aria-label="Is elevator available"
-            value={pickUpElevator}
-            onChange={(e) => {
-              setPickUpElevator(e.target.checked);
-            }}
-            style={{
-              color: "#FFD700",
-            }}
-          />} label="Is elevator available" />
-          </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <FormControlLabel control={
+                <Checkbox
+                  // aria-label="Is elevator available"
+                  value={pickUpElevator}
+                  onChange={(e) => {
+                    setPickUpElevator(e.target.checked);
+                  }}
+                  style={{
+                    color: "#FFD700",
+                  }}
+                />}
+                label="Is elevator available?" />
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <FormControlLabel control={
+                <Checkbox
+                  // aria-label="Is elevator available"
+                  value={pickUpParkingSpace}
+                  onChange={(e) => {
+                    setPickUpParkingSpace(e.target.checked);
+                  }}
+                  style={{
+                    color: "#FFD700",
+                  }}
+                />}
+                label="Is Parking Space available" />
+            </div>
 
           </div>
           <Divider orientation="vertical" flexItem />
           <div className="pickupSection">
-            <h3>DropOff Details</h3>
+            <h3>Drop Off Details</h3>
             <div
               style={{
                 display: "flex",
@@ -501,7 +541,7 @@ export default function QuotePage() {
                 setSelected={setTo}
                 setDropOffAddress={setDropOffAddress}
                 to={false}
-                callBack={async () => {}}
+                callBack={async () => { }}
               />
             ) : (
               <div>Loading...</div>
@@ -522,18 +562,29 @@ export default function QuotePage() {
               onRemove={handleDropOffStairsRemove}
               count={dropOffStairsCount}
             />
-            <div style={{display:"flex",justifyContent:"center"}}>
-            <FormControlLabel control={<Checkbox
-            value={dropOffElevator}
-            onChange={(e) => {
-              setDropOffElevator(e.target.checked);
-            }}
-            style={{
-              color: "#FFD700",
-            }}
-          />} label="Is elevator available" />
-          </div>
-            
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <FormControlLabel control={<Checkbox
+                value={dropOffElevator}
+                onChange={(e) => {
+                  setDropOffElevator(e.target.checked);
+                }}
+                style={{
+                  color: "#FFD700",
+                }}
+              />} label="Is elevator available" />
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <FormControlLabel control={<Checkbox
+                value={dropOffParkingSpace}
+                onChange={(e) => {
+                  setDropOffParkingSpace(e.target.checked);
+                }}
+                style={{
+                  color: "#FFD700",
+                }}
+              />} label="Is Parking Space available" />
+            </div>
+
           </div>
         </div>
       </div>
@@ -617,7 +668,7 @@ export default function QuotePage() {
                   }}
                   htmlFor="file-upload"
                 >
-                  Take Image
+                  Select an Image
                 </label>
                 <br />
                 <input
@@ -705,6 +756,8 @@ export default function QuotePage() {
           <Typography.Title level={4}>
             Provide Item Specifications
           </Typography.Title>
+
+
           <div className="quoteItemSpecSectionRightSectionEntrycontainer">
             <div className="quoteItemSpecSectionRightSectionText">
               Enter Number of Items
@@ -755,61 +808,44 @@ export default function QuotePage() {
           </div>
           <div className="quoteItemSpecSectionRightSectionEntrycontainer">
             <div className="quoteItemSpecSectionRightSectionText">
-              Parking Space Available?
+              Select Item Dimensions
             </div>
-            <div
+            <CustomDropDown
               style={{
-                width: width > 600 ? "43%" : "80%",
-              }}
-            >
-              <CustomDropDown
-                label={"Select an Option"}
-                options={["Yes", "No"]}
-                selectedOption={"Select"}
-                onOptionChange={(option) => {
-                  if (option === "Yes") {
-                    setParkingSpaceAvailable(true);
-                  }
-                  if (option === "No") {
-                    setParkingSpaceAvailable(false);
-                  }
-                }}
-                buttonId={"parkingSpaceAvailableDropButton"}
-                menuId={"parkingSpaceAvailableMenu"}
-                style={{
-                  backgroundColor: "#FFECC0",
-                  borderRadius: 15,
-                  padding: 10,
-                  width: "100%",
-                }}
-                textStyle={{
-                  fontWeight: "600",
-                  color: "#4A4A4A",
-                  textAlign: "start",
-                }}
-              />
-            </div>
-          </div>
-          <div className="quoteItemSpecSectionRightSectionEntrycontainer">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "16px",
-                fontWeight: "600",
-                backgroundColor: "#FFECC0",
-                padding: "10px",
+                width: width > 600 ? "100%" : "100%",
                 borderRadius: "15px",
-                width: width > 600 ? "40%" : "100%",
-                justifyContent: "center",
-                color: "#4A4A4A",
-                cursor: "pointer",
+                backgroundColor: "#FFECC0",
+                padding: "8px",
               }}
-              onClick={() => setOpenCamera(!openCamera)}
-            >
-              {dataUri ? "Image Uploaded" : "Take a Picture!"}
+              label={itemDimensions === "" ? "Select Item Dimensions" : itemDimensions}
+              options={['3ftx3ftx3ft', '3ftx3ftx3ft', '3ftx3ftx3ft', '3ftx3ftx3ft']}
+              selectedOption={itemDimensions} buttonId={"itemDimensionButton"} menuId={"iteDimensionMenu"}
+              onOptionChange={function (option: string): void {
+                setItemDimensions(option);
+              }} />
+            <Spacer width={10} />
+            <div className="quoteItemSpecSectionRightSectionEntrycontainer">
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  backgroundColor: "#FFECC0",
+                  padding: "10px",
+                  borderRadius: "15px",
+                  // width: width > 600 ? "40%" : "100%",
+                  justifyContent: "center",
+                  color: "#4A4A4A",
+                  cursor: "pointer",
+                }}
+                onClick={() => setOpenCamera(!openCamera)}
+              >
+                {dataUri ? "Image Uploaded" : "Take a Picture!"}
+              </div>
             </div>
           </div>
+
         </div>
       </div>
       <div className="customerQuotePage">

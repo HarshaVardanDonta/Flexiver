@@ -4,6 +4,7 @@ import React from "react";
 import Spacer from "../../../../Components/MySpacer";
 import { FaArrowDown, FaArrowDown91, FaArrowDownAZ, FaArrowDownShortWide, FaDroplet } from "react-icons/fa6";
 import { FaArrowAltCircleDown, FaArrowCircleDown, FaCompressArrowsAlt } from "react-icons/fa";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 interface CustomDropDownProps {
     label: string;
@@ -26,10 +27,7 @@ export default function CustomDropDown(props: CustomDropDownProps) {
         setAnchorDropButton(null);
     };
     return (
-        <div style={{
-            display: 'flex',
-            width: '100%',
-        }}>
+        <div>
             <Button
                 style={
                     props.style
@@ -56,12 +54,13 @@ export default function CustomDropDown(props: CustomDropDownProps) {
                             color: 'black',
 
                         }}>
-                    {props.label} <FaArrowDown />
+                    {props.label} <IoMdArrowDropdown />
                 </Typography.Text>
             </Button>
             <Menu
                 sx={{
                     borderRadius: 15,
+                    boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.2)',
                 }}
                 id={props.menuId}
                 anchorEl={anchorDropButton}

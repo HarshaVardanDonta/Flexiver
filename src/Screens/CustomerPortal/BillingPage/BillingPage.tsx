@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { set } from "react-ga";
 import Success from "../../../Assets/CustomerPortal/Approval.png";
 import MapComp from "../../../Components/MapComp";
-import { Icon } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
 import MySupClient from "../../../SupabaseClient";
@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 
 import { useLocation } from "react-router-dom";
 import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
+import polyline from "@mapbox/polyline";
+import { useLoadScript } from "@react-google-maps/api";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
@@ -26,6 +28,7 @@ const PinIcon = new Icon({
   iconUrl: pin,
   iconSize: [30, 60], // size of the icon
 });
+
 
 export default function BillingPage() {
   const navigate = useNavigate();
@@ -42,10 +45,12 @@ export default function BillingPage() {
     console.log(typeof state.quote.dateAndTime);
 
     quote = state.quote;
+    console.log("BillingQuote", quote);
 
     // console.log(quote.toJson());
+    getRouteDistance();
 
-    console.log("quote: ", state.quote);
+    console.log("quote: ", quote);
   }, []);
 
   async function checkUserLogin() {
@@ -65,7 +70,6 @@ export default function BillingPage() {
         .insert(quote)
         .select();
 
-      console.log(insertedData);
       if (error == null) {
         console.log("data: ", insertedData);
         setId(insertedData[0].id);
@@ -112,6 +116,14 @@ export default function BillingPage() {
 
     navigate("/orderTrackingPage", { state: id_ });
   };
+  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+
+  async function getRouteDistance() {
+    var decodedPoly = await polyline.decode(state.quote.polyString);
+    setPolyPoints(decodedPoly);
+    console.log("polyPoints", polyPoints);
+  }
+
 
   return (
     <div className="billingPage">
@@ -123,6 +135,7 @@ export default function BillingPage() {
             <div className="summaryMap">
               {quote ? (
                 <MapComp
+                  polyPoints={polyPoints}
                   positionWithIconsArray={[
                     {
                       lat: state.quote?.pickUpLat,

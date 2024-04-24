@@ -355,40 +355,42 @@ export default function DriverProfileScreen() {
                       </div>
                     </div>
                     <hr />
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginTop: "7vh",
-                        padding: "0.5vh",
-                      }}
-                    >
-                      <div>Ongoing Delivery</div>
-                      <div>Status: Order Confirmed</div>
-                    </div>
-                    <div>
-                      {ongoingOrders?.map((order, index) => (
-                        <div key={index}>
-                          <OngoingOrders order={order} />
-                          <Spacer height={20} />
-                        </div>
-                      ))}
-                    </div>
+                    {
+                      driver.isVerified ?
+                        (<div>
+                          <div>
+
+                            <a href="" style={{ color: "#0085FF" }}>
+                              Request Vehicle Change
+                            </a>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              marginTop: "7vh",
+                              padding: "0.5vh",
+                            }}
+                          >
+                          </div>
+                          <div>
+                            {ongoingOrders?.map((order, index) => (
+                              <div key={index}>
+                                <OngoingOrders order={order} />
+                                <Spacer height={20} />
+                              </div>
+                            ))}
+                          </div>
+                        </div>) :
+                        (<div>
+                          <h2>You are not verified yet!</h2>
+                        </div>)
+                    }
+
                   </div>
 
-                  <div>
-                    <div style={{ marginBottom: "2vh" }}>
-                      Number of Successful Deliveries: 30
-                    </div>
-                    <div style={{ marginBottom: "4vh" }}>
-                      No Of Complains: 0
-                    </div>
 
-                    <a href="" style={{ color: "#0085FF" }}>
-                      Request Vehicle Change
-                    </a>
-                  </div>
                 </>
               )}
               {/* Incomming Orders */}

@@ -80,6 +80,8 @@ export default function DeliverStatusScreen() {
       }
       setOpenAreUSure(false);
 
+      navigate("/activeDeliveryScreen", { state: record });
+
       console.log("driver assigned");
 
       console.log("Status updated");
