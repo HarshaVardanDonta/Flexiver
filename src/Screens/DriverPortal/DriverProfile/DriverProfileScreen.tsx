@@ -359,12 +359,6 @@ export default function DriverProfileScreen() {
                       driver.isVerified ?
                         (<div>
                           <div>
-                            <div style={{ marginBottom: "2vh" }}>
-                              Number of Successful Deliveries: 30
-                            </div>
-                            <div style={{ marginBottom: "4vh" }}>
-                              No Of Complains: 0
-                            </div>
 
                             <a href="" style={{ color: "#0085FF" }}>
                               Request Vehicle Change
@@ -379,8 +373,6 @@ export default function DriverProfileScreen() {
                               padding: "0.5vh",
                             }}
                           >
-                            <div>Ongoing Delivery</div>
-                            <div>Status: Order Confirmed</div>
                           </div>
                           <div>
                             {ongoingOrders?.map((order, index) => (

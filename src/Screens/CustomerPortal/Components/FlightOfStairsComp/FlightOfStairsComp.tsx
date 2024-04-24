@@ -18,7 +18,6 @@ export default function FlightOfStairsComp(props: FlightOfStairsCompProps) {
                 alignItems: "center",
                 justifyContent: "center",
                 gap: "10px",
-                width: "100%",
             }
         }>
             <Typography.Text style={{

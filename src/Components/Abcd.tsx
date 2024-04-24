@@ -123,7 +123,9 @@ const PlacesInput = (props: any) => {
 
   return (
     <>
-      <Combobox onSelect={handleSelect} style={{}}>
+      <Combobox onSelect={handleSelect} style={{
+        width: "89%",
+      }}>
         <ComboboxInput
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -132,7 +134,7 @@ const PlacesInput = (props: any) => {
           placeholder={label}
           style={{
             backgroundColor: "#FFECC0",
-            width: "85%",
+            width: "95%",
             height: "30px",
             padding: "10px",
             border: "none",
