@@ -17,7 +17,6 @@ class CustomerQuoteModel {
   noOfItems!: number;
   approxWeight!: number;
   noOfHaulers!: number;
-  parkingSpaceAvailable!: boolean;
   itemNote!: string;
   alternateContactName!: string;
   alternateContactNumber!: string;
@@ -32,6 +31,10 @@ class CustomerQuoteModel {
   polyString!: string;
   pickUpElevator!: boolean;
   dropOffElevator!: boolean;
+  pickUpParkingSpace!: boolean;
+  dropOffParkingSpace!: boolean;
+  itemDimensions!: string;
+  onDemandDelivery!: boolean;
 
   fromJson(json: any) {
     this.id = json.id;
@@ -50,7 +53,6 @@ class CustomerQuoteModel {
     this.noOfItems = json.noOfItems;
     this.approxWeight = json.approxWeight;
     this.noOfHaulers = json.noOfHaulers;
-    this.parkingSpaceAvailable = json.parkingSpaceAvailable;
     this.itemNote = json.itemNote;
     this.alternateContactName = json.alternateContactName;
     this.alternateContactNumber = json.alternateContactNumber;
@@ -65,6 +67,10 @@ class CustomerQuoteModel {
     this.polyString = json.polyLine;
     this.pickUpElevator = json.pickUpElevator;
     this.dropOffElevator = json.dropOffElevator;
+    this.pickUpParkingSpace = json.pickUpParkingSpace;
+    this.dropOffParkingSpace = json.dropOffParkingSpace;
+    this.itemDimensions = json.itemDimensions;
+    this.onDemandDelivery = json.onDemandDelivery;
   }
 
   toJson() {
@@ -83,7 +89,6 @@ class CustomerQuoteModel {
       noOfItems: this.noOfItems,
       approxWeight: this.approxWeight,
       noOfHaulers: this.noOfHaulers,
-      parkingSpaceAvailable: this.parkingSpaceAvailable,
       itemNote: this.itemNote,
       alternateContactName: this.alternateContactName,
       alternateContactNumber: this.alternateContactNumber,
@@ -98,6 +103,10 @@ class CustomerQuoteModel {
       polyString: this.polyString,
       pickUpElevator: this.pickUpElevator,
       dropOffElevator: this.dropOffElevator,
+      pickUpParkingSpace: this.pickUpParkingSpace,
+      dropOffParkingSpace: this.dropOffParkingSpace,
+      itemDimensions: this.itemDimensions,
+      onDemandDelivery: this.onDemandDelivery
     };
   }
 }

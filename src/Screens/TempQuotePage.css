@@ -14,7 +14,7 @@
     font-weight: bold;
 }
 
-.tempQuotePage>form {
+.tempQuotePageForm {
     padding: 20px;
     background-color: #DAA83E;
     border-radius: 15px;
@@ -25,21 +25,21 @@
     justify-content: space-between;
 }
 
-.tempQuotePage>form {
+.tempQuotePageForm {
     font-size: 20px;
     font-weight: bold;
     margin: 10px;
     color: #323232;
 }
 
-.tempQuotePage>form>div {
+.tempQuotePageForm>div {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.tempQuotePage>form>div>input {
+.tempQuotePageForm>div>input {
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -48,7 +48,7 @@
     border-radius: 10px;
 }
 
-.tempQuotePage>form>div>textarea {
+.tempQuotePageForm>div>textarea {
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -58,7 +58,7 @@
     border-radius: 10px;
 }
 
-.tempQuotePage>form>button {
+.tempQuotePageForm>button {
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -72,12 +72,18 @@
     align-self: center;
 }
 
+.tempQuotePageForm>button:hover {
+    background-color: #323232;
+    color: white;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
-    .tempQuotePage>form {
+    .tempQuotePageForm {
         height: 80%;
     }
 
-    .tempQuotePage>form>div {
+    .tempQuotePageForm>div {
         flex-direction: column;
     }
 }
