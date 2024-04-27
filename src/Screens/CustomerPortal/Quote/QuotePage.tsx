@@ -10,7 +10,7 @@ import { AiOutlineEnvironment } from "react-icons/ai";
 import { BiCalendar } from "react-icons/bi";
 import CustomTextField from "../../../Components/CustomTextField";
 import { Height, Margin, Padding } from "@mui/icons-material";
-import { Checkbox, Divider, FormControlLabel, TextField } from "@mui/material";
+import { Checkbox, Divider, FormControlLabel, TextField, ThemeProvider } from "@mui/material";
 import FlightOfStairsComp from "../Components/FlightOfStairsComp/FlightOfStairsComp";
 import CustomDropDown from "../Components/CustomDropDown/CustomDropDown";
 import Fire from "../../../Assets/CustomerPortal/Fire.png";
@@ -27,6 +27,7 @@ import pin from "../../../Assets/MapPin.png";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 // import Camera from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
+import dayjs from 'dayjs';
 
 import ImagePreview from "../../../Components/ImagePreview";
 import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
@@ -44,6 +45,17 @@ import RefrigeratedVan from "../../../Assets/CustomerPortal/RefreigeratedVan.png
 import useWindowDimensions from "../../../Model/WindowDimensions";
 
 import { Camera } from "react-camera-pro";
+
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#323232',
+    },
+  },
+});
+
 
 export default function QuotePage() {
   const { isLoaded } = useLoadScript({
@@ -416,8 +428,29 @@ export default function QuotePage() {
               level={4}>
               Choose a Date and Time:
             </Typography.Title>
+            <ThemeProvider theme={theme}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateTimePicker
+            <DateTimePicker defaultValue={dayjs(new Date())}
+            slotProps={{
+                  textField: {
+                    variant: 'filled',
+                    disabled: onDemandDelivery,
+                  }
+                }}
+                disablePast={true}
+                onChange={(newDate: any) => {
+                  setQuoteDateAndTime(newDate?.toDate());
+                }}
+                sx={{
+                  backgroundColor: "#FFECC0",
+                  // borderRadius: "15px",
+                  border: "none",
+                  textDecoration: "none",
+                  color: theme => theme.palette.primary.main
+                }}
+                label="Select Date And Time"/>
+                
+              {/* <DateTimePicker
                 slotProps={{
                   textField: {
                     variant: 'filled',
@@ -435,8 +468,9 @@ export default function QuotePage() {
                   textDecoration: "none"
                 }}
                 label="Select Date And Time"
-              />
+              /> */}
             </LocalizationProvider>
+            </ThemeProvider>
           </div>
 
         </div>
