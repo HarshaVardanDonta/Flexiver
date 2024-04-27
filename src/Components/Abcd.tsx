@@ -110,6 +110,7 @@ const PlacesInput = (props: any) => {
     clearSuggestions();
 
     const results = await getGeocode({ address });
+    console.log(address)
     const { lat, lng } = await getLatLng(results[0]);
     setSelected({ lat: lat, lng: lng });
 

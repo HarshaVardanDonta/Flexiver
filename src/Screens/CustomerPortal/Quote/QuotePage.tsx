@@ -50,6 +50,7 @@ export default function QuotePage() {
     googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
     libraries: ["places"],
   });
+  const [invalidInput, setInvalidInput] = useState(false);
   const [from, setFrom] = useState({ lat: 0, lng: 0 });
   const [to, setTo] = useState({ lat: 0, lng: 0 });
   const [pickUpStairsCount, setPickUpStairsCount] = useState(0);
@@ -107,6 +108,7 @@ export default function QuotePage() {
   var [polyString, setPolyString] = useState("");
 
   async function handleSubmit() {
+    setInvalidInput(true);
     if (noExcludedItems) {
       quote.city = city;
       quote.vehicleType = vehicleType;
@@ -251,6 +253,60 @@ export default function QuotePage() {
     };
   };
 
+  const checkFromInputFields =  ()=>{
+    if(pickUpContactName.length==0){
+      return<span className="warning">Please provide contact name</span>
+    }
+    else if(pickUpContactNumber.length==0){
+      return<span className="warning">Please provide contact number</span>
+    }
+    else if(pickUpAddress.length==0){
+      return<span className="warning">Please provide the pick-up address</span>
+    }
+  }
+
+  const checkToInputFields =  ()=>{
+    if(dropOffContactName.length==0){
+      return<span className="warning">Please provide contact name</span>
+    }
+    else if(dropOffContactNumber.length==0){
+      return<span className="warning">Please provide contact number</span>
+    }
+    else if(dropOffAddress.length==0){
+      return<span className="warning">Please provide the drop-off address</span>
+    }
+  }
+
+  const checkItemDimensions = ()=>{
+    if(noOfItems===0){
+      return<span className="warning">Please provide number of items</span>
+    }
+    else if(approxWeight===0){
+      return<span className="warning">Please provide approximate weight</span>
+    }
+    else if(itemDimensions == ""){
+      return<span className="warning">Please provide Item dimensions</span>
+    }
+  }
+
+  const checkItemSpecifications = ()=>{
+    if(itemSpecs ==""){
+      return<span className="warning">Please provide Instructions/Specifications</span>
+    }
+  }
+
+  const checkItemAlternateInfo = ()=>{
+    if(alternateContactName==""){
+      return<span className="warning">Please provide receivers name</span>
+    }
+    else if(alternateContactNumber==""){
+      return<span className="warning">Please provide receivers contact number</span>
+    }
+
+  }
+
+  
+
   // if (openCamera) {
   //   return (
   //     <div>
@@ -386,6 +442,7 @@ export default function QuotePage() {
         </div>
         <div className="pickupAndDropSectionBanner">
           <div className="pickupSection">
+            <>
             <h3>Pickup Details</h3>
             <div
               style={{
@@ -488,9 +545,12 @@ export default function QuotePage() {
                 label="Is Parking Space available" />
             </div>
 
+            {invalidInput ? checkFromInputFields() : "" }
+            </>
           </div>
           <Divider orientation="vertical" flexItem />
           <div className="pickupSection">
+            <>
             <h3>Drop Off Details</h3>
             <div
               style={{
@@ -584,8 +644,9 @@ export default function QuotePage() {
                 }}
               />} label="Is Parking Space available" />
             </div>
-
-          </div>
+            {invalidInput ? checkToInputFields() : "" }
+            </>
+          </div>       
         </div>
       </div>
       <div
@@ -845,6 +906,7 @@ export default function QuotePage() {
               </div>
             </div>
           </div>
+          {invalidInput ? checkItemDimensions() : "" }
 
         </div>
       </div>
@@ -856,8 +918,9 @@ export default function QuotePage() {
         >
           Please provide details regarding the type of package you intend to
           send, including dimensions, weight, and any other relevant
-          specifications or instructions?
+          specifications or instructions.
         </div>
+        <>
         <TextField
           sx={{
             backgroundColor: "#FFECC0",
@@ -876,6 +939,8 @@ export default function QuotePage() {
             setItemSpecs(e.target.value);
           }}
         />
+        {invalidInput ? checkItemSpecifications() : "" }
+        </>
         <div
           style={{
             fontSize: "24px",
@@ -907,6 +972,7 @@ export default function QuotePage() {
             }}
           />
         </div>
+        {invalidInput ? checkItemAlternateInfo() : "" }
         <div
           style={{
             textAlign: "center",
