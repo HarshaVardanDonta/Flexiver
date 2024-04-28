@@ -140,6 +140,14 @@
 
 .map {
   width: 100%;
+  height: auto;
+}
+
+.map>img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+
 }
 
 .map>video {
