@@ -13,6 +13,7 @@ import pin from "../../../Assets/MapPin.png";
 import MySupClient from "../../../SupabaseClient";
 import { set } from "react-ga";
 import toast from "react-hot-toast";
+import useWindowDimensions from "../../../Model/WindowDimensions";
 
 export default function DeliverStatusScreen() {
   const { state } = useLocation();
@@ -20,6 +21,9 @@ export default function DeliverStatusScreen() {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openAreUSure, setOpenAreUSure] = useState(false);
   const navigate = useNavigate();
+
+  const { height, width } = useWindowDimensions();
+
 
   console.log(state);
   const record = state.order;
@@ -122,11 +126,11 @@ export default function DeliverStatusScreen() {
           <div className="mapSectionRight">
             <div>
               <Typography variant="h5">Pick Up Address</Typography>
-              <Typography variant="h6">{state.order.pickUpAddress}</Typography>
+              <Typography variant="h6">{state.order.pickUpAddress} <br/>Parking Available: {state.order.pickUpParkingSpace ? "Yes":"No"} | Flight of Stairs: {state.order.pickUpStairs} | Elevator Available: {state.order.pickUpElevator? "Yes": "No"}</Typography>
             </div>
             <div>
               <Typography variant="h5">Drop Off Address</Typography>
-              <Typography variant="h6">{state.order.dropOffAddress}</Typography>
+              <Typography variant="h6">{state.order.dropOffAddress} <br/>Parking Available: {state.order.dropOffParkingSpace ? "Yes":"No"} | Flight of Stairs: {state.order.dropOffStairs} | Elevator Available: {state.order.dropOffElevato? "Yes": "No"} </Typography>
             </div>
             <div>
               <Typography variant="h5">Total Trip Distance</Typography>
@@ -138,29 +142,45 @@ export default function DeliverStatusScreen() {
             </div>
           </div>
         </div>
-        <div className="itemDimensions">
-          <Typography fontWeight={600} variant="h6">
-            Item Dimensions: &nbsp;
-          </Typography>
-          <Typography variant="h6">{state.order.itemNote}</Typography>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Typography fontWeight={600} variant="h6">
-            No Of Items: &nbsp;
-          </Typography>
-          <Typography variant="h6">{state.order.noOfItems}</Typography>
+
+        <div className="itemRelatedSection">
+          <img src={state.order.imageUrl} alt="Item Image" style={{ width: width>600 ? "40%": "80%", height: "auto", borderRadius:"10px" }} />
+          <div>
+              <div className="itemDimensions">
+                <Typography fontWeight={600} variant="h6">
+                  Item Dimensions: &nbsp;
+                </Typography>
+                <Typography variant="h6">{state.order.itemDimensions}</Typography>
+              </div>
+              <div className="itemDimensions">
+                 <Typography fontWeight={600} variant="h6">
+                  No Of Items: &nbsp;
+                </Typography>
+                <Typography variant="h6">{state.order.noOfItems}</Typography>
+              </div>
+              <div className="itemDimensions">
+                <Typography fontWeight={600} variant="h6">
+                  Item Description: &nbsp;
+                </Typography>
+                <Typography variant="h6">{state.order.itemNote}</Typography>
+              </div>
+              <div className="itemDimensions">
+                 <Typography fontWeight={600} variant="h6">
+                  Weight: &nbsp;
+                </Typography>
+                <Typography variant="h6">{state.order.approxWeight}</Typography>
+              </div>
+              <div className="itemDimensions">
+                <Typography fontWeight={600} variant="h6">
+                  Important Notes: &nbsp;
+                </Typography>
+                <Typography variant="h6">{state.order.pickUpInstructions}</Typography>
+              </div>            
+          </div>
         </div>
-        <div className="itemDimensions">
-          <Typography fontWeight={600} variant="h6">
-            Item Description: &nbsp;
-          </Typography>
-          <Typography variant="h6">{state.order.itemNote}</Typography>
-        </div>
-        <div className="itemDimensions">
-          <Typography fontWeight={600} variant="h6">
-            Important Notes: &nbsp;
-          </Typography>
-          <Typography variant="h6">{state.order.pickUpInstructions}</Typography>
-        </div>
+        
+       
+
         <div className="buttonContainer">
           {!ongoing && (
             <Button

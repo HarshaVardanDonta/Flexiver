@@ -3,13 +3,14 @@ import CustomerPortalFooter from "../Components/CustomerPortalFooter/CustomerPor
 import CustomerPortalHeader from "../Components/CustomerPortalHeader/CustomerPortalHeader";
 import "./OrderTrackingPage.css";
 import MapComp from "../../../Components/MapComp";
-import { Icon } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MySupClient from "../../../SupabaseClient";
 import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
+import polyline from "@mapbox/polyline";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
@@ -22,11 +23,19 @@ const PinIcon = new Icon({
 });
 
 export default function OrderTrackingPage() {
+  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+
+  async function getPolyLine() {
+    var decodedPoly = polyline.decode(orderDetails?.polyString!);
+    setPolyPoints(decodedPoly);
+    console.log("polyPoints", polyPoints);
+  }
+
   const orderStatusArray = [
     "Order Pending",
     "Partner Assigned",
     "Package Picked Up",
-    "Package Enroute",
+    "Package En Route",
     "Package Delivered",
   ];
 
@@ -55,6 +64,8 @@ export default function OrderTrackingPage() {
 
       orderDetails = data[0];
       setOrderDetails(data[0]);
+      getPolyLine();
+
 
       console.log("set record");
       console.log(orderDetails);
@@ -75,11 +86,17 @@ export default function OrderTrackingPage() {
       <div className="orderTrackingPage">
         <h2>Current Order Status: {orderDetails?.orderStatus}</h2>
         <div className="trackPageTop">
-          <div className="trackPageSummary">
-            <h3>Order Id: #{orderDetails?.id}</h3>
-            <p>Delivered By / Delivery Partner: #DriverId | Name</p>
-            <p>Item Description: {orderDetails?.itemNote}</p>
-          </div>
+            <div className="trackPageSummary">
+              <h3>Order Id: #{orderDetails?.id}</h3>
+              <strong>{orderDetails?.orderStatus === "Order Pending"? "Waiting for Delivery Partner to be assigned":""}</strong><br/>
+              Item Description: {orderDetails?.itemNote}<br/>
+              Item Weight: {orderDetails?.approxWeight} lbs<br/>
+              Item Quantity: {orderDetails?.noOfItems}<br/>
+              Item Dimensions: {orderDetails?.itemDimensions}<br/>
+              Distance: {orderDetails?.distance}<br/>
+              Vehicle Type: {orderDetails?.vehicleType}<br/>
+            </div>
+          <img className="trackPageImage" src={orderDetails?.imageUrl} alt="Item" />
           <div className="trackPagePrice">
             <h3>Base Price: $400</h3>
             <h3>Tax: $10</h3>
@@ -135,6 +152,7 @@ export default function OrderTrackingPage() {
           <div className="trackPageMap">
             {orderDetails ? (
               <MapComp
+                polyPoints={polyPoints}
                 positionWithIconsArray={[
                   {
                     lat: orderDetails.pickUpLat,
@@ -170,6 +188,23 @@ export default function OrderTrackingPage() {
             )}
           </div>
         </div>
+        {
+          orderDetails?.deliveryPartnerPickUpImage !==null &&
+          <div className="driverSideImageSection">
+            <div>
+                <h3>Delivery Partner Pick Up Image</h3>
+                <img className="trackPageImage" src={orderDetails?.deliveryPartnerPickUpImage} alt="Pickup Image" />
+            </div>
+            {
+            orderDetails?.deliveryPartnerDropOffImage !==null &&
+            <div>
+                <h3>Delivery Partner Drop Off Image</h3>
+                <img className="trackPageImage" src={orderDetails?.deliveryPartnerDropOffImage} alt="Pickup Image" />
+            </div>
+            }
+         </div>
+        }
+       
       </div>
       <CustomerPortalFooter />
     </div>

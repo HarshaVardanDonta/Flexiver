@@ -35,6 +35,8 @@ class CustomerQuoteModel {
   dropOffParkingSpace!: boolean;
   itemDimensions!: string;
   onDemandDelivery!: boolean;
+  deliveryPartnerPickUpImage!: string;
+  deliveryPartnerDropOffImage!: string;
 
   fromJson(json: any) {
     this.id = json.id;
@@ -71,6 +73,8 @@ class CustomerQuoteModel {
     this.dropOffParkingSpace = json.dropOffParkingSpace;
     this.itemDimensions = json.itemDimensions;
     this.onDemandDelivery = json.onDemandDelivery;
+    this.deliveryPartnerPickUpImage = json.deliveryPartnerPickUpImage;
+    this.deliveryPartnerDropOffImage = json.deliveryPartnerDropOffImage;
   }
 
   toJson() {

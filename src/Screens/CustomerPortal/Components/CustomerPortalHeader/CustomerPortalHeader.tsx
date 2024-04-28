@@ -51,7 +51,13 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                     </IconButton>
                 }
 
-                <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' />
+                <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' onClick={()=>{
+                    navigate('/');
+                }} 
+                style={{
+                    cursor: 'pointer',
+                }}
+                />
             </div>
             <Button
                 style={{
