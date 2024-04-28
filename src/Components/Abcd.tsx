@@ -108,7 +108,6 @@ const PlacesInput = (props: any) => {
   const handleSelect = async (address: any) => {
     setValue(address, false);
     clearSuggestions();
-
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
     setSelected({ lat: lat, lng: lng });
@@ -123,7 +122,9 @@ const PlacesInput = (props: any) => {
 
   return (
     <>
-      <Combobox onSelect={handleSelect} style={{}}>
+      <Combobox onSelect={handleSelect} style={{
+        width: "89%",
+      }}>
         <ComboboxInput
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -132,13 +133,14 @@ const PlacesInput = (props: any) => {
           placeholder={label}
           style={{
             backgroundColor: "#FFECC0",
-            width: "85%",
+            width: "95%",
             height: "30px",
             padding: "10px",
             border: "none",
             borderRadius: "15px",
             display: "flex",
             justifyContent: "left",
+            boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.25)",
           }}
         />
         <ComboboxPopover>

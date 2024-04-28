@@ -72,11 +72,10 @@ const MapComp = (props: MapProps) => {
   return (<>
     <MapContainer
       bounds={[[startPoint.lat, startPoint.lng], [endPoint.lat, endPoint.lng]]}
-
       //center={[centerLat, centerLng]}
       //zoom={13}
       scrollWheelZoom={true}
-      style={{ height: "100%", width: "100%" }}>
+      style={{ height: "100%", width: "100%", borderRadius:"10px" }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />

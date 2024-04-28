@@ -16,14 +16,15 @@
     height: 200px;
     width: 200px;
     border-radius: 15px;
-    background-color: #FFECC0;
-    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
+    background-color: #323232;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     transition: 0.5s;
     cursor: pointer;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.25);
 }
 
 .vehicleImageContainer {
@@ -41,6 +42,21 @@
     width: 100%;
     height: 20%;
     background-color: #FFECC0;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.5s;
+    overflow: hidden;
+}
+
+.vehicleTextSelectedContainer {
+    width: 100%;
+    height: 20%;
+    background-color: #323232;
     border-radius: 0 0 15px 15px;
     display: flex;
     flex-direction: column;
@@ -85,6 +101,16 @@
     height: 50%;
 }
 
+.vehicleContainer:hover .vehicleTextSelectedContainer {
+    cursor: pointer;
+    height: 50%;
+}
+
+.vehicleContainerSelected:hover .vehicleTextSelectedContainer {
+    cursor: pointer;
+    height: 50%;
+}
+
 .vehicleContainer:hover .extraVehicleTextReveal {
     display: flex;
     justify-content: center;
@@ -104,6 +130,11 @@
 }
 
 .vehicleContainerSelected:hover .vehicleTextContainer {
+    cursor: pointer;
+    height: 50%;
+}
+
+.vehicleContainerSelected:hover .vehicleSelectedTextContainer {
     cursor: pointer;
     height: 50%;
 }
