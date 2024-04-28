@@ -61,10 +61,13 @@ export default function BillingPage() {
         position: "bottom-right",
       });
     } else {
+      quote = state.quote;
       //set the customer id in the state
       quote.customerId = session.data.session.user?.id;
+    
+      console.log("quote: ", quote);
 
-      //insert the quote to DB
+      // insert the quote to DB
       const { data: insertedData, error } = await supabase
         .from("CustomerQuote")
         .insert(quote)

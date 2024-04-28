@@ -141,6 +141,7 @@ const PlacesInput = (props: any) => {
             borderRadius: "15px",
             display: "flex",
             justifyContent: "left",
+            boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.25)",
           }}
         />
         <ComboboxPopover>

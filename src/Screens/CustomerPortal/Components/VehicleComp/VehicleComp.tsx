@@ -19,12 +19,16 @@ export default function VehicleComp(props: VehicleCompProps) {
             <div className='vehicleImageContainer'>
                 <img src={props.vehicleImage} alt='logo' className='vehicleLogo' />
             </div>
-            <div className='vehicleTextContainer'>
-                <Typography.Text>
+            <div className={props.selected? 'vehicleTextSelectedContainer': 'vehicleTextContainer'}>
+                <Typography.Text style={{
+                    color: props.selected ? 'white' : 'black'
+                }}>
                     {props.vehicleName}
                 </Typography.Text>
                 <div className='extraVehicleTextReveal'>
-                    <Typography.Text>
+                    <Typography.Text style={{
+                    color: props.selected ? 'white' : 'black'
+                }}>
                         {props.vehicleDescription}
                     </Typography.Text>
                 </div>
