@@ -46,6 +46,7 @@ export default function BillingPage() {
 
     quote = state.quote;
     console.log("BillingQuote", quote);
+    twoWheelerPriceCalculator();
 
     // console.log(quote.toJson());
     getRouteDistance();
@@ -125,6 +126,39 @@ export default function BillingPage() {
     var decodedPoly = await polyline.decode(state.quote.polyString);
     setPolyPoints(decodedPoly);
     console.log("polyPoints", polyPoints);
+  }
+
+  const twoWheelerBasePrice = 10;
+
+  var [finalPrice, setPrice] = useState(0.0);
+
+  function twoWheelerPriceCalculator(){
+    var distance = state.quote.distance.split(" ")[0];
+    var price = twoWheelerBasePrice + (distance -1);
+    var floors = state.quote.pickUpStairs + state.quote.dropOffStairs;
+    var addPrice = 5.0;
+    console.log("Floors: ", floors);
+    console.log("Distance: ", distance);
+    console .log("Weight: ", state.quote.approxWeight);
+    if(state.quote.approxWeight>5){
+      if (floors >10){
+      for ( var i =0; i<state.quote.approxWeight -6; i++){
+        addPrice += addPrice*0.1;
+        console.log("Add Price: ", addPrice.toPrecision(2));
+      }
+      price += addPrice*2;
+      }else{
+        for ( var i =0; i<state.quote.approxWeight -6; i++){
+          addPrice += addPrice*0.1;
+          console.log("Add Price: ", addPrice.toPrecision(2));
+        }
+        price += addPrice;
+      }
+
+    }
+
+    setPrice(parseFloat(price.toFixed(2)));
+    console.log("Price: ", finalPrice);
   }
 
 
@@ -261,7 +295,7 @@ export default function BillingPage() {
               }}
             >
               Basic Price:
-              <div>1000</div>
+              <div>{finalPrice.toString()}</div>
             </div>
           </div>
           <div

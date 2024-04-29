@@ -269,7 +269,37 @@ export default function NewQuoteDesign() {
             </div>
             <div className="vehicleBanner">
                 <div className="vehicleCompContainer">
-                <VehicleComp
+                <div className= {twoWheelerSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
+                    settwoWheelerSelected(true);
+                    setuteVanSelected(false);
+                    setrefrigeratedVanSelected(false);
+                    setVehicleType("Two Wheeler");
+                }}>
+                  <img src={ TwoWheeler} alt="Small Box" />
+                  <div>Two Wheeler</div>
+                  <div className="itemDimensionConsealedText"> Can carry upto 5Kgs</div>
+                </div>
+                <div className= {uteVanSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
+                    setuteVanSelected(true);
+                    settwoWheelerSelected(false);
+                    setrefrigeratedVanSelected(false);
+                    setVehicleType("UTE / Van");
+                }}>
+                  <img src={ UteVan} alt="Small Box" />
+                  <div>UTE / Van</div>
+                  <div className="itemDimensionConsealedText"> Can carry upto 10Kgs</div>
+                </div>
+                <div className= {refrigeratedVanSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
+                    setrefrigeratedVanSelected(true);
+                    settwoWheelerSelected(false);
+                    setuteVanSelected(false);
+                    setVehicleType("Refreigerated Van");
+                }}>
+                  <img src={ RefrigeratedVan} alt="Small Box" />
+                  <div>Refreigerated Van</div>
+                  <div className="itemDimensionConsealedText"> Can carry upto 15Kgs</div>
+                </div>
+                {/* <VehicleComp
                     vehicleName={"Two Wheeler"}
                     vehicleImage={TwoWheeler}
                     vehicleDescription={"Can Carry upto 5Kg"}
@@ -304,7 +334,7 @@ export default function NewQuoteDesign() {
                     setVehicleType("Refreigerated Van");
                     }}
                     selected={refrigeratedVanSelected}
-                />      
+                />       */}
                 </div>
 
             </div>
@@ -513,7 +543,10 @@ export default function NewQuoteDesign() {
           {
             itemDimensionsArray.map((item, index) => {
               return (
-                <div className="itemDimensionBox">
+                <div className={itemDimensions === item ? "itemDimensionBoxSelected": "itemDimensionBox"} onClick={()=>{
+                  setItemDimensions(item);
+
+                }}>
                   <img src={index === 0 ? SmallBox : index === 1 ? SmallBoxMulti : index === 2 ? LargeBox : index === 3 ? LargeBoxMulti : index === 4 ? Heavy : MaximumHeavyItems} alt="Small Box" />
                   <div>{item}</div>
                   <div className="itemDimensionConsealedText">{itemDimensionDescArray[index]}</div>
@@ -752,7 +785,7 @@ export default function NewQuoteDesign() {
       <div className="customerQuotePage">
         <div
           style={{
-            fontSize: "24px",
+            fontSize: "18px",
           }}
         >
           Please provide details regarding the type of package you intend to
@@ -780,7 +813,7 @@ export default function NewQuoteDesign() {
         />
         <div
           style={{
-            fontSize: "24px",
+            fontSize: "18px",
           }}
         >
           Alternate Contact Information
