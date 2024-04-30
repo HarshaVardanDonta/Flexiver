@@ -21,14 +21,18 @@ export default function CustomerPortalFooter() {
                     fontSize: "20px",
                 }}>Useful Links</Typography.Text>
                 <Typography.Text style={{
+                    fontSize: "16px",
                     color: "white",
-                    fontSize: "20px",
                     cursor: "pointer",
+                }} onClick={()=>{
+                    navigate("/termsAndConditions");
                 }}>Terms and Conditions</Typography.Text>
                 <Typography.Text style={{
+                    fontSize: "16px",
                     color: "white",
-                    fontSize: "20px",
                     cursor: "pointer",
+                }} onClick={()=>{
+                    navigate("/privacyPolicy");
                 }}>Privacy Policy</Typography.Text>
             </div>
             <div className="customerPortalHeaderSection">
@@ -38,28 +42,36 @@ export default function CustomerPortalFooter() {
                 }}>Socials</Typography.Text>
                 <Typography.Text style={{
                     color: "white",
-                    fontSize: "20px",
+                    fontSize: "16px",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
                     height: "30px",
-                }}> <img src={Instagram} alt="instagram icon" />Instagram Handle</Typography.Text>
+                }} onClick={()=>{
+                    window.open("https://www.instagram.com/flexiver/", '_blank', 'noopener');
+                }}> <img src={Instagram} alt="instagram icon" style={{
+                    width: "20px",
+                }} />flexiver</Typography.Text>
                 <Typography.Text style={{
                     color: "white",
-                    fontSize: "20px",
+                    fontSize: "16px",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
                     height: "30px",
-                }}> <img src={Linkedin} alt="linkedin icon" />LinkedIn Handle</Typography.Text>
+                }}> <img src={Linkedin} alt="linkedin icon" style={{
+                    width: "20px",
+                }} />LinkedIn Handle</Typography.Text>
                 <Typography.Text style={{
+                    fontSize: "16px",
                     color: "white",
-                    fontSize: "20px",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
                     height: "30px",
-                }}> <img src={Facebook} alt="facebook icon" />Facebook Page</Typography.Text>
+                }}> <img src={Facebook} alt="facebook icon" style={{
+                    width: "20px",
+                }} />Facebook Page</Typography.Text>
             </div>
             <div className="customerPortalHeaderSection" onClick={() => {
                 // open url in new window
@@ -73,7 +85,7 @@ export default function CustomerPortalFooter() {
                 }}>Contact Us</Typography.Text>
                 <Typography.Text style={{
                     color: "white",
-                    fontSize: "20px",
+                    fontSize: "16px",
                     cursor: "pointer",
                 }}>Maroubra sydney,1/206 Maroubra Rd, Maroubra NSW 2035</Typography.Text>
             </div>

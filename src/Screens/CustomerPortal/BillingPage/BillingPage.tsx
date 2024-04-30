@@ -356,7 +356,7 @@ export default function BillingPage() {
                   }}
                 >
                   {state.quote.itemNote} | count: {state.quote.noOfItems} |
-                  weight: {state.quote.approxWeight}
+                  weight: {state.quote.approxWeight} | Item Type: {state.quote.itemType}
                 </p>
               </div>
               <div>

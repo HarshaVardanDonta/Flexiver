@@ -145,6 +145,7 @@ export default function NewQuoteDesign() {
       quote.dropOffParkingSpace = dropOffParkingSpace;
       quote.itemDimensions = itemDimensions;
       quote.onDemandDelivery = onDemandDelivery;
+      quote.itemType= itemType;
 
       navigate("/billingPage", { state: { quote } });
 
