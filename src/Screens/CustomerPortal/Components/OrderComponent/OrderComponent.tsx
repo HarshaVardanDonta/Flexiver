@@ -33,16 +33,32 @@ export default function OrderComponent(props: OrderProps) {
         }}
       >
         <div className="orderCompLeft">
-          {data.orderStatus !== "Package Delivered"? "Active Order":"Order Completed"}
+          <div style={{
+            fontWeight: "bold",
+            padding: "5px",
+            borderRadius: "5px",
+            backgroundColor: "lightblue",
+            width: "100px",
+            textAlign: "center",
+          }}>
+            {data.orderStatus !== "Package Delivered"? "Active Order":"Order Completed"}
+          </div>
           <h3>Order Id: #{data.id}</h3>
           <h3>{data.orderStatus==="Order Pending"?"Driver Not yet Assigned": data.orderStatus}</h3>
           <p>Item Description: {data.itemNote}</p>
         </div>
         <div className="orderCompRight">
           {data.orderStatus === "Package Delivered" && 
-            <h3>Delivery Date: 23-23-2323</h3>
+            <h3>Delivery Date: {data.deliveryDate}</h3>
           } 
-          <h3> 200$</h3>
+          <h3 style={{
+            fontWeight: "bold",
+            padding: "5px",
+            borderRadius: "5px",
+            color: "black",
+            backgroundColor: "white",
+            textAlign: "center",
+          }}>Base Price: {data.basePrice} $</h3>
         </div>
       </div>
       <Spacer height={10} />

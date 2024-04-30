@@ -346,10 +346,9 @@ export default function DriverProfileScreen() {
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "space-between",
-                            }}
-                          >
-                            <div>Driver ID: # {driver.driverId}</div>
-                            <div>Current Earnings: $0</div>
+                            }}>
+                              <div>Driver ID: {driver.driverId}</div>
+                            <div>Current Earnings: 0$</div>
                           </div>
                         </div>
                       </div>
@@ -359,7 +358,6 @@ export default function DriverProfileScreen() {
                       driver.isVerified ?
                         (<div>
                           <div>
-
                             <a href="" style={{ color: "#0085FF" }}>
                               Request Vehicle Change
                             </a>
@@ -409,10 +407,16 @@ export default function DriverProfileScreen() {
                       }}
                     >
                       <b>Order History</b>
-                      <b>Sort By</b>
+                      {/* <b>Sort By</b> */}
                     </div>
 
                     <div>
+                      {
+                        historyOrders?.length === 0 &&
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                          <h1>No Orders Available</h1>
+                        </div>
+                      }
                       {historyOrders?.map((order, index) => (
                         <div key={index}>
                           <OrderHistoryComp order={order} />
