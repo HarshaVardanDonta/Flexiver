@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { useRive } from '@rive-app/react-canvas';
 import logo from "../Assets/logo.png";
 import whiteLogo from "../Assets/whiteLogo.png";
-import twoWheeler from "../Assets/2Wheeler.svg";
-import UTE from "../Assets/UTE.svg";
-import RefregeratedVan from "../Assets/RefregeratedVan.svg";
+import twoWheeler from "../Assets/CustomerPortal/TwoWheeler.png";
+import UTE from "../Assets/CustomerPortal/UTEVan.png";
+import RefregeratedVan from "../Assets/CustomerPortal/RefreigeratedVan.png";
 import landingVideo from "../Assets/lVideo.mp4";
-import map from "../Assets/cityMap.mp4";
+import map from "../Assets/mapVid.gif";
 import mobile from "../Assets/phone_banner.png";
 import "./DriverLanding.css";
 import "aos/dist/aos.css";
@@ -316,7 +316,8 @@ export default function DriverLanding() {
           }
         </div>
         <div className="map">
-          <video src={map} autoPlay loop muted />
+          <img src={map} alt="mapGif"/>
+          {/* <video src={map} autoPlay loop muted /> */}
         </div>
         <div id="about">
           <br />
@@ -433,7 +434,9 @@ export default function DriverLanding() {
             Join our fleet of drivers and choose from a variety of vehicles to
             suit your preferences and transportation needs:
           </p>
+          <div>
           <SwiperComp images={[twoWheeler, UTE, RefregeratedVan]} />
+          </div>
         </div>
 
         <div className="mobile">

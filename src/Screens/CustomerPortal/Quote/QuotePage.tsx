@@ -707,7 +707,7 @@ export default function QuotePage() {
             <div
               style={{
                 width: "600px",
-                height: "300px",
+                // height: "300px",
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 backgroundColor: "#FFF8EC",

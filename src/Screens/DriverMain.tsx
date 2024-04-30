@@ -23,6 +23,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactGA from "react-ga";
 import { Toaster } from "react-hot-toast";
 import { createBrowserHistory } from 'history';
+import NewQuoteDesign from "./CustomerPortal/NewQuoteDesign/NewQuoteDesign";
 import Places from "../Components/Abcd";
 
 const history = createBrowserHistory();
@@ -60,6 +61,8 @@ export default function DriverMain() {
           <Route path="/activeDeliveryScreen" element={<ActiveDeliveryScreen />} />
           <Route path="/Abcd" element={<Places />} />
           <Route path="/tempQuotePage" element={<TempQuotePage />} />
+
+          <Route path="/test1" element={<NewQuoteDesign />} />
         </Routes>
 
         <Toaster position="bottom-right" />

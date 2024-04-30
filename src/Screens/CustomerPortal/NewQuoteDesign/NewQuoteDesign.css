@@ -1,0 +1,490 @@
+.newCustomerQuotePage {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    /* padding-left: 10%;
+    padding-right: 10%; */
+    padding-bottom: 5%;
+    background-color: white;
+    overflow-x: hidden;
+    /* background-image: url("../../../Assets/CustomerPortal/QuotePageVid2.gif"); */
+}
+
+.mainTagLine {
+    display: flex;
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 0px rgb(213, 213, 213);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    color: #4A4A4A;
+}
+
+.vehicleBannerCustomStyleMainContainer {
+    display: relative;
+    height: 400px;
+    width: 100%;
+    position: relative;
+    align-items: center;
+}
+
+.vehicleBannerCustomStyle {
+    display: relative;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 260px;
+    z-index: 3;
+    align-items: center;
+    background-image: url("../../../Assets/CustomerPortal/QuotePageVid1.gif");
+    background-position: center;
+}
+
+.vehicleBanner {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 4;
+}
+
+.itemDimensionsBanner {
+    display: flex;
+    flex-direction: column;
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    text-decoration: none;
+    padding-bottom: 20px;
+    padding-left: 20%;
+    padding-right: 20%;
+    gap: 10px;
+    background-color: white;
+    padding-bottom: 50px;
+}
+
+.itemDimensionContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+    height: 170px;
+}
+
+.itemDimensionBoxSelected {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 180px;
+    height: 150px;
+    background-color: #FFECC0;
+    border-radius: 15px;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    overflow: hidden;
+    transition: 0.5s;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    background-image: url("../../../Assets/CustomerPortal/quoteItemSpecificationBackground.png");
+    background-size: cover;
+    background-color: #323232;
+    color: white;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #ffb300;
+    margin-bottom: 10px;
+}
+
+.itemDimensionBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 180px;
+    height: 150px;
+    background-color: #FFECC0;
+    border-radius: 15px;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    overflow: hidden;
+    transition: 0.5s;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    background-image: url("../../../Assets/CustomerPortal/quoteItemSpecificationBackground.png");
+    background-size: cover;
+}
+
+.itemDimensionConsealedText {
+    display: none;
+}
+
+.itemDimensionBox:hover .itemDimensionConsealedText {
+    display: block;
+}
+
+.itemDimensionBoxSelected:hover .itemDimensionConsealedText {
+    display: block;
+}
+
+.itemDimensionBox img {
+    width: auto;
+    height: 80%;
+    border-radius: 15px;
+    transition: 0.5s;
+}
+
+.itemDimensionBoxSelected img {
+    width: auto;
+    height: 80%;
+    border-radius: 15px;
+    transition: 0.5s;
+}
+
+.itemDimensionBox:hover img {
+    width: auto;
+    height: 50%;
+
+}
+
+.itemDimensionBox:hover {
+    background-color: #323232;
+    color: white;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #ffb300;
+    margin-bottom: 10px;
+}
+
+.vehicleCompContainer {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    justify-content: center;
+    background-color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    border-radius: 30px;
+    background-image: url("../../../Assets/CustomerPortal/wave.png");
+    background-position: bottom;
+    background-repeat: no-repeat;
+
+}
+
+.customTextFieldStyle {
+    background-color: #FFECC0;
+    width: 85%;
+    border: none;
+    bpx-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.uploadPicMasterContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(44, 33, 33, 0.5);
+    z-index: 100000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploadPicContainer {
+    height: 80%;
+    width: 60%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-direction: row;
+    background-color: #FFF8EC;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 20px;
+    align-items: center;
+}
+
+.uploadPicImageContainer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d3d3d3;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.getQuoteButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    width: 297px;
+    height: 100%;
+    border-radius: 15px;
+    background-color: #FFECC0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    animation: cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.5s;
+}
+
+.getQuoteButton:hover {
+    background-color: #323232;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.dateSelectionSection {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+.chooseDateButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    width: 297px;
+    height: 100%;
+    border-radius: 15px;
+    background-color: #FFECC0;
+    padding: 10px;
+}
+
+.pickupAndDropSectionBanner {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    justify-content: center;
+    align-items: center;
+}
+
+.pickupSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.quoteItemSpecSection {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-image: url("../../../Assets/CustomerPortal/quoteItemSpecificationBackground.png");
+    overflow-x: hidden;
+}
+
+.quoteItemSpecSectionMapSection {
+    margin-left: 10%;
+    width: 35%;
+    height: 80%;
+    background-color: black;
+    border-radius: 15px;
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
+.quoteItemSpecSectionRightSection {
+    margin-right: 10%;
+    display: grid;
+    /* grid-template-rows: 1fr 1fr; */
+    gap: 20px;
+    width: 35%;
+    align-items: start;
+}
+
+.quoteItemSpecSectionRightSectionEntrycontainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* background-color: red; */
+    flex-direction: row;
+    justify-content: space-between;
+    /* width: 89%; */
+    align-items: center;
+}
+
+.quoteItemSpecSectionRightSectionText {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4A4A4A;
+    text-align: left;
+}
+
+.alternateContactContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+.mainExcludedItemContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+    align-self: center;
+}
+
+.excludedItemContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+@media screen and (max-width: 1024px) {
+    .newCustomerQuotePage {
+        text-align: center;
+        gap: 15px;
+        background-image: none;
+
+    }
+
+    .mainTagLine {
+        margin: 10px;
+        margin-top: 30px;
+    }
+
+    .vehicleBanner {
+        gap: 10px;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .vehicleBannerCustomStyle {
+        height: 400px;
+    }
+
+    .vehicleCompContainer {
+        display: flex;
+        position: relative;
+        top: 400px;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .dateSelectionSection {
+        margin-top: 450px;
+    }
+
+    .getQuoteButton {
+        width: 200px;
+        height: 200px;
+        font-size: 1.5rem;
+    }
+
+    .dateSelectionSection {
+        gap: 5%;
+        flex-direction: column;
+    }
+
+    .chooseDateButton {
+        width: 200px;
+        font-size: 1rem;
+    }
+
+    .pickupAndDropSectionBanner {
+        width: 100%;
+        gap: 12px;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 400px;
+    }
+
+    .pickupSection {
+        gap: 5px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .quoteItemSpecSection {
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .quoteItemSpecSectionMapSection {
+        width: 80%;
+        height: 200px;
+        margin: 10px;
+    }
+
+    .quoteItemSpecSectionRightSection {
+        width: 100%;
+        margin: 0px;
+        align-items: center;
+    }
+
+    .quoteItemSpecSectionRightSectionEntrycontainer {
+        width: 100%;
+        /* flex-direction: column; */
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .quoteItemSpecSectionRightSectionText {
+        font-size: 1rem;
+    }
+
+    .alternateContactContainer {
+        align-items: center;
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+    }
+
+    .mainExcludedItemContainer {
+        flex-direction: column;
+        height: auto;
+        gap: 15px;
+    }
+
+    .excludedItemContainer {
+        gap: 10px;
+    }
+
+    .itemDimensionsBanner {
+        padding: 10px;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .itemDimensionContainer {
+        flex-direction: column;
+        gap: 10px;
+        width: 80%;
+        height: auto;
+    }
+
+    .itemDimensionBox {
+        width: 80%;
+    }
+
+    .itemDimensionBoxSelected {
+        width: 80%;
+    }
+
+    .uploadPicContainer {
+        display: flex;
+        flex-direction: column;
+        /* grid-template-rows: 1fr 1fr; */
+    }
+
+
+}
