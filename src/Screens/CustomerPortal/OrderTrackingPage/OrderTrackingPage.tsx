@@ -98,15 +98,14 @@ export default function OrderTrackingPage() {
             </div>
           <img className="trackPageImage" src={orderDetails?.imageUrl} alt="Item" />
           <div className="trackPagePrice">
-            <h3>Base Price: $400</h3>
-            <h3>Tax: $10</h3>
+            <h3>Base Price: {orderDetails?.basePrice}$</h3>
             <Divider
               sx={{
                 width: "100%",
                 backgroundColor: "#D99F26",
               }}
             />
-            <h3>Total: $410</h3>
+            <h3>Total: {orderDetails?.basePrice} $</h3>
           </div>
         </div>
         <div
