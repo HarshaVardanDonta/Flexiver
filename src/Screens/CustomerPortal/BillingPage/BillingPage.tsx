@@ -46,7 +46,18 @@ export default function BillingPage() {
 
     quote = state.quote;
     console.log("BillingQuote", quote);
-    twoWheelerPriceCalculator();
+    if(state.quote.vehicleType === "Two Wheeler"){
+      twoWheelerPriceCalculator();
+    }
+    else if(state.quote.vehicleType === "UTE / Van"){
+      uteVanPriceCalculator();
+    }
+    else if(state.quote.vehicleType === "Refreigerated Van"){
+      refvanPriceCalculator();
+    }
+    // twoWheelerPriceCalculator();
+    // uteVanPriceCalculator();
+    // refvanPriceCalculator();
 
     // console.log(quote.toJson());
     getRouteDistance();
@@ -132,23 +143,24 @@ export default function BillingPage() {
 
   var [finalPrice, setPrice] = useState(0.0);
 
-  function twoWheelerPriceCalculator(){
     var distance = state.quote.distance.split(" ")[0];
-    var price = twoWheelerBasePrice + (distance -1);
     var floors = state.quote.pickUpStairs + state.quote.dropOffStairs;
+    var weight = state.quote.approxWeight;
+    function twoWheelerPriceCalculator(){
+    var price = twoWheelerBasePrice + (distance -1);
     var addPrice = 5.0;
     console.log("Floors: ", floors);
     console.log("Distance: ", distance);
-    console .log("Weight: ", state.quote.approxWeight);
-    if(state.quote.approxWeight>5){
+    console .log("Weight: ", weight);
+    if(weight>5){
       if (floors >10){
-      for ( var i =0; i<state.quote.approxWeight -6; i++){
+      for ( var i =0; i<weight -6; i++){
         addPrice += addPrice*0.1;
         console.log("Add Price: ", addPrice.toPrecision(2));
       }
       price += addPrice*2;
       }else{
-        for ( var i =0; i<state.quote.approxWeight -6; i++){
+        for ( var i =0; i<weight -6; i++){
           addPrice += addPrice*0.1;
           console.log("Add Price: ", addPrice.toPrecision(2));
         }
@@ -159,6 +171,124 @@ export default function BillingPage() {
 
     setPrice(parseFloat(price.toFixed(2)));
     console.log("Price: ", finalPrice);
+  }
+
+  var pricePerMin = 0.66666667;
+  var basePriceUte = {
+    50: 75,
+    250:125,
+    500:175,
+    1000:225,
+    10000:275,
+  };
+  var basePriceRefVan = {
+    50: 93.75,
+    250:156.25,
+    500:218.75,
+    1000:281.25,
+    10000:343.75,
+  };
+  var weightPriceUte = {
+    50: 10,
+    250:15,
+    500:25,
+    1000:40,
+    10000:60,
+  }
+  var timePerStairs = {
+    50: 2,
+    250:4,
+    500:6,
+    1000:10,
+    10000:15,
+  }
+
+  function uteVanPriceCalculator(){
+    console.log("UTE VAN PRICE CALCULATOR");
+    console.log("Distance: ", distance);
+    console.log("Floors: ", floors);
+    console.log("Weight: ", weight);
+    var priceForDistance = 0;
+    var timePerFloor = 0;
+    var pricePerWeightOrEffort = 0;
+
+    if(weight>50 && weight<=249){
+      priceForDistance = basePriceUte['50'] + (distance-5)*2;
+      timePerFloor = timePerStairs['50'];
+      pricePerWeightOrEffort = weightPriceUte['50'];
+    }
+    else if(weight>250 && weight<=499){
+      priceForDistance = basePriceUte['250'] + (distance-5)*2;
+      timePerFloor = timePerStairs['250'];
+      pricePerWeightOrEffort = weightPriceUte['250'];
+    }
+    else if(weight>500 && weight<=999){
+      priceForDistance = basePriceUte['500'] + (distance-5)*2;
+      timePerFloor = timePerStairs['500'];
+      pricePerWeightOrEffort = weightPriceUte['500'];
+    }
+    else if(weight>1000 && weight<=9999){
+      priceForDistance = basePriceUte['1000'] + (distance-5)*2;
+      timePerFloor = timePerStairs['1000'];
+      pricePerWeightOrEffort = weightPriceUte['1000'];
+    }
+    else if(weight>10000 ){
+      priceForDistance = basePriceUte['10000'] + (distance-5)*2;
+      timePerFloor = timePerStairs['10000'];
+      pricePerWeightOrEffort = weightPriceUte['10000'];
+    }
+
+    var priceForFloorOrTime = floors * timePerFloor * pricePerMin;
+
+    finalPrice = priceForDistance + priceForFloorOrTime + pricePerWeightOrEffort;
+    setPrice(parseFloat(finalPrice.toFixed(2)));
+
+    console.log("Price: ", finalPrice);
+
+  }
+
+  function refvanPriceCalculator(){
+    console.log("UTE VAN PRICE CALCULATOR");
+    console.log("Distance: ", distance);
+    console.log("Floors: ", floors);
+    console.log("Weight: ", weight);
+    var priceForDistance = 0;
+    var timePerFloor = 0;
+    var pricePerWeightOrEffort = 0;
+
+    if(weight>50 && weight<=249){
+      priceForDistance = basePriceRefVan['50'] + (distance-5)*2;
+      timePerFloor = timePerStairs['50'];
+      pricePerWeightOrEffort = weightPriceUte['50'];
+    }
+    else if(weight>250 && weight<=499){
+      priceForDistance = basePriceRefVan['250'] + (distance-5)*2;
+      timePerFloor = timePerStairs['250'];
+      pricePerWeightOrEffort = weightPriceUte['250'];
+    }
+    else if(weight>500 && weight<=999){
+      priceForDistance = basePriceRefVan['500'] + (distance-5)*2;
+      timePerFloor = timePerStairs['500'];
+      pricePerWeightOrEffort = weightPriceUte['500'];
+    }
+    else if(weight>1000 && weight<=9999){
+      priceForDistance = basePriceRefVan['1000'] + (distance-5)*2;
+      timePerFloor = timePerStairs['1000'];
+      pricePerWeightOrEffort = weightPriceUte['1000'];
+    }
+    else if(weight>10000 ){
+      priceForDistance = basePriceRefVan['10000'] + (distance-5)*2;
+      timePerFloor = timePerStairs['10000'];
+      pricePerWeightOrEffort = weightPriceUte['10000'];
+    }
+
+    var priceForFloorOrTime = floors * timePerFloor * pricePerMin;
+
+    finalPrice = priceForDistance + priceForFloorOrTime + pricePerWeightOrEffort;
+    setPrice(parseFloat(finalPrice.toFixed(2)));
+
+    console.log("Price: ", finalPrice);
+
   }
 
 
@@ -248,7 +378,7 @@ export default function BillingPage() {
         <div className="billingSection">
           <h2>Date: {new Date(state.quote.dateAndTime).toLocaleString()}</h2>
           <div className="priceDetails">
-            <div
+            {/* <div
               style={{
                 fontSize: "20px",
                 fontWeight: "bold",
@@ -259,8 +389,8 @@ export default function BillingPage() {
             >
               Basic Price:
               <div>1000</div>
-            </div>
-            <div
+            </div> */}
+            {/* <div
               style={{
                 fontSize: "20px",
                 fontWeight: "bold",
@@ -271,7 +401,7 @@ export default function BillingPage() {
             >
               Basic Price:
               <div>1000</div>
-            </div>
+            </div> */}
             <div
               style={{
                 fontSize: "20px",
@@ -282,7 +412,7 @@ export default function BillingPage() {
               }}
             >
               Basic Price:
-              <div>1000</div>
+              <div>{finalPrice.toString()}$</div>
             </div>
             <Divider />
             <div
@@ -294,8 +424,8 @@ export default function BillingPage() {
                 justifyContent: "space-between",
               }}
             >
-              Basic Price:
-              <div>{finalPrice.toString()}</div>
+              Total Price:
+              <div>{finalPrice.toString()}$</div>
             </div>
           </div>
           <div

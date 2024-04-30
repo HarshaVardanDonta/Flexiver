@@ -715,6 +715,13 @@ export default function NewQuoteDesign() {
               placeHolder={"Maximum for selected Vehicle"}
               onChanged={(e) => {
                 setApproxWeight(e.target.value);
+                if (e.target.value > 50){
+                  setuteVanSelected(true);
+                  settwoWheelerSelected(false);
+                  setrefrigeratedVanSelected(false);
+                  setVehicleType("UTE / Van");
+                  toast.error("Weight exceeds the limit for Two Wheeler, Vehicle changed to UTE/Van");
+                }
               }}
               style={{
                 backgroundColor: "#FFECC0",
