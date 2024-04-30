@@ -60,9 +60,9 @@
     transition: 0.5s;
     text-decoration: none;
     padding-bottom: 20px;
-    padding-left: 10%;
-    padding-right: 10%;
-    gap: 20px;
+    padding-left: 20%;
+    padding-right: 20%;
+    gap: 10px;
     background-color: white;
     padding-bottom: 50px;
 }
@@ -74,6 +74,29 @@
     gap: 20px;
     align-items: center;
     height: 170px;
+}
+
+.itemDimensionBoxSelected {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 180px;
+    height: 150px;
+    background-color: #FFECC0;
+    border-radius: 15px;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    overflow: hidden;
+    transition: 0.5s;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.25);
+    background-image: url("../../../Assets/CustomerPortal/quoteItemSpecificationBackground.png");
+    background-size: cover;
+    background-color: #323232;
+    color: white;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #ffb300;
+    margin-bottom: 10px;
 }
 
 .itemDimensionBox {
@@ -102,7 +125,18 @@
     display: block;
 }
 
+.itemDimensionBoxSelected:hover .itemDimensionConsealedText {
+    display: block;
+}
+
 .itemDimensionBox img {
+    width: auto;
+    height: 80%;
+    border-radius: 15px;
+    transition: 0.5s;
+}
+
+.itemDimensionBoxSelected img {
     width: auto;
     height: 80%;
     border-radius: 15px;
@@ -271,7 +305,9 @@
 }
 
 .quoteItemSpecSectionRightSectionEntrycontainer {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* background-color: red; */
     flex-direction: row;
     justify-content: space-between;
     /* width: 89%; */
@@ -282,6 +318,7 @@
     font-size: 1.2rem;
     font-weight: 600;
     color: #4A4A4A;
+    text-align: left;
 }
 
 .alternateContactContainer {
@@ -396,7 +433,8 @@
 
     .quoteItemSpecSectionRightSectionEntrycontainer {
         width: 100%;
-        flex-direction: column;
+        /* flex-direction: column; */
+        grid-template-columns: 1fr;
         gap: 5px;
     }
 
@@ -435,7 +473,11 @@
     }
 
     .itemDimensionBox {
-        width: 100%;
+        width: 80%;
+    }
+
+    .itemDimensionBoxSelected {
+        width: 80%;
     }
 
     .uploadPicContainer {

@@ -74,6 +74,7 @@ export default function NewQuoteDesign() {
   const [dropOffParkingSpace, setDropOffParkingSpace] = useState(false);
   const [onDemandDelivery, setOnDemandDelivery] = useState(false);
   const [itemDimensions, setItemDimensions] = useState("");
+  const [itemType, setItemType] = useState("");
 
   const [supabase] = useState(() => MySupClient());
 
@@ -144,6 +145,7 @@ export default function NewQuoteDesign() {
       quote.dropOffParkingSpace = dropOffParkingSpace;
       quote.itemDimensions = itemDimensions;
       quote.onDemandDelivery = onDemandDelivery;
+      quote.itemType= itemType;
 
       navigate("/billingPage", { state: { quote } });
 
@@ -215,7 +217,7 @@ export default function NewQuoteDesign() {
   }
 
   const [city, setCity] = useState("Sydney");
-  const [vehicleType, setVehicleType] = useState("");
+  const [vehicleType, setVehicleType] = useState("Two Wheeler");
   const [dateAndTime, setDateAndTime] = useState(new Date());
   const [pickUpContactName, setPickUpContactName] = useState("");
   const [pickUpContactNumber, setPickUpContactNumber] = useState("");
@@ -269,7 +271,37 @@ export default function NewQuoteDesign() {
             </div>
             <div className="vehicleBanner">
                 <div className="vehicleCompContainer">
-                <VehicleComp
+                <div className= {twoWheelerSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
+                    settwoWheelerSelected(true);
+                    setuteVanSelected(false);
+                    setrefrigeratedVanSelected(false);
+                    setVehicleType("Two Wheeler");
+                }}>
+                  <img src={ TwoWheeler} alt="Small Box" />
+                  <div>Two Wheeler</div>
+                  <div className="itemDimensionConsealedText"> Can carry upto 5Kgs</div>
+                </div>
+                <div className= {uteVanSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
+                    setuteVanSelected(true);
+                    settwoWheelerSelected(false);
+                    setrefrigeratedVanSelected(false);
+                    setVehicleType("UTE / Van");
+                }}>
+                  <img src={ UteVan} alt="Small Box" />
+                  <div>UTE / Van</div>
+                  <div className="itemDimensionConsealedText"> Can carry upto 10Kgs</div>
+                </div>
+                <div className= {refrigeratedVanSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
+                    setrefrigeratedVanSelected(true);
+                    settwoWheelerSelected(false);
+                    setuteVanSelected(false);
+                    setVehicleType("Refreigerated Van");
+                }}>
+                  <img src={ RefrigeratedVan} alt="Small Box" />
+                  <div>Refreigerated Van</div>
+                  <div className="itemDimensionConsealedText"> Can carry upto 15Kgs</div>
+                </div>
+                {/* <VehicleComp
                     vehicleName={"Two Wheeler"}
                     vehicleImage={TwoWheeler}
                     vehicleDescription={"Can Carry upto 5Kg"}
@@ -304,7 +336,7 @@ export default function NewQuoteDesign() {
                     setVehicleType("Refreigerated Van");
                     }}
                     selected={refrigeratedVanSelected}
-                />      
+                />       */}
                 </div>
 
             </div>
@@ -337,6 +369,7 @@ export default function NewQuoteDesign() {
               />
               <Spacer width={20} />
               <CustomTextField
+                type="number"
                 placeHolder={"Contact Number"}
                 onChanged={(e) => {
                   setPickUpContactNumber(e.target.value);
@@ -434,6 +467,7 @@ export default function NewQuoteDesign() {
               />
               <Spacer width={20} />
               <CustomTextField
+                type="number"
                 placeHolder={"Contact Number"}
                 onChanged={(e) => {
                   setDropOffContactNumber(e.target.value);
@@ -513,7 +547,10 @@ export default function NewQuoteDesign() {
           {
             itemDimensionsArray.map((item, index) => {
               return (
-                <div className="itemDimensionBox">
+                <div className={itemDimensions === item ? "itemDimensionBoxSelected": "itemDimensionBox"} onClick={()=>{
+                  setItemDimensions(item);
+
+                }}>
                   <img src={index === 0 ? SmallBox : index === 1 ? SmallBoxMulti : index === 2 ? LargeBox : index === 3 ? LargeBoxMulti : index === 4 ? Heavy : MaximumHeavyItems} alt="Small Box" />
                   <div>{item}</div>
                   <div className="itemDimensionConsealedText">{itemDimensionDescArray[index]}</div>
@@ -656,20 +693,32 @@ export default function NewQuoteDesign() {
           <Typography.Title level={4}>
             Provide Item Specifications
           </Typography.Title>
+          <div className="quoteItemSpecSectionRightSectionEntrycontainer">
+            
+            <div className="quoteItemSpecSectionRightSectionText">
+              Select Item Type
+            </div>
+            <CustomDropDown 
+            label={"Select Item Type"} options={['Food','Groceries','Electronics','Furniture','Other']} selectedOption={itemType} buttonId={"itemTypeButton"} menuId={"itemTypeMenu"} onOptionChange={function (option: string): void {
+              setItemType(option);
+            } } />
+          </div>
 
 
           <div className="quoteItemSpecSectionRightSectionEntrycontainer">
+
             <div className="quoteItemSpecSectionRightSectionText">
               Enter Number of Items
             </div>
             <CustomTextField
+            type="number"
               placeHolder={"How many items"}
               onChanged={(e) => {
                 setNoOfItems(parseInt(e.target.value));
               }}
               style={{
                 backgroundColor: "#FFECC0",
-                width: width > 600 ? "40%" : "80%",
+                width: "94%",
                 border: "none",
               }}
             />
@@ -679,13 +728,21 @@ export default function NewQuoteDesign() {
               Enter Approx Weight
             </div>
             <CustomTextField
+            type="number"
               placeHolder={"Maximum for selected Vehicle"}
               onChanged={(e) => {
                 setApproxWeight(e.target.value);
+                if (e.target.value > 50){
+                  setuteVanSelected(true);
+                  settwoWheelerSelected(false);
+                  setrefrigeratedVanSelected(false);
+                  setVehicleType("UTE / Van");
+                  toast.error("Weight exceeds the limit for Two Wheeler, Vehicle changed to UTE/Van");
+                }
               }}
               style={{
                 backgroundColor: "#FFECC0",
-                width: width > 600 ? "40%" : "80%",
+                width: "94%",
                 border: "none",
               }}
             />
@@ -695,13 +752,15 @@ export default function NewQuoteDesign() {
               No. of Haulers
             </div>
             <CustomTextField
-              placeHolder={"Maximum 2 Haulers"}
+            type="number"
+            maxLength={1}
+            placeHolder={"Maximum 2 Haulers"}
               onChanged={(e) => {
                 setNoOfHaulers(parseInt(e.target.value));
               }}
               style={{
                 backgroundColor: "#FFECC0",
-                width: width > 600 ? "40%" : "80%",
+                width: "94%",
                 border: "none",
               }}
             />
@@ -734,7 +793,7 @@ export default function NewQuoteDesign() {
                   backgroundColor: "#FFECC0",
                   padding: "10px",
                   borderRadius: "15px",
-                  // width: width > 600 ? "40%" : "100%",
+                  width:  "100%",
                   justifyContent: "center",
                   color: "#4A4A4A",
                   cursor: "pointer",
@@ -752,7 +811,7 @@ export default function NewQuoteDesign() {
       <div className="customerQuotePage">
         <div
           style={{
-            fontSize: "24px",
+            fontSize: "18px",
           }}
         >
           Please provide details regarding the type of package you intend to
@@ -780,7 +839,7 @@ export default function NewQuoteDesign() {
         />
         <div
           style={{
-            fontSize: "24px",
+            fontSize: "18px",
           }}
         >
           Alternate Contact Information
