@@ -305,7 +305,9 @@
 }
 
 .quoteItemSpecSectionRightSectionEntrycontainer {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* background-color: red; */
     flex-direction: row;
     justify-content: space-between;
     /* width: 89%; */
@@ -316,6 +318,7 @@
     font-size: 1.2rem;
     font-weight: 600;
     color: #4A4A4A;
+    text-align: left;
 }
 
 .alternateContactContainer {
@@ -430,7 +433,8 @@
 
     .quoteItemSpecSectionRightSectionEntrycontainer {
         width: 100%;
-        flex-direction: column;
+        /* flex-direction: column; */
+        grid-template-columns: 1fr;
         gap: 5px;
     }
 
