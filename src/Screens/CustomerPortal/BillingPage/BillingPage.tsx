@@ -76,6 +76,8 @@ export default function BillingPage() {
       quote = state.quote;
       //set the customer id in the state
       quote.customerId = session.data.session.user?.id;
+      quote.basePrice = finalPrice;
+      quote.driverFare = finalPrice * 0.8;
     
       console.log("quote: ", quote);
 

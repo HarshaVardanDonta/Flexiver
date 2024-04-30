@@ -31,7 +31,7 @@ export default function IncommingOrderComp(props: incomingOrderProps) {
       <hr />
       <div className="customerDetailsSection">
         <div>Item Dimensions: {order.itemNote}</div>
-        <div>Item Weight: {order.approxWeight} Kg</div>
+        <div>Item Weight: {order.approxWeight} lbs</div>
         <div>Quantity: {order.noOfItems}</div>
       </div>
       <hr />

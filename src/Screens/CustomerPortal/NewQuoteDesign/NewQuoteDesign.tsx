@@ -74,7 +74,7 @@ export default function NewQuoteDesign() {
   const [dropOffParkingSpace, setDropOffParkingSpace] = useState(false);
   const [onDemandDelivery, setOnDemandDelivery] = useState(false);
   const [itemDimensions, setItemDimensions] = useState("");
-  const [itemType, setItemType] = useState("");
+  const [itemType, setItemType] = useState("Select Item Type");
 
   const [supabase] = useState(() => MySupClient());
 
@@ -699,7 +699,7 @@ export default function NewQuoteDesign() {
               Select Item Type
             </div>
             <CustomDropDown 
-            label={"Select Item Type"} options={['Food','Groceries','Electronics','Furniture','Other']} selectedOption={itemType} buttonId={"itemTypeButton"} menuId={"itemTypeMenu"} onOptionChange={function (option: string): void {
+            label={itemType} options={['Select Item Type','Food','Groceries','Electronics','Furniture','Other']} selectedOption={itemType} buttonId={"itemTypeButton"} menuId={"itemTypeMenu"} onOptionChange={function (option: string): void {
               setItemType(option);
             } } />
           </div>

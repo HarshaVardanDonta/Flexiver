@@ -435,7 +435,11 @@ export default function DriverLanding() {
             suit your preferences and transportation needs:
           </p>
           <div>
-          <SwiperComp images={[twoWheeler, UTE, RefregeratedVan]} />
+          <SwiperComp description={[
+            "Two Wheeler",
+            "UTE Van",
+            "Refrigerated Van"
+          ]} images={[twoWheeler, UTE, RefregeratedVan]} />
           </div>
         </div>
 

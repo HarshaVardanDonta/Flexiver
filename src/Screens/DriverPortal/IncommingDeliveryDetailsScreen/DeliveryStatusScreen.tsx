@@ -7,13 +7,14 @@ import CustomDialog from "../../CustomerPortal/Components/SuccessPaymentComp/Suc
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import MapComp from "../../../Components/MapComp";
-import { Icon } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
 import MySupClient from "../../../SupabaseClient";
 import { set } from "react-ga";
 import toast from "react-hot-toast";
 import useWindowDimensions from "../../../Model/WindowDimensions";
+import polyline from "@mapbox/polyline";
 
 export default function DeliverStatusScreen() {
   const { state } = useLocation();
@@ -45,7 +46,15 @@ export default function DeliverStatusScreen() {
 
   useEffect(() => {
     getDriver();
+    getPolyLine();
   }, []);
+  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+
+  async function getPolyLine() {
+    var decodedPoly = polyline.decode(state.order.polyString!);
+    setPolyPoints(decodedPoly);
+    console.log("polyPoints", polyPoints);
+  }
 
   const getDriver = async () => {
     const session = await supabase.auth.getSession();
@@ -107,6 +116,7 @@ export default function DeliverStatusScreen() {
         <div className="deliverStatusMapSection">
           <div className="mapSectionLeft">
             <MapComp
+            polyPoints={polyPoints}
               positionWithIconsArray={[
                 {
                   lat: state.order.pickUpLat,
@@ -125,20 +135,20 @@ export default function DeliverStatusScreen() {
           </div>
           <div className="mapSectionRight">
             <div>
-              <Typography variant="h5">Pick Up Address</Typography>
-              <Typography variant="h6">{state.order.pickUpAddress} <br/>Parking Available: {state.order.pickUpParkingSpace ? "Yes":"No"} | Flight of Stairs: {state.order.pickUpStairs} | Elevator Available: {state.order.pickUpElevator? "Yes": "No"}</Typography>
+              <Typography variant="h6">Pick Up Address</Typography>
+              <Typography >{state.order.pickUpAddress} <br/>Parking Available: {state.order.pickUpParkingSpace ? "Yes":"No"} | Flight of Stairs: {state.order.pickUpStairs} | Elevator Available: {state.order.pickUpElevator? "Yes": "No"} | Instructions: {state.order.pickUpInstructions}</Typography>
             </div>
             <div>
-              <Typography variant="h5">Drop Off Address</Typography>
-              <Typography variant="h6">{state.order.dropOffAddress} <br/>Parking Available: {state.order.dropOffParkingSpace ? "Yes":"No"} | Flight of Stairs: {state.order.dropOffStairs} | Elevator Available: {state.order.dropOffElevato? "Yes": "No"} </Typography>
+              <Typography variant="h6">Drop Off Address</Typography>
+              <Typography >{state.order.dropOffAddress} <br/>Parking Available: {state.order.dropOffParkingSpace ? "Yes":"No"} | Flight of Stairs: {state.order.dropOffStairs} | Elevator Available: {state.order.dropOffElevato? "Yes": "No"} | Instructions: {state.order.dropOffInstructions} </Typography>
             </div>
             <div>
-              <Typography variant="h5">Total Trip Distance</Typography>
-              <Typography variant="h6">{state.order.distance}</Typography>
+              <Typography variant="h6">Total Trip Distance</Typography>
+              <Typography >{state.order.distance}</Typography>
             </div>
             <div>
-              <Typography variant="h5">Total Trip Fare</Typography>
-              <Typography variant="h6">200 $</Typography>
+              <Typography variant="h6">Driver Fare</Typography>
+              <Typography >{state.order.driverFare} $</Typography>
             </div>
           </div>
         </div>
@@ -147,35 +157,29 @@ export default function DeliverStatusScreen() {
           <img src={state.order.imageUrl} alt="Item Image" style={{ width: width>600 ? "40%": "80%", height: "auto", borderRadius:"10px" }} />
           <div>
               <div className="itemDimensions">
-                <Typography fontWeight={600} variant="h6">
+                <Typography  variant="h6">
                   Item Dimensions: &nbsp;
                 </Typography>
-                <Typography variant="h6">{state.order.itemDimensions}</Typography>
+                <Typography >{state.order.itemDimensions}</Typography>
               </div>
               <div className="itemDimensions">
-                 <Typography fontWeight={600} variant="h6">
+                 <Typography  variant="h6">
                   No Of Items: &nbsp;
                 </Typography>
-                <Typography variant="h6">{state.order.noOfItems}</Typography>
+                <Typography >{state.order.noOfItems}</Typography>
               </div>
               <div className="itemDimensions">
-                <Typography fontWeight={600} variant="h6">
+                <Typography  variant="h6">
                   Item Description: &nbsp;
                 </Typography>
-                <Typography variant="h6">{state.order.itemNote}</Typography>
+                <Typography >{state.order.itemNote}</Typography>
               </div>
               <div className="itemDimensions">
-                 <Typography fontWeight={600} variant="h6">
+                 <Typography variant="h6">
                   Weight: &nbsp;
                 </Typography>
-                <Typography variant="h6">{state.order.approxWeight}</Typography>
-              </div>
-              <div className="itemDimensions">
-                <Typography fontWeight={600} variant="h6">
-                  Important Notes: &nbsp;
-                </Typography>
-                <Typography variant="h6">{state.order.pickUpInstructions}</Typography>
-              </div>            
+                <Typography >{state.order.approxWeight} lbs</Typography>
+              </div>       
           </div>
         </div>
         
