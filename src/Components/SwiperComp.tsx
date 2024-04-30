@@ -12,11 +12,13 @@ import './SwiperComp.css';
 // import required modules
 import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
 import { Typography } from '@mui/material';
+import useWindowDimensions from '../Model/WindowDimensions';
 interface SwiperCompProps{
   images: string[]
 }
 
 export default function SwiperComp(props: SwiperCompProps) {
+  const { height, width } = useWindowDimensions();
   return (
     <>
       <Swiper
@@ -37,11 +39,37 @@ export default function SwiperComp(props: SwiperCompProps) {
         }}
         pagination={true}
         modules={[EffectCoverflow, Pagination, Autoplay]}
-        className="mySwiper"
       >
         {props.images.map((item)=>(
           <SwiperSlide>
-            <img src={item}/>
+            <div style={{
+              height:width>600? '100%':'50vh',
+              width:width>600 ?  '100%': '90%',
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#323232',
+              borderRadius: '10px',
+              boxShadow: '5px 5px 0px 0px #D2A127',
+              margin: 'auto',
+            }}>
+              <img src={item}  style={{
+              height: '80%',
+              width:"auto",
+              objectFit: 'cover'}}/>
+              <div style={{
+                color: 'white',
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                textShadow: '2px 1px 0px #D2A127',
+              }}>
+                Description
+              </div>
+            </div>
+            
           {/* <Typography sx={{
             position: 'absolute',
             top: '90%',
