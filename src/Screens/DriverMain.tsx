@@ -62,7 +62,7 @@ export default function DriverMain() {
           <Route path="/Abcd" element={<Places />} />
           <Route path="/tempQuotePage" element={<TempQuotePage />} />
 
-          <Route path="/newQuoteDesign" element={<NewQuoteDesign />} />
+          <Route path="/test1" element={<NewQuoteDesign />} />
         </Routes>
 
         <Toaster position="bottom-right" />
