@@ -1,11 +1,12 @@
 .customerPortalFooter {
     width: 100%;
-    background-color: #323232;
-    color: white;
+    background-color: white;
+    color: #323232;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
+    border-top: 1px solid #e0e0e0;
 }
 
 .customerPortalFooter img {
@@ -19,7 +20,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    color: white;
+    /* color: white; */
     margin: 20px;
     font-size: 20px;
     max-width: 300px;
