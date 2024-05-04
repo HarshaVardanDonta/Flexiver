@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./CustomerPortalHeader.css";
-import Logo from "../../../../Assets/CustomerPortal/FlexiverWhiteLogo.png";
+import Logo from "../../../../Assets/logo.png";
 import Person from "../../../../Assets/CustomerPortal/Person.png";
 import { Typography } from 'antd';
 import Spacer from '../../../../Components/MySpacer';
@@ -51,12 +51,12 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                     </IconButton>
                 }
 
-                <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' onClick={()=>{
+                <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' onClick={() => {
                     navigate('/');
-                }} 
-                style={{
-                    cursor: 'pointer',
                 }}
+                    style={{
+                        cursor: 'pointer',
+                    }}
                 />
             </div>
             <Button
