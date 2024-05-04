@@ -61,7 +61,7 @@ export default function NewQuoteDesign() {
 
   const quote = new CustomerQuoteModel();
   const [quoteDateAndTime, setQuoteDateAndTime] = useState(new Date());
-  const [twoWheelerSelected, settwoWheelerSelected] = useState(false);
+  const [twoWheelerSelected, settwoWheelerSelected] = useState(true);
   const [uteVanSelected, setuteVanSelected] = useState(false);
   const [refrigeratedVanSelected, setrefrigeratedVanSelected] = useState(false);
 
