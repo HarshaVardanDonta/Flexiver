@@ -47,6 +47,7 @@ import LargeBox from "../../../Assets/CustomerPortal/Large Box.png";
 import LargeBoxMulti from "../../../Assets/CustomerPortal/Large Box - Multiple Selection.png";
 import Heavy from "../../../Assets/CustomerPortal/Heavy_Bulk Items.png";
 import MaximumHeavyItems from "../../../Assets/CustomerPortal/Maximum no of Heavy Items.png";
+import { LatLng } from "use-places-autocomplete";
 
 export default function NewQuoteDesign() {
   const { isLoaded } = useLoadScript({
@@ -190,7 +191,7 @@ export default function NewQuoteDesign() {
     console.log(dataUri);
     setDataUri(dataUri);
   };
-  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+  var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
 
   // function to get exact distance between from and to points
   async function getRouteDistance() {
@@ -209,7 +210,11 @@ export default function NewQuoteDesign() {
       setPolyString(data?.routes[0]?.overview_polyline);
       quote.polyString = data?.routes[0]?.overview_polyline;
       console.log("polystring", polyString);
-      setPolyPoints(decodedPoly);
+      var points: LatLng[] = [];
+      decodedPoly.forEach((point) => {
+        points.push({ lat: point[0], lng: point[1] });
+      });
+      setPolyPoints(points);
       setDistance(data?.routes[0]?.legs[0]?.distance?.text ?? "");
       console.log(polyPoints);
       return data?.routes[0]?.legs[0]?.distance?.text;

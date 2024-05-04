@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import MySupClient from "../../../SupabaseClient";
 import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
 import polyline from "@mapbox/polyline";
+import { LatLng } from "use-places-autocomplete";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
@@ -23,11 +24,15 @@ const PinIcon = new Icon({
 });
 
 export default function OrderTrackingPage() {
-  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+  var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
 
   async function getPolyLine() {
     var decodedPoly = polyline.decode(orderDetails?.polyString!);
-    setPolyPoints(decodedPoly);
+    var points: LatLng[] = [];
+    decodedPoly.forEach((point) => {
+      points.push({ lat: point[0], lng: point[1] });
+    });
+    setPolyPoints(points);
     console.log("polyPoints", polyPoints);
   }
 

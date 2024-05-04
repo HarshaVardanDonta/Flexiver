@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import MySupClient from "../../../SupabaseClient";
 import toast from "react-hot-toast";
 import polyline from "@mapbox/polyline";
+import { LatLng } from "use-places-autocomplete";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
@@ -36,11 +37,15 @@ export default function ActiveDeliveryScreen() {
   const [supabase] = useState(() => MySupClient());
   const [status, setStatus] = useState("Delivery Partner Assigned");
 
-  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+  var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
 
     async function getPolyLine() {
       var decodedPoly = polyline.decode(state.polyString!);
-      setPolyPoints(decodedPoly);
+      var points: LatLng[] = [];
+      decodedPoly.forEach((point) => {
+        points.push({ lat: point[0], lng: point[1] });
+      });
+      setPolyPoints(points);
       console.log("polyPoints", polyPoints);
     }
 
@@ -123,7 +128,6 @@ export default function ActiveDeliveryScreen() {
               left: "0",
               width: "100%",
               height: "100%",
-              // backgroundColor: "rgba(44, 33, 33, 0.5)",
               zIndex: "10000",
               display: "flex",
               justifyContent: "center",

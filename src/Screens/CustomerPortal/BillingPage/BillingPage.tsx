@@ -18,6 +18,7 @@ import { useLocation } from "react-router-dom";
 import CustomerQuoteModel from "../../../Model/CustomerQuoteModel";
 import polyline from "@mapbox/polyline";
 import { useLoadScript } from "@react-google-maps/api";
+import { LatLng } from "use-places-autocomplete";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
@@ -133,11 +134,15 @@ export default function BillingPage() {
 
     navigate("/orderTrackingPage", { state: id_ });
   };
-  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+  var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
 
   async function getRouteDistance() {
     var decodedPoly = await polyline.decode(state.quote.polyString);
-    setPolyPoints(decodedPoly);
+    var points: LatLng[] = [];
+    decodedPoly.forEach((point) => {
+      points.push({ lat: point[0], lng: point[1] });
+    });
+    setPolyPoints(points);
     console.log("polyPoints", polyPoints);
   }
 
