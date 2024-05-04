@@ -146,7 +146,7 @@ export default function NewQuoteDesign() {
       quote.dropOffParkingSpace = dropOffParkingSpace;
       quote.itemDimensions = itemDimensions;
       quote.onDemandDelivery = onDemandDelivery;
-      quote.itemType= itemType;
+      quote.itemType = itemType;
 
       navigate("/billingPage", { state: { quote } });
 
@@ -221,7 +221,7 @@ export default function NewQuoteDesign() {
     }
   }
 
-  const [city, setCity] = useState("Sydney");
+  const [city, setCity] = useState("Brisbane");
   const [vehicleType, setVehicleType] = useState("Two Wheeler");
   const [dateAndTime, setDateAndTime] = useState(new Date());
   const [pickUpContactName, setPickUpContactName] = useState("");
@@ -261,7 +261,7 @@ export default function NewQuoteDesign() {
     };
   };
 
-  const itemDimensionsArray = ['Small Box', 'Small box - Multiple selection','Large Box','Large Box - Multiple Selection','Heavy/Bulk Items','Maximum no of Heavy Items'];
+  const itemDimensionsArray = ['Small Box', 'Small box - Multiple selection', 'Large Box', 'Large Box - Multiple Selection', 'Heavy/Bulk Items', 'Maximum no of Heavy Items'];
   const itemDimensionDescArray = ['Can Carry upto 5Kg', 'Can Carry upto 10Kg', 'Can Carry upto 15Kg', 'Can Carry upto 20Kg', 'Can Carry upto 25Kg', 'Can Carry upto 30Kg'];
 
   return (
@@ -269,44 +269,44 @@ export default function NewQuoteDesign() {
       <CustomerPortalHeader />
       <div className="newCustomerQuotePage">
         <div className="vehicleBannerCustomStyleMainContainer">
-            <div className="vehicleBannerCustomStyle">
+          <div className="vehicleBannerCustomStyle">
             <div className="mainTagLine">
-                Making Moving easy for Everyone
+              Making Moving easy for Everyone
             </div>
-            </div>
-            <div className="vehicleBanner">
-                <div className="vehicleCompContainer">
-                <div className= {twoWheelerSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
-                    settwoWheelerSelected(true);
-                    setuteVanSelected(false);
-                    setrefrigeratedVanSelected(false);
-                    setVehicleType("Two Wheeler");
-                }}>
-                  <img src={ TwoWheeler} alt="Small Box" />
-                  <div>Two Wheeler</div>
-                  <div className="itemDimensionConsealedText"> Can carry upto 5Kgs</div>
-                </div>
-                <div className= {uteVanSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
-                    setuteVanSelected(true);
-                    settwoWheelerSelected(false);
-                    setrefrigeratedVanSelected(false);
-                    setVehicleType("UTE / Van");
-                }}>
-                  <img src={ UteVan} alt="Small Box" />
-                  <div>UTE / Van</div>
-                  <div className="itemDimensionConsealedText"> Can carry upto 10Kgs</div>
-                </div>
-                <div className= {refrigeratedVanSelected ? "itemDimensionBoxSelected":"itemDimensionBox"} onClick={()=>{
-                    setrefrigeratedVanSelected(true);
-                    settwoWheelerSelected(false);
-                    setuteVanSelected(false);
-                    setVehicleType("Refreigerated Van");
-                }}>
-                  <img src={ RefrigeratedVan} alt="Small Box" />
-                  <div>Refreigerated Van</div>
-                  <div className="itemDimensionConsealedText"> Can carry upto 15Kgs</div>
-                </div>
-                {/* <VehicleComp
+          </div>
+          <div className="vehicleBanner">
+            <div className="vehicleCompContainer">
+              <div className={twoWheelerSelected ? "itemDimensionBoxSelected" : "itemDimensionBox"} onClick={() => {
+                settwoWheelerSelected(true);
+                setuteVanSelected(false);
+                setrefrigeratedVanSelected(false);
+                setVehicleType("Two Wheeler");
+              }}>
+                <img src={TwoWheeler} alt="Small Box" />
+                <div>Two Wheeler</div>
+                <div className="itemDimensionConsealedText"> Can carry upto 5Kgs</div>
+              </div>
+              <div className={uteVanSelected ? "itemDimensionBoxSelected" : "itemDimensionBox"} onClick={() => {
+                setuteVanSelected(true);
+                settwoWheelerSelected(false);
+                setrefrigeratedVanSelected(false);
+                setVehicleType("UTE / Van");
+              }}>
+                <img src={UteVan} alt="Small Box" />
+                <div>UTE / Van</div>
+                <div className="itemDimensionConsealedText"> Can carry upto 10Kgs</div>
+              </div>
+              <div className={refrigeratedVanSelected ? "itemDimensionBoxSelected" : "itemDimensionBox"} onClick={() => {
+                setrefrigeratedVanSelected(true);
+                settwoWheelerSelected(false);
+                setuteVanSelected(false);
+                setVehicleType("Refreigerated Van");
+              }}>
+                <img src={RefrigeratedVan} alt="Small Box" />
+                <div>Refreigerated Van</div>
+                <div className="itemDimensionConsealedText"> Can carry upto 15Kgs</div>
+              </div>
+              {/* <VehicleComp
                     vehicleName={"Two Wheeler"}
                     vehicleImage={TwoWheeler}
                     vehicleDescription={"Can Carry upto 5Kg"}
@@ -342,13 +342,13 @@ export default function NewQuoteDesign() {
                     }}
                     selected={refrigeratedVanSelected}
                 />       */}
-                </div>
-
             </div>
+
+          </div>
         </div>
 
-        
-       <br/>
+
+        <br />
         {/* <div className="dateSelectionSection">
             <Typography.Title
               level={4}>
@@ -379,7 +379,7 @@ export default function NewQuoteDesign() {
                 onChanged={(e) => {
                   setPickUpContactNumber(e.target.value);
                 }}
-               
+
               />
             </div>
             {/* <CustomTextField
@@ -468,7 +468,7 @@ export default function NewQuoteDesign() {
                 onChanged={(e) => {
                   setDropOffContactName(e.target.value);
                 }}
-               
+
               />
               <Spacer width={20} />
               <CustomTextField
@@ -477,7 +477,7 @@ export default function NewQuoteDesign() {
                 onChanged={(e) => {
                   setDropOffContactNumber(e.target.value);
                 }}
-               
+
               />
             </div>
             {/* <CustomTextField
@@ -552,7 +552,7 @@ export default function NewQuoteDesign() {
           {
             itemDimensionsArray.map((item, index) => {
               return (
-                <div className={itemDimensions === item ? "itemDimensionBoxSelected": "itemDimensionBox"} onClick={()=>{
+                <div className={itemDimensions === item ? "itemDimensionBoxSelected" : "itemDimensionBox"} onClick={() => {
                   setItemDimensions(item);
 
                 }}>
@@ -576,7 +576,7 @@ export default function NewQuoteDesign() {
             <div className="uploadPicContainer">
               {/* image */}
               <div
-              className="uploadPicImageContainer">
+                className="uploadPicImageContainer">
                 {dataUri && (
                   <img
                     src={dataUri}
@@ -699,14 +699,14 @@ export default function NewQuoteDesign() {
             Provide Item Specifications
           </Typography.Title>
           <div className="quoteItemSpecSectionRightSectionEntrycontainer">
-            
+
             <div className="quoteItemSpecSectionRightSectionText">
               Select Item Type
             </div>
-            <CustomDropDown 
-            label={itemType} options={['Select Item Type','Food','Groceries','Electronics','Furniture','Other']} selectedOption={itemType} buttonId={"itemTypeButton"} menuId={"itemTypeMenu"} onOptionChange={function (option: string): void {
-              setItemType(option);
-            } } />
+            <CustomDropDown
+              label={itemType} options={['Select Item Type', 'Food', 'Groceries', 'Electronics', 'Furniture', 'Other']} selectedOption={itemType} buttonId={"itemTypeButton"} menuId={"itemTypeMenu"} onOptionChange={function (option: string): void {
+                setItemType(option);
+              }} />
           </div>
 
 
@@ -716,7 +716,7 @@ export default function NewQuoteDesign() {
               Enter Number of Items
             </div>
             <CustomTextField
-            type="number"
+              type="number"
               placeHolder={"How many items"}
               onChanged={(e) => {
                 setNoOfItems(parseInt(e.target.value));
@@ -733,11 +733,11 @@ export default function NewQuoteDesign() {
               Enter Approx Weight
             </div>
             <CustomTextField
-            type="number"
+              type="number"
               placeHolder={"Maximum for selected Vehicle"}
               onChanged={(e) => {
                 setApproxWeight(e.target.value);
-                if (e.target.value > 50){
+                if (e.target.value > 50) {
                   setuteVanSelected(true);
                   settwoWheelerSelected(false);
                   setrefrigeratedVanSelected(false);
@@ -757,9 +757,9 @@ export default function NewQuoteDesign() {
               No. of Haulers
             </div>
             <CustomTextField
-            type="number"
-            maxLength={1}
-            placeHolder={"Maximum 2 Haulers"}
+              type="number"
+              maxLength={1}
+              placeHolder={"Maximum 2 Haulers"}
               onChanged={(e) => {
                 setNoOfHaulers(parseInt(e.target.value));
               }}
@@ -798,7 +798,7 @@ export default function NewQuoteDesign() {
                   backgroundColor: "#FFECC0",
                   padding: "10px",
                   borderRadius: "15px",
-                  width:  "100%",
+                  width: "100%",
                   justifyContent: "center",
                   color: "#4A4A4A",
                   cursor: "pointer",
@@ -829,7 +829,7 @@ export default function NewQuoteDesign() {
             borderRadius: "15px",
             padding: "10px",
             height: "100px",
-            boxShadow:"3px 3px 0px rgba(0, 0, 0, 0.25)"
+            boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.25)"
           }}
           multiline={true}
           maxRows={4}
