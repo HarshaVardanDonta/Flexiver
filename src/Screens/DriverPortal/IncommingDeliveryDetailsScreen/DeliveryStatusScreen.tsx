@@ -15,6 +15,7 @@ import { set } from "react-ga";
 import toast from "react-hot-toast";
 import useWindowDimensions from "../../../Model/WindowDimensions";
 import polyline from "@mapbox/polyline";
+import { LatLng } from "use-places-autocomplete";
 
 export default function DeliverStatusScreen() {
   const { state } = useLocation();
@@ -48,11 +49,15 @@ export default function DeliverStatusScreen() {
     getDriver();
     getPolyLine();
   }, []);
-  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+  var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
 
   async function getPolyLine() {
     var decodedPoly = polyline.decode(state.order.polyString!);
-    setPolyPoints(decodedPoly);
+    var points: LatLng[] = [];
+    decodedPoly.forEach((point) => {
+      points.push({ lat: point[0], lng: point[1] });
+    });
+    setPolyPoints(points);
     console.log("polyPoints", polyPoints);
   }
 
@@ -101,6 +106,18 @@ export default function DeliverStatusScreen() {
     }
   };
 
+  function dateFormat(date: string) {
+    const timestamp = parseInt(date, 10);
+    const formattedDate = new Date(timestamp).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return formattedDate;
+  }
+
 
 
   return (
@@ -109,9 +126,11 @@ export default function DeliverStatusScreen() {
       <div className="deliveryStatusScreen">
         <div className="deliveryStatusHeader">
           <h2>
-            Delivery Id: #DID-{state.order.id}-{new Date().getFullYear()}
+            Delivery Id: #DID-{state.order.id}
           </h2>
-          {!ongoing && <h2>Delivery Delivered On: 12-12-1212</h2>}
+          {!ongoing && <h2>Delivered On: {
+            dateFormat(state.order.dateAndTime.toString())
+            }</h2>}
         </div>
         <div className="deliverStatusMapSection">
           <div className="mapSectionLeft">
