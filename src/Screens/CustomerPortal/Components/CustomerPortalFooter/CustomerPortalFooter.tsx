@@ -71,6 +71,8 @@ export default function CustomerPortalFooter() {
                     height: "30px",
                 }}> <img src={Facebook} alt="facebook icon" style={{
                     width: "20px",
+                }} onClick={()=>{
+                    window.open("https://www.facebook.com/FlexiverAU", '_blank', 'noopener');
                 }} />Facebook Page</Typography.Text>
             </div>
             <div className="customerPortalHeaderSection" onClick={() => {

@@ -272,7 +272,7 @@ export default function DriverLanding() {
           <div className="hero-text" data-aos="fade-up">
             <h1>
               START EARNING <br />
-              WITH YOUR VAN.
+              WITH YOUR VAN
             </h1>
             <p>Become a Partner in Our Moving Services Network </p>
             {

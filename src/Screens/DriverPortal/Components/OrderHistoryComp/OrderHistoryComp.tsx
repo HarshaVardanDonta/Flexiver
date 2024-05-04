@@ -46,7 +46,7 @@ export default function OrderHistoryComp(props: OrderHistoryProps) {
         <Typography fontWeight={600} variant="body2">
           Order Date: {date}
         </Typography>
-        <Typography fontWeight={600}>$400</Typography>
+        <Typography fontWeight={600}> {order.driverFare} $</Typography>
       </div>
     </div>
   );
