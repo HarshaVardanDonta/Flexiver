@@ -50,6 +50,7 @@ import MaximumHeavyItems from "../../../Assets/CustomerPortal/Maximum no of Heav
 import { LatLng } from "use-places-autocomplete";
 
 export default function NewQuoteDesign() {
+  const [invalidInput, setInvalidInput] = useState(false);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
     libraries: ["places"],
@@ -112,6 +113,7 @@ export default function NewQuoteDesign() {
   var [polyString, setPolyString] = useState("");
 
   async function handleSubmit() {
+    setInvalidInput(true);
     if (noExcludedItems) {
       quote.city = city;
       quote.vehicleType = vehicleType;
@@ -261,6 +263,58 @@ export default function NewQuoteDesign() {
     };
   };
 
+  const checkFromInputFields =  ()=>{
+    if(pickUpContactName.length==0){
+      return<span className="warning">Please provide contact name</span>
+    }
+    else if(pickUpContactNumber.length==0){
+      return<span className="warning">Please provide contact number</span>
+    }
+    else if(pickUpAddress.length==0){
+      return<span className="warning">Please provide the pick-up address</span>
+    }
+  }
+
+  const checkToInputFields =  ()=>{
+    if(dropOffContactName.length==0){
+      return<span className="warning">Please provide contact name</span>
+    }
+    else if(dropOffContactNumber.length==0){
+      return<span className="warning">Please provide contact number</span>
+    }
+    else if(dropOffAddress.length==0){
+      return<span className="warning">Please provide the drop-off address</span>
+    }
+  }
+
+  const checkItemDimensions = ()=>{
+    if(itemType == "Select Item Type"){
+      return<span className="warning">Please provide Item Type</span>
+    }
+    else if(noOfItems===0){
+      return<span className="warning">Please provide number of items</span>
+    }
+    else if(approxWeight===0){
+      return<span className="warning">Please provide approximate weight</span>
+    }
+  }
+
+  const checkItemSpecifications = ()=>{
+    if(itemSpecs ==""){
+      return<span className="warning">Please provide Instructions/Specifications</span>
+    }
+  }
+
+  const checkItemAlternateInfo = ()=>{
+    if(alternateContactName==""){
+      return<span className="warning">Please provide receivers name</span>
+    }
+    else if(alternateContactNumber==""){
+      return<span className="warning">Please provide receivers contact number</span>
+    }
+
+  }
+
   const itemDimensionsArray = ['Small Box', 'Small box - Multiple selection', 'Large Box', 'Large Box - Multiple Selection', 'Heavy/Bulk Items', 'Maximum no of Heavy Items'];
   const itemDimensionDescArray = ['Can Carry upto 5Kg', 'Can Carry upto 10Kg', 'Can Carry upto 15Kg', 'Can Carry upto 20Kg', 'Can Carry upto 25Kg', 'Can Carry upto 30Kg'];
 
@@ -357,6 +411,7 @@ export default function NewQuoteDesign() {
         </div> */}
         <div className="pickupAndDropSectionBanner">
           <div className="pickupSection">
+          <>
             <h3>Pickup Details</h3>
             <div
               style={{
@@ -450,10 +505,13 @@ export default function NewQuoteDesign() {
                 />}
                 label="Is Parking Space available" />
             </div>
+            {invalidInput ? checkFromInputFields() : "" }
+            </>
 
           </div>
           <Divider orientation="vertical" flexItem />
           <div className="pickupSection">
+          <>
             <h3>Drop Off Details</h3>
             <div
               style={{
@@ -540,6 +598,8 @@ export default function NewQuoteDesign() {
                 }}
               />} label="Is Parking Space available" />
             </div>
+            {invalidInput ? checkToInputFields() : "" }
+            </>
 
           </div>
         </div>
@@ -810,6 +870,7 @@ export default function NewQuoteDesign() {
               </div>
             </div>
           </div>
+          {invalidInput ? checkItemDimensions() : "" }
 
         </div>
       </div>
@@ -842,6 +903,7 @@ export default function NewQuoteDesign() {
             setItemSpecs(e.target.value);
           }}
         />
+        {invalidInput ? checkItemSpecifications() : "" }
         <div
           style={{
             fontSize: "18px",
@@ -873,6 +935,7 @@ export default function NewQuoteDesign() {
             }}
           />
         </div>
+        {invalidInput ? checkItemAlternateInfo() : "" }
         <div
           style={{
             textAlign: "center",
