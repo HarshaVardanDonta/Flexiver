@@ -1,14 +1,14 @@
 import "./MapComp.css";
-import React, { useEffect } from 'react'
-import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import React, { useEffect, useRef } from 'react'
 import { Bounds, Icon, LatLngExpression, divIcon, point } from "leaflet";
+import { GoogleMap, Marker, Polyline, useLoadScript } from "@react-google-maps/api";
+import { LatLng } from "use-places-autocomplete";
 
 interface positionWithIcon { lat: number; lng: number; marker: Icon; popup?: string }
 
 interface MapProps {
   positionWithIconsArray: Array<positionWithIcon>
-  polyPoints?: Array<LatLngExpression>
+  polyPoints?: LatLng[]
 }
 const MapComp = (props: MapProps) => {
   const { positionWithIconsArray } = props;
@@ -60,17 +60,67 @@ const MapComp = (props: MapProps) => {
 
   const startPoint: LatLngExpression = { lat: props.positionWithIconsArray[0].lat, lng: props.positionWithIconsArray[0].lng };
   const endPoint: LatLngExpression = { lat: props.positionWithIconsArray[1].lat, lng: props.positionWithIconsArray[1].lng };
+  const mapRef = useRef<GoogleMap | null>(null);
+
   const tension = 0.5;
 
   const centerLat = (startPoint.lat + endPoint.lat) / 2;
   const centerLng = (startPoint.lng + endPoint.lng) / 2;
 
   useEffect(() => {
-    //new bounds
+    if (mapRef.current) {
+      const bounds = new window.google.maps.LatLngBounds();
+      positionWithIconsArray.forEach((positionWithIcon) => {
+        bounds.extend(positionWithIcon);
+      });
+      if (mapRef.current.state.map!)
+        mapRef.current.state.map.fitBounds(bounds);
+    }
   }, [props.positionWithIconsArray])
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
+    libraries: ["places"],
+  });
 
   return (<>
-    <MapContainer
+    {isLoaded ?
+      <GoogleMap
+        ref={mapRef}
+        id="map"
+        mapContainerStyle={{
+          height: "100%",
+          width: "100%",
+          borderRadius: "10px"
+        }}
+        zoom={13}
+        center={{ lat: centerLat, lng: centerLng }}
+        options={{
+          disableDefaultUI: true,
+          zoomControl: false,
+        }}
+      >
+        {
+          positionWithIconsArray.map((positionWithIcon, index) => {
+            return (
+              <Marker
+                key={index}
+                position={{ lat: positionWithIcon.lat, lng: positionWithIcon.lng }}
+                icon={"https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"}>
+              </Marker>
+            )
+          })
+        }
+        <Polyline
+          path={props.polyPoints ? props.polyPoints : smoothCurveBetweenPoints(startPoint, endPoint, tension)}
+          options={{
+            strokeColor: 'grey',
+            strokeOpacity: 1,
+            strokeWeight: 4,
+          }}
+        />
+      </GoogleMap>
+      : <div>Loading...</div>}
+    {/* <MapContainer
       bounds={[[startPoint.lat, startPoint.lng], [endPoint.lat, endPoint.lng]]}
       //center={[centerLat, centerLng]}
       //zoom={13}
@@ -93,7 +143,7 @@ const MapComp = (props: MapProps) => {
       }
 
       <Polyline pathOptions={{ color: 'black' }} positions={props.polyPoints ?? smoothCurveBetweenPoints(startPoint, endPoint, tension)} />
-    </MapContainer>
+    </MapContainer> */}
   </>
   )
 }

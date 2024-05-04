@@ -102,7 +102,7 @@
   font-size: 70px;
   font-weight: 800;
   color: #DAA83E;
-  text-shadow: 5px 5px #000000;
+  text-shadow: -5px 5px 5px #00000085;
 }
 
 .hero-text>p {

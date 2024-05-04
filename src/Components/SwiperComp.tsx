@@ -15,6 +15,7 @@ import { Typography } from '@mui/material';
 import useWindowDimensions from '../Model/WindowDimensions';
 interface SwiperCompProps{
   images: string[]
+  description?: string[]
 }
 
 export default function SwiperComp(props: SwiperCompProps) {
@@ -64,9 +65,9 @@ export default function SwiperComp(props: SwiperCompProps) {
                 color: 'white',
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
-                textShadow: '2px 1px 0px #D2A127',
+                textShadow: '2px 1px 0px #000000',
               }}>
-                Description
+                {props.description? props.description[props.images.indexOf(item)]: ""}
               </div>
             </div>
             

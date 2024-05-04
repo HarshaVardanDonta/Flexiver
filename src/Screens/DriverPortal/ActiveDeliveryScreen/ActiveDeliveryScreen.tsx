@@ -4,15 +4,17 @@ import CustomDropDown from "../../CustomerPortal/Components/CustomDropDown/Custo
 import CustomerPortalHeader from "../../CustomerPortal/Components/CustomerPortalHeader/CustomerPortalHeader";
 import "./ActiveDeliveryScreen.css";
 import MapComp from "../../../Components/MapComp";
-import { Icon } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ImagePreview from "../../../Components/ImagePreview";
 import Camera from "react-html5-camera-photo";
 import { useLocation, useNavigate } from "react-router-dom";
 import MySupClient from "../../../SupabaseClient";
 import toast from "react-hot-toast";
+import polyline from "@mapbox/polyline";
+import { LatLng } from "use-places-autocomplete";
 
 const LocationIcon = new Icon({
   iconUrl: mark,
@@ -34,6 +36,18 @@ export default function ActiveDeliveryScreen() {
   console.log(state);
   const [supabase] = useState(() => MySupClient());
   const [status, setStatus] = useState("Delivery Partner Assigned");
+
+  var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
+
+    async function getPolyLine() {
+      var decodedPoly = polyline.decode(state.polyString!);
+      var points: LatLng[] = [];
+      decodedPoly.forEach((point) => {
+        points.push({ lat: point[0], lng: point[1] });
+      });
+      setPolyPoints(points);
+      console.log("polyPoints", polyPoints);
+    }
 
   const handleDropDownChange = async (option: string) => {
     // Check if the selected option is 'Package Picked Up' or 'Package Delivered'
@@ -101,6 +115,9 @@ export default function ActiveDeliveryScreen() {
        }
   } 
 
+  useEffect(() => {
+    getPolyLine();
+  }, []);
   return (
     <div>
       {openCamera && (
@@ -111,7 +128,6 @@ export default function ActiveDeliveryScreen() {
               left: "0",
               width: "100%",
               height: "100%",
-              // backgroundColor: "rgba(44, 33, 33, 0.5)",
               zIndex: "10000",
               display: "flex",
               justifyContent: "center",
@@ -238,6 +254,7 @@ export default function ActiveDeliveryScreen() {
         <h3>Delivery ID : DID-12-12-12-1212</h3>
         <div className="activeDeliveryMapComp">
           <MapComp
+          polyPoints={polyPoints}
             positionWithIconsArray={[
               {
                 lat: state.pickUpLat,

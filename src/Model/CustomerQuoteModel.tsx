@@ -38,6 +38,9 @@ class CustomerQuoteModel {
   deliveryPartnerPickUpImage!: string;
   deliveryPartnerDropOffImage!: string;
   itemType!: string;
+  basePrice!: number;
+  deliveryDate!: string;
+  driverFare!: number;
 
   fromJson(json: any) {
     this.id = json.id;
@@ -77,6 +80,9 @@ class CustomerQuoteModel {
     this.deliveryPartnerPickUpImage = json.deliveryPartnerPickUpImage;
     this.deliveryPartnerDropOffImage = json.deliveryPartnerDropOffImage;
     this.itemType = json.itemType;
+    this.basePrice = json.basePrice;
+    this.deliveryDate = json.deliveryDate;
+    this.driverFare = json.driverFare;
   }
 
   toJson() {
@@ -113,7 +119,10 @@ class CustomerQuoteModel {
       dropOffParkingSpace: this.dropOffParkingSpace,
       itemDimensions: this.itemDimensions,
       onDemandDelivery: this.onDemandDelivery,
-      itemType: this.itemType
+      itemType: this.itemType,
+      basePrice: this.basePrice,
+      deliveryDate: this.deliveryDate,
+      driverFare: this.driverFare,
     };
   }
 }
