@@ -1,3 +1,7 @@
+body {
+    background-color: white;
+}
+
 .newCustomerQuotePage {
     display: flex;
     flex-direction: column;
@@ -28,18 +32,25 @@
     width: 100%;
     position: relative;
     align-items: center;
+    justify-content: center;
+    align-self: center;
 }
 
 .vehicleBannerCustomStyle {
     display: relative;
     position: absolute;
-    top: 0;
-    width: 100%;
+    top: 20px;
+    left: 50px;
+    right: 50px;
+    /* width: 80%; */
     height: 260px;
     z-index: 3;
     align-items: center;
     background-image: url("../../../Assets/CustomerPortal/QuotePageVid1.gif");
     background-position: center;
+    border-radius: 15px;
+    /* margin: 50px; */
+    align-self: center;
 }
 
 .vehicleBanner {
@@ -365,6 +376,9 @@
 
     .vehicleBannerCustomStyle {
         height: 400px;
+        left: 10px;
+        right: 10px;
+        top: 10px;
     }
 
     .vehicleCompContainer {
@@ -474,6 +488,7 @@
 
     .itemDimensionBox {
         width: 80%;
+        height: 100px;
     }
 
     .itemDimensionBoxSelected {
@@ -484,6 +499,14 @@
         display: flex;
         flex-direction: column;
         /* grid-template-rows: 1fr 1fr; */
+    }
+
+    .vehicleBannerCustomStyleMainContainer {
+        height: 180px;
+    }
+
+    .mainTagLine {
+        font-size: 1.6rem;
     }
 
 
