@@ -39,9 +39,15 @@ const IncomingOrders = () => {
         }}
       >
         <b>Available Deliveries</b>
-        <b>Sort By</b>
+        {/* <b>Sort By</b> */}
       </div>
       <div>
+        {
+          orders?.length === 0 && 
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh'}}>
+            <h1>No Orders Available</h1>
+          </div>
+        }
         {orders?.map((order, index) => (
           <div>
             <IncommingOrderComp order={order} />

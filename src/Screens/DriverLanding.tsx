@@ -272,7 +272,7 @@ export default function DriverLanding() {
           <div className="hero-text" data-aos="fade-up">
             <h1>
               START EARNING <br />
-              WITH YOUR VAN.
+              WITH YOUR VAN
             </h1>
             <p>Become a Partner in Our Moving Services Network </p>
             {
@@ -435,7 +435,11 @@ export default function DriverLanding() {
             suit your preferences and transportation needs:
           </p>
           <div>
-          <SwiperComp images={[twoWheeler, UTE, RefregeratedVan]} />
+          <SwiperComp description={[
+            "Two Wheeler",
+            "UTE Van",
+            "Refrigerated Van"
+          ]} images={[twoWheeler, UTE, RefregeratedVan]} />
           </div>
         </div>
 

@@ -199,7 +199,7 @@ export default function QuotePage() {
     console.log(dataUri);
     setDataUri(dataUri);
   };
-  var [polyPoints, setPolyPoints] = useState<Array<LatLngExpression>>([]);
+  var [polyPoints, setPolyPoints] = useState<Array<[number, number]>>([]);
 
   // function to get exact distance between from and to points
   async function getRouteDistance() {
@@ -822,7 +822,6 @@ export default function QuotePage() {
         <div className="quoteItemSpecSectionMapSection">
           {from.lat && from.lng && to.lat && to.lng ? (
             <MapComp
-              polyPoints={polyPoints}
               positionWithIconsArray={[
                 {
                   lat: from.lat,
