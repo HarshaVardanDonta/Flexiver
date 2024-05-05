@@ -9,57 +9,116 @@ import CustomDialog from "./CustomerPortal/Components/SuccessPaymentComp/Success
 
 
 export default function TempQuotePage() {
+
+    interface FieldValues {
+        name: string;
+        contact: string;
+        fromAddress: string;
+        toAddress: string;
+        description: string;
+      }
+    
+
+
     let navigate = useNavigate();
     const supabase = MySupClient();
     const [showDialog, setShowDialog] = React.useState(false);
+    const [checkInputFileds, setCheckInputFileds] = React.useState(false);
+    const [fieldValues,setFieldValues] = React.useState<FieldValues>({
+        name:"",
+        contact:"",
+        fromAddress:"",
+        toAddress:"",
+        description:""
+    })
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setFieldValues((prevValues) => ({
+      ...prevValues, 
+      [name]: value
+    }));
+  };
+
+  const checkIfAnyFieldIsEmpty = (values: FieldValues) => {
+    if(Object.values(values).some((value:any) => value.trim() === '')==true){
+        setCheckInputFileds(true);
+        return true;
+    }
+    else{
+        setCheckInputFileds(false);
+        return false;
+    }
+  };
 
     return (
         <div className="tempQuotePage">
             <h1>Get a Quote Now!</h1>
             <div className="tempQuotePageForm">
-                <div>
+                <div className="tempQuotePageFormdiv">
                     <label htmlFor="name">Name:</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your Name" />
+                    <div style={{width:"80%", position:"relative"}}>
+                    <input type="text" id="name" value={fieldValues.name} onChange={handleInputChange} name="name" required placeholder="Enter your Name" />
+                    {checkInputFileds && fieldValues.name.trim() === ''?<div style={{fontSize:"12px", color:"red", textAlign:"left", position:"absolute", left:"10px"}}>Please provide your name</div>:""}
+                    </div>
                 </div>
-                <div>
+
+                <div className="tempQuotePageFormdiv">
                     <label htmlFor="contact">Contact:</label>
-                    <input type="text" id="contact" name="contact" required placeholder="Enter Email or Phone" />
+                    <div style={{width:"80%", position:"relative"}}>
+                    <input type="text" id="contact" name="contact" required placeholder="Enter Email or Phone" value={fieldValues.contact} onChange={handleInputChange} />
+                    {checkInputFileds && fieldValues.contact.trim() === ''?<div style={{fontSize:"12px", color:"red", textAlign:"left", position:"absolute", left:"10px"}}>Please provide your email or phone number</div>:""}
+                    </div>
                 </div>
-                <div>
+                <div className="tempQuotePageFormdiv">
                     <label htmlFor="fromAddress">From Address:</label>
-                    <input type="text" id="fromAddress" name="fromAddress" required placeholder="Enter From Address" />
+                    <div style={{width:"80%", position:"relative"}}>
+                    <input type="text" id="fromAddress" name="fromAddress" required placeholder="Enter From Address"  value={fieldValues.fromAddress} onChange={handleInputChange}/>
+                    {checkInputFileds && fieldValues.fromAddress.trim() === ''?<div style={{fontSize:"12px", color:"red", textAlign:"left", position:"absolute", left:"10px"}}>Please provide the source address</div>:""}
+                    </div>
                 </div>
-                <div>
+                <div className="tempQuotePageFormdiv">
                     <label htmlFor="toAddress">To Address:</label>
-                    <input type="text" id="toAddress" name="toAddress" required placeholder="Enter To Address" />
+                    <div style={{width:"80%", position:"relative"}}>
+                    <input type="text" id="toAddress" name="toAddress" required placeholder="Enter To Address" value={fieldValues.toAddress} onChange={handleInputChange}/>
+                    {checkInputFileds && fieldValues.toAddress.trim() === ''?<div style={{fontSize:"12px", color:"red", textAlign:"left", position:"absolute", left:"10px"}}>Please provide the destination address</div>:""}
+                    </div>
                 </div>
-                <div>
+                <div className="tempQuotePageFormdiv">
                     <label htmlFor="description">Item Description:</label>
-                    <textarea id="description" name="description" required placeholder="Enter Item Description" />
+                    <div style={{width:"80%", position:"relative"}}>
+                    <textarea id="description" name="description" required placeholder="Enter Item Description" value={fieldValues.description} onChange={handleInputChange}/>
+                    {checkInputFileds && fieldValues.description.trim() === ''?<div style={{fontSize:"12px", color:"red", textAlign:"left", position:"absolute", left:"10px"}}>Please provide information describing your item</div>:""}
+                    </div>
                 </div>
                 <button onClick={async () => {
+                    const result = checkIfAnyFieldIsEmpty(fieldValues)
+                    if(result === false){
                     const data = await supabase.from("TempQuote").insert({
-                        name: (document.getElementById("name") as HTMLInputElement).value,
-                        contact: (document.getElementById("contact") as HTMLInputElement).value,
-                        fromAddress: (document.getElementById("fromAddress") as HTMLInputElement).value,
-                        toAddress: (document.getElementById("toAddress") as HTMLInputElement).value,
-                        itemDesc: (document.getElementById("description") as HTMLInputElement).value
+                        name: fieldValues.name,
+                        contact: fieldValues.contact,
+                        fromAddress: fieldValues.fromAddress,
+                        toAddress: fieldValues.toAddress,
+                        itemDesc: fieldValues.description
                     });
                     console.log(data);
                     if (data.status === 201) {
                         toast.success("We have received your request. We will get back to you soon!");
                         setShowDialog(true);
                         //clear all fields
-                        (document.getElementById("name") as HTMLInputElement).value = "";
-                        (document.getElementById("contact") as HTMLInputElement).value = "";
-                        (document.getElementById("fromAddress") as HTMLInputElement).value = "";
-                        (document.getElementById("toAddress") as HTMLInputElement).value = "";
-                        (document.getElementById("description") as HTMLInputElement).value = "";
+                        setFieldValues({
+                            name:"",
+                            contact:"",
+                            fromAddress:"",
+                            toAddress:"",
+                            description:""
+                        })
 
                     }
                     else {
                         toast.error("Error in submitting the form");
                     }
+                }
                 }
                 }>Submit</button>
 

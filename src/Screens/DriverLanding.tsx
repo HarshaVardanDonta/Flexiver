@@ -28,6 +28,7 @@ import { Spa } from "@mui/icons-material";
 import ReactGA from "react-ga";
 import stepperVid from "../Assets/stepper_flexiver.riv"
 import useWindowDimensions from "../Model/WindowDimensions";
+import CustomerPortalFooter from "./CustomerPortal/Components/CustomerPortalFooter/CustomerPortalFooter";
 
 ReactGA.initialize('G-176G8Q4X9H');
 
@@ -207,22 +208,6 @@ export default function DriverLanding() {
               </div>
             ) : (
               <div className="userActionContainer">
-                <ButtonComp
-                  style={{
-                    backgroundColor: "#D69F29",
-                    color: "white",
-                    borderRadius: "10px",
-                  }}
-                  text="Apply To Drive"
-                  onClick={async () => {
-                    if (session.data.session) {
-                      navigate("/driverRegistration");
-                    } else {
-                      navigate("/driverSignUp");
-                    }
-                  }}
-                />
-                <Spacer width={20} />
                 {/* <ButtonComp
                   text="Login"
                   onClick={() => {
@@ -241,6 +226,22 @@ export default function DriverLanding() {
                 >
                   Login
                 </Button>
+                <Spacer width={20} />
+                <ButtonComp
+                  style={{
+                    backgroundColor: "#D69F29",
+                    color: "white",
+                    borderRadius: "10px",
+                  }}
+                  text="Apply To Drive"
+                  onClick={async () => {
+                    if (session.data.session) {
+                      navigate("/driverRegistration");
+                    } else {
+                      navigate("/driverSignUp");
+                    }
+                  }}
+                />
                 <Menu
                   id="login-Menu"
                   anchorEl={anchorLogin}
@@ -316,7 +317,7 @@ export default function DriverLanding() {
           }
         </div>
         <div className="map">
-          <img src={map} alt="mapGif"/>
+          <img src={map} alt="mapGif" />
           {/* <video src={map} autoPlay loop muted /> */}
         </div>
         <div id="about">
@@ -435,11 +436,11 @@ export default function DriverLanding() {
             suit your preferences and transportation needs:
           </p>
           <div>
-          <SwiperComp description={[
-            "Two Wheeler",
-            "UTE Van",
-            "Refrigerated Van"
-          ]} images={[twoWheeler, UTE, RefregeratedVan]} />
+            <SwiperComp description={[
+              "Two Wheeler",
+              "UTE Van",
+              "Refrigerated Van"
+            ]} images={[twoWheeler, UTE, RefregeratedVan]} />
           </div>
         </div>
 
@@ -470,8 +471,9 @@ export default function DriverLanding() {
             <br />
           </div>
         </div>
+        <CustomerPortalFooter />
 
-        <div className="landing-footer">
+        {/* <div className="landing-footer">
           <div className="footer-box">
             <br />
             <img src={whiteLogo}></img>
@@ -512,7 +514,7 @@ export default function DriverLanding() {
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
