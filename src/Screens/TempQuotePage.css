@@ -32,28 +32,28 @@
     color: #323232;
 }
 
-.tempQuotePageForm>div {
+.tempQuotePageFormdiv {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.tempQuotePageForm>div>input {
+input {
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    width: 80%;
+    width: calc(100% - 40px);
     border-radius: 10px;
 }
 
-.tempQuotePageForm>div>textarea {
+textarea {
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    width: 80%;
+    width: calc(100% - 40px);
     resize: none;
     border-radius: 10px;
 }
@@ -83,7 +83,7 @@
         height: 80%;
     }
 
-    .tempQuotePageForm>div {
+    .tempQuotePageFormdiv {
         flex-direction: column;
     }
 }
