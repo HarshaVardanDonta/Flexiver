@@ -37,7 +37,7 @@ function CustomTextField({
       <TextField
         error={passMisMatch}
         ref={ref}
-        fullWidth
+        // fullWidth
         className="textField"
         label={label}
         InputProps={{

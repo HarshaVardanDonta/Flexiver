@@ -136,6 +136,7 @@ const PlacesInput = (props: any) => {
             border: "none",
             padding: "0px",
             paddingLeft: "10px",
+            paddingRight: "10px",
             borderRadius: "15px",
             backgroundColor: "#FFECC0",
             width: "100%",

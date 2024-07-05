@@ -47,7 +47,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
             }}>  {
                     props.onMenuClick &&
                     <IconButton onClick={props.onMenuClick}>
-                        <FaBars fontSize={24} color='white' />
+                        <FaBars fontSize={24} color='black' />
                     </IconButton>
                 }
 
