@@ -10,7 +10,7 @@ import CustomerSignUp from "./CustomerPortal/CustomerSignUp/SignUp";
 import QuotePage from "./CustomerPortal/Quote/QuotePage";
 import TearmsAndConditions from "./TearmsAndConditions";
 import PrivacyPolicy from "./PrivacyPolicy";
-
+import LatestPrototype from "./CustomerPortal/LatestPrototype/LatestPrototype";
 import BillingPage from "./CustomerPortal/BillingPage/BillingPage";
 import OrderTrackingPage from "./CustomerPortal/OrderTrackingPage/OrderTrackingPage";
 import OrderHistoryPage from "./CustomerPortal/OrderHistoryPage/OrderHistoryPage";
@@ -61,8 +61,9 @@ export default function DriverMain() {
           <Route path="/activeDeliveryScreen" element={<ActiveDeliveryScreen />} />
           <Route path="/Abcd" element={<Places />} />
           <Route path="/tempQuotePage" element={<TempQuotePage />} />
-
           <Route path="/test1" element={<NewQuoteDesign />} />
+          <Route path="/test2" element={<LatestPrototype />} />
+
         </Routes>
 
         <Toaster position="bottom-right" />
