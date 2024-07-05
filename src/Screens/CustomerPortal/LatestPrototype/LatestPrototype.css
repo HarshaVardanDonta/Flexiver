@@ -1,0 +1,488 @@
+.section1 {
+    height: calc(100vh - 60px);
+    width: 100vw;
+}
+
+.section1>video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.section1FadeOut {
+    height: 30vh;
+    width: 100vw;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFE5AE 100%);
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.getEstimateButton {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: #D69F29;
+    width: 370px;
+    height: 70px;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    animation: fadeIn 1s;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+}
+
+.getEstimateButton:hover {
+    transform: scale(1.05);
+}
+
+.section2 {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+
+.section2Carousal {
+    width: 100vw;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+}
+
+
+.swiper-pagination-bullet-active {
+    background-color: #D69F29 !important;
+}
+
+.section2NextButton {
+    width: 20%;
+    height: 7vh;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    background-color: #D69F29;
+    color: white;
+    border-radius: 15px;
+    font-size: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.section2NextButton:hover {
+    transform: scale(1.05);
+}
+
+.section2Address {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section2Address>div {
+    font-size: 1.5em;
+}
+
+.section2Address>h2 {
+    align-self: center;
+}
+
+.section3 {
+    /* height: 100vh; */
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 50px;
+    user-select: none;
+}
+
+.gotYouCoveredBoxRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.gotYouCoveredBox {
+    height: 200px;
+    width: 20vw;
+    display: flex;
+    background-color: #E2BC69;
+    border-radius: 15px;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    font-weight: 400;
+    color: black;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gotYouCoveredBox:hover {
+    transform: scale(1.05);
+}
+
+.latestHeading {
+    font-size: 3em;
+    font-weight: 600;
+}
+
+.joinUsButton {
+    width: 30vw;
+    background-color: #E2BC69;
+    padding: 20px 0px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 1.5em;
+    color: black;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.joinUsButton:hover {
+    transform: scale(1.05);
+}
+
+
+.testimonialCarousel {
+    /* height: 50vh; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.testimonialContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+}
+
+.testimonialBox {
+    width: 45%;
+    height: 250px;
+    background-color: #E2BC69;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.testimonialBoxImage {
+    width: 35%;
+    height: 80%;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.testimonialBoxText {
+    width: 50%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 1.2em;
+    text-overflow: ellipsis;
+}
+
+.testimonialBoxName {
+    font-size: 1.2em;
+    font-weight: 600;
+    align-self: flex-end;
+}
+
+.testimonialSwiperButtonContainer {
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.testimonialSwiperButton {
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    background-color: #D69F29;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    border-radius: 15px;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.testimonialSwiperButton:hover {
+    transform: scale(1.05);
+}
+
+.section2VehicleDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+.section2VehicleBox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    /* padding: 20px; */
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 1.5em;
+    background-color: white;
+}
+
+.section2VehicleBox>div {
+    display: none;
+}
+
+.section2VehicleBoxSelected {
+    height: 100%;
+    scale: 1.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    gap: 20px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 1.5em;
+    border-radius: 15px;
+    font-weight: 600;
+    color: #D69F29;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 10);
+}
+
+.section2VehicleBox>img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.section2VehicleBoxSelected>img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.section2VehicleSelectionRow {
+    display: flex;
+    width: 100%;
+    height: 35%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section2VehicleDescriptionSection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+    background: rgba(214, 159, 41, 0.75);
+    /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+    backdrop-filter: blur(6.5px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+@media only screen and (max-width: 600px) {
+
+    .section2VehicleDetailsContainer {
+        margin-left: 10vw;
+        margin-right: 10vw;
+        height: 100%;
+    }
+
+    .section2VehicleSelectionRow {
+        flex-direction: column;
+        gap: 50px;
+        height: 100%;
+        width: auto;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .section2VehicleBox {
+        width: 100%;
+        height: 70px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        text-align: end;
+    }
+
+    .section2VehicleBoxSelected {
+        width: 80%;
+        height: 70px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        text-align: end;
+        font-size: 1.5em;
+        font-weight: 600;
+        align-items: center;
+        background-color: #d69f299f;
+        padding: 10px;
+    }
+
+    .section2VehicleBox>img {
+        width: 30%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .section2VehicleBoxSelected>img {
+        width: 30%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .section2VehicleDescriptionSection {
+        padding: 10px;
+        box-sizing: border-box;
+        height: 100%;
+        font-size: 1.1em;
+    }
+
+    .getEstimateButton {
+        width: 80vw;
+        height: 10vh;
+        font-size: 2em;
+    }
+
+    .joinUsButton {
+        width: 80vw;
+    }
+
+    .gotYouCoveredBoxRow {
+        flex-direction: column;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .gotYouCoveredBox {
+        width: 100%;
+    }
+
+    .section2NextButton {
+        width: 40%;
+        height: 5vh;
+    }
+
+    .testimonialBox {
+        width: 100%;
+        height: 300px;
+        flex-direction: column;
+
+    }
+
+    .testimonialBoxImage {
+        width: 90%;
+        height: 200px;
+        margin: 10px;
+    }
+
+    .testimonialCarousel {
+        height: 300px;
+    }
+
+    .testimonialBoxText {
+        width: 90%;
+    }
+
+}
+
+@media only screen and (max-width: 800px) {
+    .gotYouCoveredBox {
+        width: 90%;
+    }
+
+    .gotYouCoveredBoxRow {
+        gap: 10px;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .joinUsButton {
+        width: 80vw;
+    }
+
+    .testimonialBox {
+        width: 100%;
+        height: 300px;
+        flex-direction: column;
+
+    }
+
+    .testimonialBoxImage {
+        width: 90%;
+        height: 200px;
+        margin: 10px;
+    }
+
+    .testimonialCarousel {
+        height: 300px;
+    }
+
+    .testimonialBoxText {
+        width: 90%;
+    }
+
+    .testimonialContainer {
+        gap: 10px;
+    }
+}

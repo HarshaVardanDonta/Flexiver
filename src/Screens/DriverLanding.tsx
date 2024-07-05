@@ -255,10 +255,10 @@ export default function DriverLanding() {
                     navigate("/driverLogin");
                     handleLoginClose();
                   }}>Driver Portal</MenuItem>
-                  <MenuItem onClick={() => {
+                  {/* <MenuItem onClick={() => {
                     navigate("/QuotePage");
                     handleLoginClose();
-                  }}>Customer Portal</MenuItem>
+                  }}>Customer Portal</MenuItem> */}
 
                 </Menu>
               </div>
