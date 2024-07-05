@@ -256,36 +256,60 @@
 }
 
 .section2VehicleBox {
-    width: 25%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #E2BC69;
     border-radius: 15px;
-    padding: 20px;
-    background: rgba(214, 159, 41, 0.75);
-    /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
-    backdrop-filter: blur(6.5px);
-    -webkit-backdrop-filter: blur(6.5px);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    /* padding: 20px; */
     cursor: pointer;
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 1.5em;
+    background-color: white;
 }
 
-.section2VehicleBox:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+.section2VehicleBox>div {
+    display: none;
 }
 
+.section2VehicleBoxSelected {
+    height: 100%;
+    scale: 1.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    gap: 20px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 1.5em;
+    border-radius: 15px;
+    font-weight: 600;
+    color: #D69F29;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 10);
+}
+
+.section2VehicleBox>img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.section2VehicleBoxSelected>img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
 .section2VehicleSelectionRow {
     display: flex;
     width: 100%;
     height: 35%;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -306,6 +330,69 @@
 }
 
 @media only screen and (max-width: 600px) {
+
+    .section2VehicleDetailsContainer {
+        margin-left: 10vw;
+        margin-right: 10vw;
+        height: 100%;
+    }
+
+    .section2VehicleSelectionRow {
+        flex-direction: column;
+        gap: 50px;
+        height: 100%;
+        width: auto;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .section2VehicleBox {
+        width: 100%;
+        height: 70px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        text-align: end;
+    }
+
+    .section2VehicleBoxSelected {
+        width: 80%;
+        height: 70px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        text-align: end;
+        font-size: 1.5em;
+        font-weight: 600;
+        align-items: center;
+        background-color: #d69f299f;
+        padding: 10px;
+    }
+
+    .section2VehicleBox>img {
+        width: 30%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .section2VehicleBoxSelected>img {
+        width: 30%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .section2VehicleDescriptionSection {
+        padding: 10px;
+        box-sizing: border-box;
+        height: 100%;
+        font-size: 1.1em;
+    }
+
     .getEstimateButton {
         width: 80vw;
         height: 10vh;

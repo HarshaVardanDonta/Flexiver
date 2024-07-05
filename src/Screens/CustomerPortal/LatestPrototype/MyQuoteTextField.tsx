@@ -9,6 +9,7 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { useEffect } from "react";
 
 interface MyQuoteTextFieldProps {
     height?: string,
@@ -30,8 +31,18 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
         clearSuggestions
     } = usePlacesAutocomplete();
 
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
+        libraries: ["places"],
+    });
+    useEffect(() => {
+        if (isLoaded) {
+            console.log('Loaded', ready)
+        }
+    }, [isLoaded, ready])
     return (
         props.isMapAutoComplete ?
+
             <Combobox
                 onSelect={async (address) => {
                     console.log(address)
@@ -47,7 +58,7 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                     onChange={(e) => {
                         setValue(e.target.value)
                     }}
-                    // disabled={!ready}
+                    disabled={!ready}
                     className="combobox-input"
                     placeholder={ready ? "Enter your address" : "Loading..."}
                     style={{

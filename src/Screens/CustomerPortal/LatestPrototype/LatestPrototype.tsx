@@ -19,22 +19,22 @@ import Testimonial from './Testimonial';
 import TestimonialSwiper from './TestimonialSwiper';
 import { FaChevronLeft } from 'react-icons/fa';
 import useWindowDimensions from '../../../Model/WindowDimensions';
-import PlacesInput from '../../../Components/Abcd';
 import { useLoadScript } from '@react-google-maps/api';
 import CustomerQuoteModel from '../../../Model/CustomerQuoteModel';
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import polyline from '@mapbox/polyline';
 import { LatLng } from 'use-places-autocomplete';
+import TwoImage from '../../../Assets/CustomerPortal/twoWheelernew.png';
 
 
 export default function LatestPrototype() {
+
     const [activeSlide, setActiveSlide] = useState(0)
     const [activeTestimonial, setActiveTestimonial] = useState(0)
     const { height, width } = useWindowDimensions();
     var testimonials = ["1", "2", "3", "4", "5", "6", "7"]
 
-    var testimonialPageCount = (testimonials.length / 2);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
         libraries: ["places"],
@@ -57,16 +57,16 @@ export default function LatestPrototype() {
     var floors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     const quote = new CustomerQuoteModel();
     useEffect(() => {
-        if (isLoaded) {
-            getRouteDistance();
-        }
-    }, [to, from])
+        getRouteDistance();
+    }, [to, from]);
+
     const navigate = useNavigate();
     var [distance, setDistance] = useState("");
     var [polyString, setPolyString] = useState("");
     var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
     // function to get exact distance between from and to points
     async function getRouteDistance() {
+        console.log(isLoaded);
         if (isLoaded) {
             const directionService = new google.maps.DirectionsService();
 
@@ -325,7 +325,38 @@ export default function LatestPrototype() {
                             </SwiperSlide>
                             <SwiperSlide>
                                 <div className='section2Carousal'>
-                                    test1
+                                    <div className='section2VehicleDetailsContainer'>
+                                        <div className='section2VehicleSelectionRow'>
+                                            <div className={
+                                                vehicleType === "Two Wheeler" ? 'section2VehicleBoxSelected' : 'section2VehicleBox'}
+                                                onClick={() => {
+                                                    setVehicleType('Two Wheeler')
+                                                }}>
+                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                Two Wheeler
+                                            </div>
+                                            <div className={vehicleType === "UTE / Van" ? 'section2VehicleBoxSelected' : 'section2VehicleBox'} onClick={() => {
+                                                setVehicleType('UTE / Van')
+                                            }}>
+                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                UTE / Van
+                                            </div>
+                                            <div
+                                                className={
+                                                    vehicleType === "Refreigerated Van" ? 'section2VehicleBoxSelected' : 'section2VehicleBox'}
+
+                                                onClick={() => {
+                                                    setVehicleType('Refreigerated Van')
+                                                }}>
+                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                Refreigerated Van
+                                            </div>
+                                        </div>
+                                        {/* <div className='section2VehicleDescriptionSection'>
+                                            Can fit 1-2 boxes weighing upto 50kgs<br />
+                                            Can fit 1-2 boxes weighing upto 50kgs
+                                        </div> */}
+                                    </div>
                                 </div>
                             </SwiperSlide>
                             <SwiperNextButton activeSlide={activeSlide} />
@@ -506,26 +537,41 @@ export default function LatestPrototype() {
                                 <div className='section2Carousal'>
                                     <div className='section2VehicleDetailsContainer'>
                                         <div className='section2VehicleSelectionRow'>
-                                            <div className='section2VehicleBox' onClick={() => {
-                                                setVehicleType('Two Wheeler')
-                                            }}>
-                                                Two Wheeler
+                                            <div className={
+                                                vehicleType === "Two Wheeler" ? 'section2VehicleBoxSelected' : 'section2VehicleBox'}
+                                                onClick={() => {
+                                                    setVehicleType('Two Wheeler')
+                                                }}>
+                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                <div>
+                                                    Two Wheeler
+                                                </div>
                                             </div>
-                                            <div className='section2VehicleBox' onClick={() => {
+                                            <div className={vehicleType === "UTE / Van" ? 'section2VehicleBoxSelected' : 'section2VehicleBox'} onClick={() => {
                                                 setVehicleType('UTE / Van')
                                             }}>
-                                                UTE / Van
+                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                <div>
+                                                    UTE / Van
+                                                </div>
                                             </div>
-                                            <div className='section2VehicleBox' onClick={() => {
-                                                setVehicleType('Refreigerated Van')
-                                            }}>
-                                                Refrigerated Van
+                                            <div className=
+                                                {
+                                                    vehicleType === "Refreigerated Van" ? 'section2VehicleBoxSelected' : 'section2VehicleBox'
+                                                }
+                                                onClick={() => {
+                                                    setVehicleType('Refreigerated Van')
+                                                }}>
+                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                <div>
+                                                    Refrigerated Van
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className='section2VehicleDescriptionSection'>
+                                        {/* <div className='section2VehicleDescriptionSection'>
                                             description about the vehicle and dimensions on the right side<br />
                                             and the image representing vehicle dimensions on the left side
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </SwiperSlide>
@@ -742,6 +788,6 @@ export default function LatestPrototype() {
                 </div>
             </div>
             <CustomerPortalFooter />
-        </div>
+        </div >
     )
 }
