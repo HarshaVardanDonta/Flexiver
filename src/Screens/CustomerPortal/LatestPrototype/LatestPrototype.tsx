@@ -65,6 +65,9 @@ export default function LatestPrototype() {
     var [distance, setDistance] = useState("");
     var [polyString, setPolyString] = useState("");
     var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
+
+    const [showAddressError, setShowAddressError] = useState(false);
+    const [errorText, setErrorText] = useState("");
     // function to get exact distance between from and to points
     async function getRouteDistance() {
         if (isLoaded) {
@@ -94,6 +97,61 @@ export default function LatestPrototype() {
     }
 
     async function handleSubmit() {
+        if (width > 600) {
+            if (pickUpAddress === "" || dropOffAddress === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill address");
+                setActiveSlide(0);
+                return;
+            } else if (pickUpContactName === "" || dropOffContactName === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill contsct name");
+                setActiveSlide(0);
+                return;
+            } else if (pickUpContactNumber === "" || dropOffContactNumber === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill contact number");
+                setActiveSlide(0);
+                return;
+            }
+        } else if (width < 600) {
+            console.log("test")
+            console.log(pickUpAddress)
+            console.log(pickUpContactName)
+            console.log(pickUpContactNumber)
+            if (pickUpAddress === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill pickup address");
+                setActiveSlide(0);
+                return;
+            } else if (pickUpContactName === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill pickup contsct name");
+                setActiveSlide(0);
+                return;
+            } else if (pickUpContactNumber === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill pickup contact number");
+                setActiveSlide(0);
+                return;
+            } else if (dropOffAddress === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill drop address");
+                setActiveSlide(1);
+                return;
+            } else if (dropOffContactName === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill drop contsct name");
+                setActiveSlide(1);
+                return;
+            } else if (dropOffContactNumber === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill drop contact number");
+                setActiveSlide(1);
+                return;
+            }
+        }
+        setShowAddressError(false)
         quote.pickUpAddress = pickUpAddress
         quote.dropOffAddress = dropOffAddress
         quote.pickUpContactName = pickUpContactName
@@ -146,6 +204,15 @@ export default function LatestPrototype() {
                     }}>
                         {(activeSlide == 0 || activeSlide == 1) ? "Enter item pick up and drop off details" : "Select required vehicle type"}
                     </div>}
+                {
+                    showAddressError ?
+                        <div style={{
+                            color: 'red'
+                        }}>
+                            {errorText}
+                        </div> :
+                        <></>
+                }
 
                 {
                     width < 600 ?
@@ -238,11 +305,13 @@ export default function LatestPrototype() {
                                                     width='80vw'
                                                     onChanged={(value) => {
                                                         console.log(value)
+                                                        setPickUpContactName(value)
                                                     }} lable='Enter Name' />
                                                 <MyQuoteTextField
                                                     width='80vw'
                                                     onChanged={(value) => {
                                                         console.log(value)
+                                                        setPickUpContactNumber(value)
                                                     }} lable='Enter Mobile' />
                                             </div>
                                             :
@@ -324,11 +393,13 @@ export default function LatestPrototype() {
                                                     width='80vw'
                                                     onChanged={(value) => {
                                                         console.log(value)
+                                                        setDropOffContactName(value)
                                                     }} lable='Enter Name' />
                                                 <MyQuoteTextField
                                                     width='80vw'
                                                     onChanged={(value) => {
                                                         console.log(value)
+                                                        setDropOffContactNumber(value)
                                                     }} lable='Enter Mobile' />
                                             </div> :
                                             <div>

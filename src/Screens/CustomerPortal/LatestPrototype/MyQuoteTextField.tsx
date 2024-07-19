@@ -45,7 +45,6 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
 
             <Combobox
                 onSelect={async (address) => {
-                    console.log(address)
                     props.onChanged?.(address)
                     setValue(address, false);
                     clearSuggestions();
@@ -56,6 +55,7 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                 <ComboboxInput
                     value={value}
                     onChange={(e) => {
+                        props.onChanged?.(e.target.value)
                         setValue(e.target.value)
                     }}
                     disabled={!ready}
