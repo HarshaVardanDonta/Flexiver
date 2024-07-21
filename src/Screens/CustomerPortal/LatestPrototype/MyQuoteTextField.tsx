@@ -10,7 +10,7 @@ import {
 import "@reach/combobox/styles.css";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { useEffect } from "react";
-
+import { NumericFormat } from 'react-number-format';
 interface MyQuoteTextFieldProps {
     height?: string,
     width?: string,
@@ -110,41 +110,81 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                 </ComboboxPopover>
             </Combobox>
             :
-            <TextField
-                value={value}
-                onChange={(e) => {
-                    setValue(e.target.value)
-                    props.onChanged?.(e.target.value)
-                }}
-                placeholder={props.lable ?? 'Sample Text '}
-                inputProps={{
-                    style: {
-                        color: props.color ?? 'black',
-                    }
-                }}
-                style={{
-                    backgroundColor: props.backgroundColor ?? "#E2BC69",
-                    borderRadius: '10px',
-                }}
-                sx={{
-                    '& .MuiInputBase-root': {
-                        height: props.height ?? '40px',
-                        width: props.width ?? '20vw',
-                    },
-                    '& ::placeholder': {
-                        color: 'black',
-                        opacity: '0.9',
-                    },
-                    '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                            border: 'none',
+            props.lable === "Enter Mobile" ?
+                <NumericFormat
+                    inputProps={{
+                        maxLength: 10
+                    }}
+                    maxLength={10}
+                    customInput={TextField}
+                    value={value}
+                    onChange={(e) => {
+                        setValue(e.target.value)
+                        props.onChanged?.(e.target.value)
+                    }}
+                    placeholder={props.lable ?? 'Sample Text '}
+                    style={{
+                        backgroundColor: props.backgroundColor ?? "#E2BC69",
+                        borderRadius: '10px',
+                    }}
+                    sx={{
+                        '& .MuiInputBase-root': {
+                            height: props.height ?? '40px',
+                            width: props.width ?? '20vw',
                         },
-                        '&:hover fieldset': {
+                        '& ::placeholder': {
+                            color: 'black',
+                            opacity: '0.9',
                         },
-                        '&.Mui-focused fieldset': {
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                border: 'none',
+                            },
+                            '&:hover fieldset': {
+                            },
+                            '&.Mui-focused fieldset': {
+                            },
                         },
-                    },
-                }} />
+                    }}
+                >
+
+                </ NumericFormat >
+                :
+                <TextField
+                    value={value}
+                    onChange={(e) => {
+                        setValue(e.target.value)
+                        props.onChanged?.(e.target.value)
+                    }}
+                    placeholder={props.lable ?? 'Sample Text '}
+                    inputProps={{
+                        style: {
+                            color: props.color ?? 'black',
+                        }
+                    }}
+                    style={{
+                        backgroundColor: props.backgroundColor ?? "#E2BC69",
+                        borderRadius: '10px',
+                    }}
+                    sx={{
+                        '& .MuiInputBase-root': {
+                            height: props.height ?? '40px',
+                            width: props.width ?? '20vw',
+                        },
+                        '& ::placeholder': {
+                            color: 'black',
+                            opacity: '0.9',
+                        },
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                border: 'none',
+                            },
+                            '&:hover fieldset': {
+                            },
+                            '&.Mui-focused fieldset': {
+                            },
+                        },
+                    }} />
 
 
     )

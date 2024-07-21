@@ -539,10 +539,12 @@ export default function LatestPrototype() {
                                                 <MyQuoteTextField
                                                     onChanged={(value) => {
                                                         console.log(value)
+                                                        setPickUpContactName(value)
                                                     }} lable='Enter Name' />
                                                 <MyQuoteTextField
                                                     onChanged={(value) => {
                                                         console.log(value)
+                                                        setPickUpContactNumber(value)
                                                     }} lable='Enter Mobile' />
                                             </div> :
                                             <div>
@@ -620,10 +622,12 @@ export default function LatestPrototype() {
                                                 <MyQuoteTextField
                                                     onChanged={(value) => {
                                                         console.log(value)
+                                                        setDropOffContactName(value)
                                                     }} lable='Enter Name' />
                                                 <MyQuoteTextField
                                                     onChanged={(value) => {
                                                         console.log(value)
+                                                        setDropOffContactNumber(value)
                                                     }} lable='Enter Mobile' />
                                             </div> :
                                             <div>
