@@ -54,12 +54,14 @@ export default function LatestPrototype() {
     const [vehicleType, setVehicleType] = useState('Two Wheeler')
     const [from, setFrom] = useState({ lat: 0, lng: 0 });
     const [to, setTo] = useState({ lat: 0, lng: 0 });
+    const [sameAsPickup, setSameAsPickup] = useState(false);
 
     var floors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     const quote = new CustomerQuoteModel();
     useEffect(() => {
         getRouteDistance();
-    }, [to, from]);
+        console.log(dropOffLiftAvailable)
+    }, [to, from, sameAsPickup]);
 
     const navigate = useNavigate();
     var [distance, setDistance] = useState("");
@@ -101,11 +103,12 @@ export default function LatestPrototype() {
             if (pickUpAddress === "" || dropOffAddress === "") {
                 setShowAddressError(true);
                 setErrorText("Please fill address");
+                toast.error("Please fill address")
                 setActiveSlide(0);
                 return;
             } else if (pickUpContactName === "" || dropOffContactName === "") {
                 setShowAddressError(true);
-                setErrorText("Please fill contsct name");
+                setErrorText("Please fill contact name");
                 setActiveSlide(0);
                 return;
             } else if (pickUpContactNumber === "" || dropOffContactNumber === "") {
@@ -126,7 +129,7 @@ export default function LatestPrototype() {
                 return;
             } else if (pickUpContactName === "") {
                 setShowAddressError(true);
-                setErrorText("Please fill pickup contsct name");
+                setErrorText("Please fill pickup contact name");
                 setActiveSlide(0);
                 return;
             } else if (pickUpContactNumber === "") {
@@ -141,7 +144,7 @@ export default function LatestPrototype() {
                 return;
             } else if (dropOffContactName === "") {
                 setShowAddressError(true);
-                setErrorText("Please fill drop contsct name");
+                setErrorText("Please fill drop contact name");
                 setActiveSlide(1);
                 return;
             } else if (dropOffContactNumber === "") {
@@ -245,7 +248,7 @@ export default function LatestPrototype() {
                                                     width='80vw'
                                                     onChanged={(value) => {
                                                         setPickUpAddress(value)
-                                                    }} lable='Enter Address' />
+                                                    }} lable='Enter Address*' />
                                                 <div style={{
                                                     display: 'flex',
                                                     flexDirection: 'row',
@@ -306,13 +309,13 @@ export default function LatestPrototype() {
                                                     onChanged={(value) => {
                                                         console.log(value)
                                                         setPickUpContactName(value)
-                                                    }} lable='Enter Name' />
+                                                    }} lable='Enter Name*' />
                                                 <MyQuoteTextField
                                                     width='80vw'
                                                     onChanged={(value) => {
                                                         console.log(value)
                                                         setPickUpContactNumber(value)
-                                                    }} lable='Enter Mobile' />
+                                                    }} lable='Enter Mobile*' />
                                             </div>
                                             :
                                             <div>
@@ -333,7 +336,7 @@ export default function LatestPrototype() {
                                                     width='80vw'
                                                     onChanged={(value) => {
                                                         setDropOffAddress(value)
-                                                    }} lable='Enter Address' />
+                                                    }} lable='Enter Address*' />
                                                 <div style={{
                                                     display: 'flex',
                                                     flexDirection: 'row',
@@ -394,13 +397,13 @@ export default function LatestPrototype() {
                                                     onChanged={(value) => {
                                                         console.log(value)
                                                         setDropOffContactName(value)
-                                                    }} lable='Enter Name' />
+                                                    }} lable='Enter Name*' />
                                                 <MyQuoteTextField
                                                     width='80vw'
                                                     onChanged={(value) => {
                                                         console.log(value)
                                                         setDropOffContactNumber(value)
-                                                    }} lable='Enter Mobile' />
+                                                    }} lable='Enter Mobile*' />
                                             </div> :
                                             <div>
                                                 Loading...
@@ -475,7 +478,7 @@ export default function LatestPrototype() {
                                                 <MyQuoteTextField
                                                     onChanged={(value) => {
                                                         setPickUpAddress(value)
-                                                    }} lable='Enter Address'
+                                                    }} lable='Enter Address*'
                                                     isMapAutoComplete={true}
                                                     getCoordinates={(coordinates) => {
                                                         setFrom(coordinates)
@@ -540,12 +543,12 @@ export default function LatestPrototype() {
                                                     onChanged={(value) => {
                                                         console.log(value)
                                                         setPickUpContactName(value)
-                                                    }} lable='Enter Name' />
+                                                    }} lable='Enter Name*' />
                                                 <MyQuoteTextField
                                                     onChanged={(value) => {
                                                         console.log(value)
                                                         setPickUpContactNumber(value)
-                                                    }} lable='Enter Mobile' />
+                                                    }} lable='Enter Mobile*' />
                                             </div> :
                                             <div>
                                                 Loading...
@@ -555,15 +558,16 @@ export default function LatestPrototype() {
                                     {
                                         isLoaded ?
                                             <div className='section2Address'>
-                                                <h2>Pickup</h2>
+                                                <h2>Dropoff</h2>
                                                 <MyQuoteTextField
+                                                    fieldValue={dropOffAddress}
                                                     isMapAutoComplete={true}
                                                     getCoordinates={(coordinates) => {
                                                         setTo(coordinates)
                                                     }}
                                                     onChanged={(value) => {
                                                         setDropOffAddress(value)
-                                                    }} lable='Enter Address' />
+                                                    }} lable='Enter Address*' />
                                                 <div style={{
                                                     display: 'flex',
                                                     flexDirection: 'row',
@@ -620,15 +624,53 @@ export default function LatestPrototype() {
                                                     </Select>
                                                 </div>
                                                 <MyQuoteTextField
+                                                    fieldValue={dropOffContactName}
                                                     onChanged={(value) => {
                                                         console.log(value)
                                                         setDropOffContactName(value)
-                                                    }} lable='Enter Name' />
+                                                    }} lable='Enter Name*' />
                                                 <MyQuoteTextField
+                                                    fieldValue={dropOffContactNumber}
                                                     onChanged={(value) => {
                                                         console.log(value)
                                                         setDropOffContactNumber(value)
-                                                    }} lable='Enter Mobile' />
+                                                    }} lable='Enter Mobile*' />
+                                                {/* <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    gap: '10px'
+                                                }}><Checkbox
+                                                        value={sameAsPickup}
+                                                        style={{
+                                                            padding: 0
+                                                        }}
+                                                        onChange={(value) => {
+                                                            if (value) {
+                                                                setSameAsPickup(value.target.checked)
+                                                                setDropOffAddress(pickUpAddress)
+                                                                setTo(from)
+                                                                setDropOffLiftAvailable(pickUpLiftAvailable)
+                                                                setDropOffFloors(pickUpFloors)
+                                                                setDropOffContactName(pickUpContactName)
+                                                                setDropOffContactNumber(pickUpContactNumber)
+                                                                console.log(dropOffAddress)
+                                                                console.log(dropOffContactName)
+                                                                console.log(dropOffContactNumber)
+                                                                console.log(dropOffLiftAvailable)
+                                                                console.log(dropOffFloors)
+                                                                console.log(to)
+                                                            }
+
+                                                        }}
+                                                        sx={{
+                                                            color: '#D2A127',
+                                                            '&.Mui-checked': {
+                                                                color: '#D2A127',
+                                                            },
+                                                        }} />
+                                                    Same as pickup
+                                                </div> */}
+
                                             </div> :
                                             <div>
                                                 Loading...

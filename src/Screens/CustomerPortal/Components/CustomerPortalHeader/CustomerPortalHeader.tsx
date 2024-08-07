@@ -52,7 +52,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                 }
 
                 <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' onClick={() => {
-                    navigate('/');
+                    navigate('/test2');
                 }}
                     style={{
                         cursor: 'pointer',
@@ -161,7 +161,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                                 width: 200,
                                 margin: 1,
                             }} onClick={() => {
-                                navigate('/customerLogin');
+                                navigate('/newCustomerSignIn');
                                 handleAnchorHeaderButtonClose();
                             }}>
                                 <Typography.Text style={{

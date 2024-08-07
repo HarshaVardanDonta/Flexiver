@@ -20,6 +20,7 @@ interface MyQuoteTextFieldProps {
     onChanged?: (value: string) => void,
     isMapAutoComplete?: boolean,
     getCoordinates?: (value: any) => void,
+    fieldValue?: string,
 }
 export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
 
@@ -60,7 +61,7 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                     }}
                     disabled={!ready}
                     className="combobox-input"
-                    placeholder={ready ? "Enter your address" : "Loading..."}
+                    placeholder={ready ? "Enter your address*" : "Loading..."}
                     style={{
                         backgroundColor: props.backgroundColor ?? "#E2BC69",
                         width: props.width ?? '95%',
@@ -151,7 +152,7 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                 </ NumericFormat >
                 :
                 <TextField
-                    value={value}
+                    value={props.fieldValue}
                     onChange={(e) => {
                         setValue(e.target.value)
                         props.onChanged?.(e.target.value)
