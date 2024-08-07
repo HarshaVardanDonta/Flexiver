@@ -26,6 +26,7 @@ import toast from 'react-hot-toast';
 import polyline from '@mapbox/polyline';
 import { LatLng } from 'use-places-autocomplete';
 import TwoImage from '../../../Assets/CustomerPortal/twoWheelernew.png';
+import PlacesInput from '../../../Components/Abcd';
 
 
 export default function LatestPrototype() {
@@ -53,20 +54,24 @@ export default function LatestPrototype() {
     const [vehicleType, setVehicleType] = useState('Two Wheeler')
     const [from, setFrom] = useState({ lat: 0, lng: 0 });
     const [to, setTo] = useState({ lat: 0, lng: 0 });
+    const [sameAsPickup, setSameAsPickup] = useState(false);
 
     var floors = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     const quote = new CustomerQuoteModel();
     useEffect(() => {
         getRouteDistance();
-    }, [to, from]);
+        console.log(dropOffLiftAvailable)
+    }, [to, from, sameAsPickup]);
 
     const navigate = useNavigate();
     var [distance, setDistance] = useState("");
     var [polyString, setPolyString] = useState("");
     var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
+
+    const [showAddressError, setShowAddressError] = useState(false);
+    const [errorText, setErrorText] = useState("");
     // function to get exact distance between from and to points
     async function getRouteDistance() {
-        console.log(isLoaded);
         if (isLoaded) {
             const directionService = new google.maps.DirectionsService();
 
@@ -94,6 +99,62 @@ export default function LatestPrototype() {
     }
 
     async function handleSubmit() {
+        if (width > 600) {
+            if (pickUpAddress === "" || dropOffAddress === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill address");
+                toast.error("Please fill address")
+                setActiveSlide(0);
+                return;
+            } else if (pickUpContactName === "" || dropOffContactName === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill contact name");
+                setActiveSlide(0);
+                return;
+            } else if (pickUpContactNumber === "" || dropOffContactNumber === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill contact number");
+                setActiveSlide(0);
+                return;
+            }
+        } else if (width < 600) {
+            console.log("test")
+            console.log(pickUpAddress)
+            console.log(pickUpContactName)
+            console.log(pickUpContactNumber)
+            if (pickUpAddress === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill pickup address");
+                setActiveSlide(0);
+                return;
+            } else if (pickUpContactName === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill pickup contact name");
+                setActiveSlide(0);
+                return;
+            } else if (pickUpContactNumber === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill pickup contact number");
+                setActiveSlide(0);
+                return;
+            } else if (dropOffAddress === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill drop address");
+                setActiveSlide(1);
+                return;
+            } else if (dropOffContactName === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill drop contact name");
+                setActiveSlide(1);
+                return;
+            } else if (dropOffContactNumber === "") {
+                setShowAddressError(true);
+                setErrorText("Please fill drop contact number");
+                setActiveSlide(1);
+                return;
+            }
+        }
+        setShowAddressError(false)
         quote.pickUpAddress = pickUpAddress
         quote.dropOffAddress = dropOffAddress
         quote.pickUpContactName = pickUpContactName
@@ -146,6 +207,15 @@ export default function LatestPrototype() {
                     }}>
                         {(activeSlide == 0 || activeSlide == 1) ? "Enter item pick up and drop off details" : "Select required vehicle type"}
                     </div>}
+                {
+                    showAddressError ?
+                        <div style={{
+                            color: 'red'
+                        }}>
+                            {errorText}
+                        </div> :
+                        <></>
+                }
 
                 {
                     width < 600 ?
@@ -169,158 +239,177 @@ export default function LatestPrototype() {
                             modules={[EffectCoverflow, Pagination, Autoplay]}>
                             <SwiperSlide>
                                 <div className='section2Carousal'>
-                                    <div className='section2Address'>
-                                        <h2>Pickup</h2>
-                                        <MyQuoteTextField
-                                            isMapAutoComplete={true}
-                                            width='80vw'
-                                            onChanged={(value) => {
-                                                setPickUpAddress(value)
-                                            }} lable='Enter Address' />
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            gap: '10px'
-                                        }}>
-                                            <Checkbox
-                                                value={pickUpLiftAvailable}
-                                                style={{
-                                                    padding: 0
-                                                }}
-                                                onChange={(value) => {
-                                                    setPickUpLiftAvailable(value.target.checked)
-                                                }}
-                                                sx={{
-                                                    color: '#D2A127',
-                                                    '&.Mui-checked': {
-                                                        color: '#D2A127',
-                                                    },
-                                                }} />
-                                            Service lift available?
-                                        </div>
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                        }}>
-                                            No.of floors/flights
-                                            <Select
-                                                disabled={pickUpLiftAvailable ? true : false}
-                                                variant='standard'
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={pickUpFloors}
-                                                onChange={(value) => {
-                                                    setPickUpFloors(value.target.value as number)
-                                                }}
-                                                disableUnderline={true}
-                                                sx={{
-                                                    '.MuiOutlinedInput-notchedOutline': { border: 0 }
-                                                }}
-                                            >
-                                                {
-                                                    floors.map((floor) => {
-                                                        return (
-                                                            <MenuItem value={floor}>{floor}</MenuItem>
-                                                        )
-                                                    })
-                                                }
-                                                {/* <MenuItem value={10}>Ten</MenuItem>
+                                    {
+                                        isLoaded ?
+                                            <div className='section2Address'>
+                                                <h2>Pickup</h2>
+                                                <MyQuoteTextField
+                                                    isMapAutoComplete={true}
+                                                    width='80vw'
+                                                    onChanged={(value) => {
+                                                        setPickUpAddress(value)
+                                                    }} lable='Enter Address*' />
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    gap: '10px'
+                                                }}>
+                                                    <Checkbox
+                                                        value={pickUpLiftAvailable}
+                                                        style={{
+                                                            padding: 0
+                                                        }}
+                                                        onChange={(value) => {
+                                                            setPickUpLiftAvailable(value.target.checked)
+                                                        }}
+                                                        sx={{
+                                                            color: '#D2A127',
+                                                            '&.Mui-checked': {
+                                                                color: '#D2A127',
+                                                            },
+                                                        }} />
+                                                    Service lift available?
+                                                </div>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                }}>
+                                                    No.of floors/flights
+                                                    <Select
+                                                        disabled={pickUpLiftAvailable ? true : false}
+                                                        variant='standard'
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={pickUpFloors}
+                                                        onChange={(value) => {
+                                                            setPickUpFloors(value.target.value as number)
+                                                        }}
+                                                        disableUnderline={true}
+                                                        sx={{
+                                                            '.MuiOutlinedInput-notchedOutline': { border: 0 }
+                                                        }}
+                                                    >
+                                                        {
+                                                            floors.map((floor) => {
+                                                                return (
+                                                                    <MenuItem value={floor}>{floor}</MenuItem>
+                                                                )
+                                                            })
+                                                        }
+                                                        {/* <MenuItem value={10}>Ten</MenuItem>
                                                 <MenuItem value={20}>Twenty</MenuItem>
                                                 <MenuItem value={30}>Thirty</MenuItem> */}
-                                            </Select>
-                                        </div>
-                                        <MyQuoteTextField
-                                            width='80vw'
-                                            onChanged={(value) => {
-                                                console.log(value)
-                                            }} lable='Enter Name' />
-                                        <MyQuoteTextField
-                                            width='80vw'
-                                            onChanged={(value) => {
-                                                console.log(value)
-                                            }} lable='Enter Mobile' />
-                                    </div>
+                                                    </Select>
+                                                </div>
+                                                <MyQuoteTextField
+                                                    width='80vw'
+                                                    onChanged={(value) => {
+                                                        console.log(value)
+                                                        setPickUpContactName(value)
+                                                    }} lable='Enter Name*' />
+                                                <MyQuoteTextField
+                                                    width='80vw'
+                                                    onChanged={(value) => {
+                                                        console.log(value)
+                                                        setPickUpContactNumber(value)
+                                                    }} lable='Enter Mobile*' />
+                                            </div>
+                                            :
+                                            <div>
+                                                Loading...
+                                            </div>
+                                    }
+
                                 </div>
                             </SwiperSlide>
                             <SwiperSlide>
                                 <div className='section2Carousal'>
-                                    <div className='section2Address'>
-                                        <h2>Dropoff</h2>
-                                        <MyQuoteTextField
-                                            isMapAutoComplete={true}
-                                            width='80vw'
-                                            onChanged={(value) => {
-                                                setDropOffAddress(value)
-                                            }} lable='Enter Address' />
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            gap: '10px'
-                                        }}>
-                                            <Checkbox
-                                                value={dropOffLiftAvailable}
-                                                style={{
-                                                    padding: 0
-                                                }}
-                                                onChange={(value) => {
-                                                    setDropOffLiftAvailable(value.target.checked)
-                                                }}
-                                                sx={{
-                                                    color: '#D2A127',
-                                                    '&.Mui-checked': {
-                                                        color: '#D2A127',
-                                                    },
-                                                }} />
-                                            Service lift available?
-                                        </div>
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                        }}>
-                                            No.of floors/flights
-                                            <Select
-                                                disabled={dropOffLiftAvailable ? true : false}
-                                                variant='standard'
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={dropOffFloors}
-                                                onChange={(value) => {
-                                                    setDropOffFloors(value.target.value as number)
-                                                }}
-                                                disableUnderline={true}
-                                                sx={{
-                                                    '.MuiOutlinedInput-notchedOutline': { border: 0 }
-                                                }}
-                                            >
-                                                {
-                                                    floors.map((floor) => {
-                                                        return (
-                                                            <MenuItem value={floor}>{floor}</MenuItem>
-                                                        )
-                                                    })
-                                                }
-                                                {/* <MenuItem value={10}>Ten</MenuItem>
+                                    {
+                                        isLoaded ?
+                                            <div className='section2Address'>
+                                                <h2>Dropoff</h2>
+                                                <MyQuoteTextField
+                                                    isMapAutoComplete={true}
+                                                    width='80vw'
+                                                    onChanged={(value) => {
+                                                        setDropOffAddress(value)
+                                                    }} lable='Enter Address*' />
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    gap: '10px'
+                                                }}>
+                                                    <Checkbox
+                                                        value={dropOffLiftAvailable}
+                                                        style={{
+                                                            padding: 0
+                                                        }}
+                                                        onChange={(value) => {
+                                                            setDropOffLiftAvailable(value.target.checked)
+                                                        }}
+                                                        sx={{
+                                                            color: '#D2A127',
+                                                            '&.Mui-checked': {
+                                                                color: '#D2A127',
+                                                            },
+                                                        }} />
+                                                    Service lift available?
+                                                </div>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                }}>
+                                                    No.of floors/flights
+                                                    <Select
+                                                        disabled={dropOffLiftAvailable ? true : false}
+                                                        variant='standard'
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={dropOffFloors}
+                                                        onChange={(value) => {
+                                                            setDropOffFloors(value.target.value as number)
+                                                        }}
+                                                        disableUnderline={true}
+                                                        sx={{
+                                                            '.MuiOutlinedInput-notchedOutline': { border: 0 }
+                                                        }}
+                                                    >
+                                                        {
+                                                            floors.map((floor) => {
+                                                                return (
+                                                                    <MenuItem value={floor}>{floor}</MenuItem>
+                                                                )
+                                                            })
+                                                        }
+                                                        {/* <MenuItem value={10}>Ten</MenuItem>
                                                 <MenuItem value={20}>Twenty</MenuItem>
                                                 <MenuItem value={30}>Thirty</MenuItem> */}
-                                            </Select>
-                                        </div>
-                                        <MyQuoteTextField
-                                            width='80vw'
-                                            onChanged={(value) => {
-                                                console.log(value)
-                                            }} lable='Enter Name' />
-                                        <MyQuoteTextField
-                                            width='80vw'
-                                            onChanged={(value) => {
-                                                console.log(value)
-                                            }} lable='Enter Mobile' />
-                                    </div>
+                                                    </Select>
+                                                </div>
+                                                <MyQuoteTextField
+                                                    width='80vw'
+                                                    onChanged={(value) => {
+                                                        console.log(value)
+                                                        setDropOffContactName(value)
+                                                    }} lable='Enter Name*' />
+                                                <MyQuoteTextField
+                                                    width='80vw'
+                                                    onChanged={(value) => {
+                                                        console.log(value)
+                                                        setDropOffContactNumber(value)
+                                                    }} lable='Enter Mobile*' />
+                                            </div> :
+                                            <div>
+                                                Loading...
+                                            </div>
+                                    }
+
                                 </div>
                             </SwiperSlide>
                             <SwiperSlide>
@@ -382,155 +471,212 @@ export default function LatestPrototype() {
                             modules={[EffectCoverflow, Pagination, Autoplay]}>
                             <SwiperSlide>
                                 <div className='section2Carousal'>
-                                    <div className='section2Address'>
-                                        <h2>Pickup</h2>
-                                        <MyQuoteTextField
-                                            onChanged={(value) => {
-                                                setPickUpAddress(value)
-                                            }} lable='Enter Address'
-                                            isMapAutoComplete={true}
-                                            getCoordinates={(coordinates) => {
-                                                setFrom(coordinates)
-                                            }}
-                                        />
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            gap: '10px'
-                                        }}>
-                                            <Checkbox
-                                                value={pickUpLiftAvailable}
-                                                style={{
-                                                    padding: 0
-                                                }}
-                                                onChange={(value) => {
-                                                    setPickUpLiftAvailable(value.target.checked)
-                                                }}
-                                                sx={{
-                                                    color: '#D2A127',
-                                                    '&.Mui-checked': {
-                                                        color: '#D2A127',
-                                                    },
-                                                }} />
-                                            Service lift available?
-                                        </div>
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                        }}>
-                                            No.of floors/flights
-                                            <Select
-                                                disabled={pickUpLiftAvailable ? true : false}
-                                                variant='standard'
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={pickUpFloors}
-                                                onChange={(value) => {
-                                                    setPickUpFloors(value.target.value as number)
-                                                }}
-                                                disableUnderline={true}
-                                                sx={{
-                                                    '.MuiOutlinedInput-notchedOutline': { border: 0 }
-                                                }}
-                                            >
-                                                {
-                                                    floors.map((floor) => {
-                                                        return (
-                                                            <MenuItem value={floor}>{floor}</MenuItem>
-                                                        )
-                                                    })
-                                                }
-                                                {/* <MenuItem value={10}>Ten</MenuItem>
+                                    {
+                                        isLoaded ?
+                                            <div className='section2Address'>
+                                                <h2>Pickup</h2>
+                                                <MyQuoteTextField
+                                                    onChanged={(value) => {
+                                                        setPickUpAddress(value)
+                                                    }} lable='Enter Address*'
+                                                    isMapAutoComplete={true}
+                                                    getCoordinates={(coordinates) => {
+                                                        setFrom(coordinates)
+                                                    }}
+                                                />
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    gap: '10px'
+                                                }}>
+                                                    <Checkbox
+                                                        value={pickUpLiftAvailable}
+                                                        style={{
+                                                            padding: 0
+                                                        }}
+                                                        onChange={(value) => {
+                                                            setPickUpLiftAvailable(value.target.checked)
+                                                        }}
+                                                        sx={{
+                                                            color: '#D2A127',
+                                                            '&.Mui-checked': {
+                                                                color: '#D2A127',
+                                                            },
+                                                        }} />
+                                                    Service lift available?
+                                                </div>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                }}>
+                                                    No.of floors/flights
+                                                    <Select
+                                                        disabled={pickUpLiftAvailable ? true : false}
+                                                        variant='standard'
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={pickUpFloors}
+                                                        onChange={(value) => {
+                                                            setPickUpFloors(value.target.value as number)
+                                                        }}
+                                                        disableUnderline={true}
+                                                        sx={{
+                                                            '.MuiOutlinedInput-notchedOutline': { border: 0 }
+                                                        }}
+                                                    >
+                                                        {
+                                                            floors.map((floor) => {
+                                                                return (
+                                                                    <MenuItem value={floor}>{floor}</MenuItem>
+                                                                )
+                                                            })
+                                                        }
+                                                        {/* <MenuItem value={10}>Ten</MenuItem>
                                                 <MenuItem value={20}>Twenty</MenuItem>
                                                 <MenuItem value={30}>Thirty</MenuItem> */}
-                                            </Select>
-                                        </div>
-                                        <MyQuoteTextField
-                                            onChanged={(value) => {
-                                                console.log(value)
-                                            }} lable='Enter Name' />
-                                        <MyQuoteTextField
-                                            onChanged={(value) => {
-                                                console.log(value)
-                                            }} lable='Enter Mobile' />
-                                    </div>
-                                    <div className='section2Address'>
-                                        <h2>Pickup</h2>
-                                        <MyQuoteTextField
-                                            isMapAutoComplete={true}
-                                            getCoordinates={(coordinates) => {
-                                                setTo(coordinates)
-                                            }}
-                                            onChanged={(value) => {
-                                                setDropOffAddress(value)
-                                            }} lable='Enter Address' />
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            gap: '10px'
-                                        }}>
-                                            <Checkbox
-                                                value={dropOffLiftAvailable}
-                                                style={{
-                                                    padding: 0
-                                                }}
-                                                onChange={(value) => {
-                                                    setDropOffLiftAvailable(value.target.checked)
-                                                }}
-                                                sx={{
-                                                    color: '#D2A127',
-                                                    '&.Mui-checked': {
-                                                        color: '#D2A127',
-                                                    },
-                                                }} />
-                                            Service lift available?
-                                        </div>
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                        }}>
-                                            No.of floors/flights
-                                            <Select
-                                                disabled={dropOffLiftAvailable ? true : false}
-                                                variant='standard'
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={dropOffFloors}
-                                                onChange={(value) => {
-                                                    setDropOffFloors(value.target.value as number)
-                                                }}
-                                                disableUnderline={true}
-                                                sx={{
-                                                    '.MuiOutlinedInput-notchedOutline': { border: 0 }
-                                                }}
-                                            >
-                                                {
-                                                    floors.map((floor) => {
-                                                        return (
-                                                            <MenuItem value={floor}>{floor}</MenuItem>
-                                                        )
-                                                    })
-                                                }
-                                                {/* <MenuItem value={10}>Ten</MenuItem>
+                                                    </Select>
+                                                </div>
+                                                <MyQuoteTextField
+                                                    onChanged={(value) => {
+                                                        console.log(value)
+                                                        setPickUpContactName(value)
+                                                    }} lable='Enter Name*' />
+                                                <MyQuoteTextField
+                                                    onChanged={(value) => {
+                                                        console.log(value)
+                                                        setPickUpContactNumber(value)
+                                                    }} lable='Enter Mobile*' />
+                                            </div> :
+                                            <div>
+                                                Loading...
+                                            </div>
+                                    }
+
+                                    {
+                                        isLoaded ?
+                                            <div className='section2Address'>
+                                                <h2>Dropoff</h2>
+                                                <MyQuoteTextField
+                                                    fieldValue={dropOffAddress}
+                                                    isMapAutoComplete={true}
+                                                    getCoordinates={(coordinates) => {
+                                                        setTo(coordinates)
+                                                    }}
+                                                    onChanged={(value) => {
+                                                        setDropOffAddress(value)
+                                                    }} lable='Enter Address*' />
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    gap: '10px'
+                                                }}>
+                                                    <Checkbox
+                                                        value={dropOffLiftAvailable}
+                                                        style={{
+                                                            padding: 0
+                                                        }}
+                                                        onChange={(value) => {
+                                                            setDropOffLiftAvailable(value.target.checked)
+                                                        }}
+                                                        sx={{
+                                                            color: '#D2A127',
+                                                            '&.Mui-checked': {
+                                                                color: '#D2A127',
+                                                            },
+                                                        }} />
+                                                    Service lift available?
+                                                </div>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                }}>
+                                                    No.of floors/flights
+                                                    <Select
+                                                        disabled={dropOffLiftAvailable ? true : false}
+                                                        variant='standard'
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={dropOffFloors}
+                                                        onChange={(value) => {
+                                                            setDropOffFloors(value.target.value as number)
+                                                        }}
+                                                        disableUnderline={true}
+                                                        sx={{
+                                                            '.MuiOutlinedInput-notchedOutline': { border: 0 }
+                                                        }}
+                                                    >
+                                                        {
+                                                            floors.map((floor) => {
+                                                                return (
+                                                                    <MenuItem value={floor}>{floor}</MenuItem>
+                                                                )
+                                                            })
+                                                        }
+                                                        {/* <MenuItem value={10}>Ten</MenuItem>
                                                 <MenuItem value={20}>Twenty</MenuItem>
                                                 <MenuItem value={30}>Thirty</MenuItem> */}
-                                            </Select>
-                                        </div>
-                                        <MyQuoteTextField
-                                            onChanged={(value) => {
-                                                console.log(value)
-                                            }} lable='Enter Name' />
-                                        <MyQuoteTextField
-                                            onChanged={(value) => {
-                                                console.log(value)
-                                            }} lable='Enter Mobile' />
-                                    </div>
+                                                    </Select>
+                                                </div>
+                                                <MyQuoteTextField
+                                                    fieldValue={dropOffContactName}
+                                                    onChanged={(value) => {
+                                                        console.log(value)
+                                                        setDropOffContactName(value)
+                                                    }} lable='Enter Name*' />
+                                                <MyQuoteTextField
+                                                    fieldValue={dropOffContactNumber}
+                                                    onChanged={(value) => {
+                                                        console.log(value)
+                                                        setDropOffContactNumber(value)
+                                                    }} lable='Enter Mobile*' />
+                                                {/* <div style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    gap: '10px'
+                                                }}><Checkbox
+                                                        value={sameAsPickup}
+                                                        style={{
+                                                            padding: 0
+                                                        }}
+                                                        onChange={(value) => {
+                                                            if (value) {
+                                                                setSameAsPickup(value.target.checked)
+                                                                setDropOffAddress(pickUpAddress)
+                                                                setTo(from)
+                                                                setDropOffLiftAvailable(pickUpLiftAvailable)
+                                                                setDropOffFloors(pickUpFloors)
+                                                                setDropOffContactName(pickUpContactName)
+                                                                setDropOffContactNumber(pickUpContactNumber)
+                                                                console.log(dropOffAddress)
+                                                                console.log(dropOffContactName)
+                                                                console.log(dropOffContactNumber)
+                                                                console.log(dropOffLiftAvailable)
+                                                                console.log(dropOffFloors)
+                                                                console.log(to)
+                                                            }
+
+                                                        }}
+                                                        sx={{
+                                                            color: '#D2A127',
+                                                            '&.Mui-checked': {
+                                                                color: '#D2A127',
+                                                            },
+                                                        }} />
+                                                    Same as pickup
+                                                </div> */}
+
+                                            </div> :
+                                            <div>
+                                                Loading...
+                                            </div>
+                                    }
+
                                 </div>
                             </SwiperSlide>
                             <SwiperSlide>

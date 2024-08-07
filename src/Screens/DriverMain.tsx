@@ -17,6 +17,7 @@ import OrderHistoryPage from "./CustomerPortal/OrderHistoryPage/OrderHistoryPage
 import DeliveryStatusScreen from "./DriverPortal/IncommingDeliveryDetailsScreen/DeliveryStatusScreen";
 import ActiveDeliveryScreen from "./DriverPortal/ActiveDeliveryScreen/ActiveDeliveryScreen";
 import TempQuotePage from "./TempQuotePage";
+import NewCustomerSignIn from "./CustomerPortal/NewCustomerSignIn/NewCustomerSignIn";
 import Aos from "aos";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -63,6 +64,8 @@ export default function DriverMain() {
           <Route path="/tempQuotePage" element={<TempQuotePage />} />
           <Route path="/test1" element={<NewQuoteDesign />} />
           <Route path="/test2" element={<LatestPrototype />} />
+          <Route path="/newCustomerSignIn" element={<NewCustomerSignIn />} />
+
 
         </Routes>
 
