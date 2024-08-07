@@ -25,7 +25,9 @@ import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import polyline from '@mapbox/polyline';
 import { LatLng } from 'use-places-autocomplete';
-import TwoImage from '../../../Assets/CustomerPortal/twoWheelernew.png';
+import TwoImage from '../../../Assets/CustomerPortal/twoWheeler1.png';
+import refVan from '../../../Assets/CustomerPortal/refVan1.png';
+import uteVan from '../../../Assets/CustomerPortal/uteVan1.png';
 import PlacesInput from '../../../Components/Abcd';
 
 
@@ -103,7 +105,7 @@ export default function LatestPrototype() {
             if (pickUpAddress === "" || dropOffAddress === "") {
                 setShowAddressError(true);
                 setErrorText("Please fill address");
-                toast.error("Please fill address")
+                // toast.error("Please fill address")
                 setActiveSlide(0);
                 return;
             } else if (pickUpContactName === "" || dropOffContactName === "") {
@@ -427,7 +429,7 @@ export default function LatestPrototype() {
                                             <div className={vehicleType === "UTE / Van" ? 'section2VehicleBoxSelected' : 'section2VehicleBox'} onClick={() => {
                                                 setVehicleType('UTE / Van')
                                             }}>
-                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                <img src={uteVan} alt="UTE Van" />
                                                 UTE / Van
                                             </div>
                                             <div
@@ -437,7 +439,7 @@ export default function LatestPrototype() {
                                                 onClick={() => {
                                                     setVehicleType('Refreigerated Van')
                                                 }}>
-                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                <img src={refVan} alt="Ref Van" />
                                                 Refreigerated Van
                                             </div>
                                         </div>
@@ -696,7 +698,7 @@ export default function LatestPrototype() {
                                             <div className={vehicleType === "UTE / Van" ? 'section2VehicleBoxSelected' : 'section2VehicleBox'} onClick={() => {
                                                 setVehicleType('UTE / Van')
                                             }}>
-                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                <img src={uteVan} alt="UTE Van" />
                                                 <div>
                                                     UTE / Van
                                                 </div>
@@ -708,7 +710,7 @@ export default function LatestPrototype() {
                                                 onClick={() => {
                                                     setVehicleType('Refreigerated Van')
                                                 }}>
-                                                <img src={TwoImage} alt="Two Wheeler" />
+                                                <img src={refVan} alt="Ref Van" />
                                                 <div>
                                                     Refrigerated Van
                                                 </div>
