@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useNavigation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useRive } from '@rive-app/react-canvas';
 import logo from "../Assets/logo.png";
@@ -518,4 +518,12 @@ export default function DriverLanding() {
       </div>
     </>
   );
+}
+
+export const Main = () => {
+  const navigate = useNavigate();
+  useEffect(() => { navigate('/home') }, [])
+
+  return <>
+  </>
 }

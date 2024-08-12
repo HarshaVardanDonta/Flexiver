@@ -369,8 +369,7 @@ export default function BillingPage() {
                     width: "60%",
                   }}
                 >
-                  {state.quote.itemNote} | count: {state.quote.noOfItems} |
-                  weight: {state.quote.approxWeight} | Item Type: {state.quote.itemType}
+                  weight: {state.quote.approxWeight}
                 </p>
               </div>
               <div>
@@ -388,6 +387,11 @@ export default function BillingPage() {
             </div>
           </div>
           <h3>Total Distance: {state.quote.distance}</h3>
+          <div style={{
+
+          }}>
+
+          </div>
         </div>
         <div className="billingSection">
           <h2>Date: {new Date(state.quote.dateAndTime).toLocaleString()}</h2>
