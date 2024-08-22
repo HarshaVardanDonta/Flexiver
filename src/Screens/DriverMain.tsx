@@ -1,6 +1,6 @@
 import React from "react";
 import DriverRegistration from "./DriverRegistration";
-import DriverLanding, { Main } from "./DriverLanding";
+import DriverLanding from "./DriverLanding";
 import DriverSignUp from "./DriverSignUp";
 import DriverLogin from "./DriverLogin";
 import MobileLogin from "./MobileLogin";
@@ -26,6 +26,11 @@ import { Toaster } from "react-hot-toast";
 import { createBrowserHistory } from 'history';
 import NewQuoteDesign from "./CustomerPortal/NewQuoteDesign/NewQuoteDesign";
 import Places from "../Components/Abcd";
+import LoginRegister from "./loginRegister";
+import CreateAccount from "./CreateAccount";
+import MoreDetails from "./MoreDetails";
+import OTP from "./OTP";
+import VehicleType from "./VehicleType";
 
 const history = createBrowserHistory();
 ReactGA.initialize('G-176G8Q4X9H');
@@ -44,7 +49,7 @@ export default function DriverMain() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<DriverLanding />} />
           <Route path="/driverRegistration" element={<DriverRegistration />} />
           <Route path="/driverSignUp" element={<DriverSignUp />} />
           <Route path="/driverLogin" element={<DriverLogin />} />
@@ -63,8 +68,13 @@ export default function DriverMain() {
           <Route path="/Abcd" element={<Places />} />
           <Route path="/tempQuotePage" element={<TempQuotePage />} />
           <Route path="/test1" element={<NewQuoteDesign />} />
-          <Route path="/home" element={<LatestPrototype />} />
+          <Route path="/test2" element={<LatestPrototype />} />
           <Route path="/newCustomerSignIn" element={<NewCustomerSignIn />} />
+          <Route path="/login" element={<LoginRegister/>} />
+          <Route path="/createAccount" element={<CreateAccount/>}/>
+          <Route path="/moreInfo" element={<MoreDetails/>}/>
+          <Route path="/otp" element={<OTP/>}/>
+          <Route path="/vehicleType" element={<VehicleType/>}/>
 
 
         </Routes>
