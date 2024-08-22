@@ -111,7 +111,7 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                 </ComboboxPopover>
             </Combobox>
             :
-            props.lable === "Enter Mobile" ?
+            props.lable === "Enter Mobile*" ?
                 <NumericFormat
                     inputProps={{
                         maxLength: 10

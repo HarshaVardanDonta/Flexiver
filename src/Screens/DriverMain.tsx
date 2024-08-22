@@ -1,6 +1,6 @@
 import React from "react";
 import DriverRegistration from "./DriverRegistration";
-import DriverLanding from "./DriverLanding";
+import DriverLanding, { Main } from "./DriverLanding";
 import DriverSignUp from "./DriverSignUp";
 import DriverLogin from "./DriverLogin";
 import MobileLogin from "./MobileLogin";
@@ -44,7 +44,7 @@ export default function DriverMain() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<DriverLanding />} />
+          <Route path="/" element={<Main />} />
           <Route path="/driverRegistration" element={<DriverRegistration />} />
           <Route path="/driverSignUp" element={<DriverSignUp />} />
           <Route path="/driverLogin" element={<DriverLogin />} />
@@ -63,7 +63,7 @@ export default function DriverMain() {
           <Route path="/Abcd" element={<Places />} />
           <Route path="/tempQuotePage" element={<TempQuotePage />} />
           <Route path="/test1" element={<NewQuoteDesign />} />
-          <Route path="/test2" element={<LatestPrototype />} />
+          <Route path="/home" element={<LatestPrototype />} />
           <Route path="/newCustomerSignIn" element={<NewCustomerSignIn />} />
 
 
