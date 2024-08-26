@@ -523,7 +523,6 @@ export default function DriverLanding() {
 export const Main = () => {
   const navigate = useNavigate();
   useEffect(() => { navigate('/home') }, [])
-
   return <>
   </>
 }

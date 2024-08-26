@@ -52,7 +52,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                 }
 
                 <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' onClick={() => {
-                    navigate('/test2');
+                    navigate('/');
                 }}
                     style={{
                         cursor: 'pointer',
