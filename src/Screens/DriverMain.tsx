@@ -70,11 +70,11 @@ export default function DriverMain() {
           <Route path="/test1" element={<NewQuoteDesign />} />
           <Route path="/test2" element={<LatestPrototype />} />
           <Route path="/newCustomerSignIn" element={<NewCustomerSignIn />} />
-          <Route path="/login" element={<LoginRegister/>} />
-          <Route path="/createAccount" element={<CreateAccount/>}/>
-          <Route path="/moreInfo" element={<MoreDetails/>}/>
-          <Route path="/otp" element={<OTP/>}/>
-          <Route path="/vehicleType" element={<VehicleType/>}/>
+          <Route path="/login" element={<LoginRegister />} />
+          <Route path="/createAccount" element={<CreateAccount />} />
+          <Route path="/moreInfo" element={<MoreDetails />} />
+          <Route path="/otp" element={<OTP />} />
+          <Route path="/vehicleType" element={<VehicleType />} />
 
 
         </Routes>

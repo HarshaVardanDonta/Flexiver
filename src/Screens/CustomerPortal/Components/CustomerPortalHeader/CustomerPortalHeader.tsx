@@ -52,7 +52,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                 }
 
                 <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' onClick={() => {
-                    navigate('/');
+                    navigate('/test2');
                 }}
                     style={{
                         cursor: 'pointer',
@@ -77,7 +77,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                 <Typography.Text style={{
                     fontSize: '1rem',
                     fontWeight: 'bold'
-                }}>{isUserLoggedIn ? session?.data.session.user?.user_metadata.fullName : "Sign In/Sign Up"}
+                }}>{isUserLoggedIn ? session?.data.session.user?.user_metadata.fullName : "Login"}
                 </Typography.Text>
             </Button>
             <Menu
@@ -161,7 +161,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                                 width: 200,
                                 margin: 1,
                             }} onClick={() => {
-                                navigate('/newCustomerSignIn');
+                                navigate('/login');
                                 handleAnchorHeaderButtonClose();
                             }}>
                                 <Typography.Text style={{
