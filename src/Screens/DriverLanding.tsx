@@ -32,7 +32,7 @@ import CustomerPortalFooter from "./CustomerPortal/Components/CustomerPortalFoot
 
 ReactGA.initialize('G-176G8Q4X9H');
 
-export default function DriverLanding() {
+export function DriverLanding() {
   const { height, width } = useWindowDimensions();
   var element = document.getElementById('rive');
   var elementHeight = element ? element.clientHeight : 0;
@@ -520,7 +520,7 @@ export default function DriverLanding() {
   );
 }
 
-export const Main = () => {
+export default function Main() {
   const navigate = useNavigate();
   useEffect(() => { navigate('/home') }, [])
   return <>

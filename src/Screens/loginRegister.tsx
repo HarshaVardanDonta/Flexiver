@@ -29,9 +29,9 @@ const LoginRegister = () => {
         .then((data) => {
           console.log(data);
           if (data.data!.length === 0) {
-            navigate("/test2");
+            navigate("/home");
           } else {
-            navigate("/test2");
+            navigate("/home");
           }
         });
     }
@@ -56,7 +56,7 @@ const LoginRegister = () => {
     }
     if (data.data.user?.aud === "authenticated") {
       toast.success("login successful");
-      navigate("/test2");
+      navigate("/home");
     }
     setLoading(false);
   }

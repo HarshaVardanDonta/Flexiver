@@ -57,7 +57,7 @@ const CreateAccount = () => {
 
         toast.success("Account Activated, Please Log In.");
         // toast.success("Your email has been verified");
-        navigate("/driverLogin");
+        navigate("/login");
       }
 
       setLoading(false);
