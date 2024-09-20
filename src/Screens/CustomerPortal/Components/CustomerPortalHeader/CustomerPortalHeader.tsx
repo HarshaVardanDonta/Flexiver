@@ -140,7 +140,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                             }} onClick={async () => {
                                 await supabase.auth.signOut();
                                 setIsUserLoggedIn(false);
-                                navigate('/');
+                                navigate('/test2');
                                 handleAnchorHeaderButtonClose();
                             }}>
                                 <Typography.Text style={{
@@ -177,7 +177,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                                 width: 200,
                                 margin: 1,
                             }} onClick={() => {
-                                navigate('/customerSignUp');
+                                navigate('/createAccount');
                                 handleAnchorHeaderButtonClose();
                             }}>
                                 <Typography.Text style={{
