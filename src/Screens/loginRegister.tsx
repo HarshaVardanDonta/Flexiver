@@ -18,6 +18,32 @@ const LoginRegister = () => {
   const [pass, setPass] = useState("");
   const [loading, setLoading] = useState(false);
 
+
+  const [emailError, setEmailError] = useState("");
+  const [passError, setPassError] = useState("");
+  // Email validation function
+  const validateEmail = (email:string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Password validation function (you can adjust the criteria)
+  const validatePassword = (password: string): string | null => {
+    if (password.length < 6) {
+      return "Password must be at least 6 characters long";
+    }
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least one uppercase letter";
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return "Password must contain at least one special character";
+    }
+    if (/\s/.test(password)) {
+      return "Password should not contain spaces";
+    }
+    return null; // Password is valid
+  };
+
   async function checkLogin() {
     const session = await supabase.auth.getSession();
     console.log(session);
@@ -39,6 +65,20 @@ const LoginRegister = () => {
   }
 
   async function userSignIn() {
+    // Reset errors
+    setEmailError("");
+    setPassError("");
+
+    // Perform validation
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+    const errorMessage = validatePassword(pass);
+    if (errorMessage) {
+      setPassError(errorMessage); // Set the specific error message
+      return;
+    }
     if (email === "" || pass === "") {
       // alert("Please fill all the fields");
       toast.error("Please fill all the fields");
@@ -76,14 +116,25 @@ const LoginRegister = () => {
             <b>Login / Register</b>
           </div>
           <div>
-            <TextField onChange={(text) => {
-              setEmail(text.target.value);
-            }} placeholder='Mobile / Email' variant="standard" />
+            <TextField
+                onChange={(text) => setEmail(text.target.value)}
+                placeholder='Mobile / Email'
+                variant="standard"
+                error={!!emailError}
+                helperText={emailError}
+            />
+
           </div>
           <div>
-            <TextField onChange={(text) => {
-              setPass(text.target.value);
-            }} placeholder='Password' variant="standard" />
+            <TextField
+                onChange={(text) => setPass(text.target.value)}
+                placeholder='Password'
+                variant="standard"
+                type="password"
+                error={!!passError}
+                helperText={passError}
+            />
+
           </div>
           <div style={{ textAlign: "right" }}>
             Don't have password?
