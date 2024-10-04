@@ -6,9 +6,9 @@ import google from '../Assets/Google.svg';
 import facebook from '../Assets/Facebook.svg';
 import apple from '../Assets/AppleLogo.svg';
 import { Button, TextField } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
 import MySupClient from '../SupabaseClient';
 import toast from 'react-hot-toast';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 const LoginRegister = () => {
@@ -107,9 +107,10 @@ const LoginRegister = () => {
 
   return (
     <div style={{ margin: "1% 2%" }}>
-      <div>
-        <img src={logo} height="40px" />
-      </div>
+      {/* Wrap the logo with Link */}
+      <Link to="/home">
+        <img src={logo} height="40px" alt="logo" />
+      </Link>
       <div className={style.LoginSection}>
         <div style={{ width: "100%" }}>
           <div style={{ fontSize: "28px", marginBottom: "2%", textAlign: "center" }}>
