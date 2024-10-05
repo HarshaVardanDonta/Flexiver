@@ -22,6 +22,11 @@ const CreateAccount = () => {
   const [emailError, setEmailError] = useState("");
   const [passError, setPassError] = useState("");
   const [mobile, setMobile] = useState<E164Number>("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [termsError, setTermsError] = useState("");
+
 
   // Email validation function
   const validateEmail = (email: string): boolean => {
@@ -50,6 +55,19 @@ const CreateAccount = () => {
     // Reset errors
     setEmailError("");
     setPassError("");
+    setFirstNameError("");
+    setLastNameError("");
+    setTermsError("");
+
+
+    if (firstName.trim() === "") {
+      setFirstNameError("First name is required");
+      return;
+    }
+    if (lastName.trim() === "") {
+      setLastNameError("Last name is required");
+      return;
+    }
 
     // Perform validation
     if (!validateEmail(email)) {
@@ -67,9 +85,8 @@ const CreateAccount = () => {
       setPassError("Passwords do not match");
       return;
     }
-
-    if (firstName === "" || lastName === "") {
-      toast.error("Please fill all the fields");
+    if (!termsAccepted) {
+      setTermsError("You must accept the terms and conditions");
       return;
     }
 
@@ -138,11 +155,15 @@ const CreateAccount = () => {
                     onChange={(text) => setFirstName(text.target.value)}
                     placeholder="First name"
                     variant="standard"
+                    error={!!firstNameError}
+                    helperText={firstNameError}
                 />
                 <TextField
                     onChange={(text) => setLastName(text.target.value)}
                     placeholder="Last name"
                     variant="standard"
+                    error={!!lastNameError}
+                    helperText={lastNameError}
                 />
               </div>
               <div>
@@ -173,14 +194,17 @@ const CreateAccount = () => {
                 />
               </div>
               <FormGroup>
-                <FormControlLabel control={<Checkbox />} label={
-                  <>
-                    I agree to the{' '}
-                    <a href="/termsAndConditions" style={{ textDecoration: "none" }}>
-                      terms and conditions
-                    </a>
-                  </>
-                } />
+                <FormControlLabel
+                    control={<Checkbox checked={termsAccepted} onChange={(e) => setTermsAccepted(e.target.checked)} />}
+                    label={
+                      <>
+                        I agree to the{' '}
+                        <a href="/termsAndConditions" style={{ textDecoration: "none" }}>
+                          terms and conditions
+                        </a>
+                      </>
+                    } />
+                {termsError && <div style={{ color: "red" }}>{termsError}</div>}
               </FormGroup>
               <div style={{ display: "flex", justifyContent: "end" }}>
                 <button
