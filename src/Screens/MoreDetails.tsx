@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import LoginPageHeader from "./LoginPageHeader";
-import { TextField, FormControl, MenuItem, Select, Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
+import {
+  TextField,
+  FormControl,
+  MenuItem,
+  Select,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 import style from "./moreDetails.module.css";
 
 const MoreDetails = () => {
@@ -10,8 +20,10 @@ const MoreDetails = () => {
   const [manufacturingYear, setManufacturingYear] = useState("");
   const [availability, setAvailability] = useState("");
   const [type, setType] = useState("");
-  const [insuranceDocument, setInsuranceDocument] = useState<File | null>(null); // Specify the type as File | null
-  const [dialogOpen, setDialogOpen] = useState(false); // State for dialog visibility
+  const [insuranceDocument, setInsuranceDocument] = useState<File | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null); // State for document preview
+  const [fullPreviewOpen, setFullPreviewOpen] = useState(false); // State for full preview dialog
 
   const [errors, setErrors] = useState({
     abn: "",
@@ -23,7 +35,14 @@ const MoreDetails = () => {
   });
 
   const validateFields = () => {
-    let newErrors = { abn: "", vehicleMake: "", vehicleModel: "", manufacturingYear: "", availability: "", type: "" };
+    let newErrors = {
+      abn: "",
+      vehicleMake: "",
+      vehicleModel: "",
+      manufacturingYear: "",
+      availability: "",
+      type: "",
+    };
     let isValid = true;
 
     if (!abn) {
@@ -58,10 +77,19 @@ const MoreDetails = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateFields()) {
-      // Proceed with form submission
-      console.log("Form submitted successfully!");
-      // Log or handle the uploaded insurance document here
-      console.log("Insurance Document:", insuranceDocument);
+      const formData = new FormData();
+      formData.append("abn", abn);
+      formData.append("vehicleMake", vehicleMake);
+      formData.append("vehicleModel", vehicleModel);
+      formData.append("manufacturingYear", manufacturingYear);
+      formData.append("availability", availability);
+      formData.append("type", type);
+      if (insuranceDocument) {
+        formData.append("insuranceDocument", insuranceDocument); // Append the selected file
+      }
+
+      // Submit the form data (you can use fetch or axios here)
+      console.log("Form submitted successfully with data:", formData);
     }
   };
 
@@ -75,7 +103,29 @@ const MoreDetails = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    setInsuranceDocument(file);
+    if (file) {
+      setInsuranceDocument(file);
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    }
+  };
+
+  const handleDeleteDocument = () => {
+    setInsuranceDocument(null); // Clear the selected file
+    setPreviewUrl(null); // Reset preview URL
+  };
+
+  const handleFileUploadClick = () => {
+    document.getElementById("fileInput")?.click(); // Trigger file input click
+  };
+
+  // Full preview dialog functions
+  const handleFullPreviewOpen = () => {
+    setFullPreviewOpen(true);
+  };
+
+  const handleFullPreviewClose = () => {
+    setFullPreviewOpen(false);
   };
 
   return (
@@ -135,7 +185,7 @@ const MoreDetails = () => {
                     value={type}
                     onChange={(event) => {
                       setType(event.target.value);
-                      setErrors({ ...errors, type: "" }); // Clear error when selecting
+                      setErrors({ ...errors, type: "" });
                     }}
                     label="Solo / Duo?"
                     error={!!errors.type}
@@ -144,64 +194,159 @@ const MoreDetails = () => {
                   <MenuItem value="duo">Duo</MenuItem>
                 </Select>
               </FormControl>
-              {errors.type && <span style={{ color: 'red' }}>{errors.type}</span>}
+              {errors.type && <span style={{ color: "red" }}>{errors.type}</span>}
             </section>
           </div>
 
-          {/* Button to open the dialog */}
+          {/* Insurance Document Input Field */}
           <div style={{ marginTop: "20px" }}>
-            <Button variant="outlined" onClick={handleDialogOpen}>
-              Upload Insurance Documents
-            </Button>
+            <TextField
+                variant="standard"
+                placeholder="Insurance Documents"
+                value={insuranceDocument ? insuranceDocument.name : ""}
+                InputProps={{
+                  readOnly: true,
+                  onClick: handleDialogOpen,
+                  style: {
+                    cursor: "pointer", // Change cursor to pointer
+                  },
+                }}
+            />
           </div>
 
           {/* Dialog for uploading insurance documents */}
-          <Dialog open={dialogOpen} onClose={handleDialogClose} fullWidth maxWidth="sm">
-            <DialogTitle>Upload Insurance Document</DialogTitle>
-            <DialogContent>
-              <TextField
-                  type="file"
-                  variant="standard"
-                  inputProps={{ accept: "application/pdf,image/*" }} // Accept PDF and image files
-                  onChange={handleFileChange}
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true,
+          <Dialog
+              open={dialogOpen}
+              onClose={handleDialogClose}
+              fullWidth
+              maxWidth="sm"
+              PaperProps={{
+                sx: {
+                  width: "400px",
+                  height: "400px",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                },
+              }}
+          >
+            <DialogContent
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+            >
+              {/* Document preview */}
+              <div
+                  style={{
+                    width: "250px",
+                    height: "250px",
+                    backgroundColor: "black",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    color: "white",
+                    marginBottom: "20px",
+                    textAlign: "center",
+                    cursor: "pointer",
                   }}
-              />
-              {insuranceDocument && (
-                  <div style={{ marginTop: "10px" }}>
-                    <b>Selected File:</b> {insuranceDocument.name}
-                  </div>
-              )}
+                  onClick={previewUrl ? handleFullPreviewOpen : undefined} // Open full preview on click if there's a preview URL
+              >
+                {previewUrl ? (
+                    previewUrl.endsWith(".pdf") ? (
+                        <span style={{ color: "white", cursor: "pointer" }}>
+                    Click to Preview PDF
+                  </span>
+                    ) : (
+                        <img src={previewUrl} alt="Preview" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    )
+                ) : (
+                    "Image preview, open full preview on click"
+                )}
+              </div>
+
+              <div style={{ display: "flex", gap: "20px" }}>
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*,application/pdf" // Accept images and PDFs
+                    onChange={handleFileChange}
+                    style={{ display: "none" }} // Hide the input
+                />
+                <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#D69F29",
+                      color: "white",
+                      textTransform: "none",
+                      "&:hover": { backgroundColor: "#c08d22" },
+                    }}
+                    onClick={handleFileUploadClick}
+                >
+                  Select Document
+                </Button>
+                <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "red",
+                      color: "white",
+                      textTransform: "none",
+                      "&:hover": { backgroundColor: "#c00000" },
+                    }}
+                    onClick={handleDeleteDocument}
+                >
+                  Delete Document
+                </Button>
+              </div>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleDialogClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={handleDialogClose} color="primary">
-                Confirm
+                Close
               </Button>
             </DialogActions>
           </Dialog>
 
-          <div style={{ display: "flex", justifyContent: "end" }}>
-            <button
-                type="submit"
-                className={style.loginButton}
-                style={{
-                  backgroundColor: "#D69F29",
-                  color: "white",
-                  padding: "5px 50px",
-                  border: "none",
-                  borderRadius: "4px",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                }}
-            >
-              Submit
-            </button>
-          </div>
+          {/* Dialog for full preview */}
+          <Dialog
+              open={fullPreviewOpen}
+              onClose={handleFullPreviewClose}
+              maxWidth="lg"
+              fullWidth
+          >
+            <DialogTitle>Full Document Preview</DialogTitle>
+            <DialogContent>
+              {insuranceDocument && previewUrl && (
+                  <iframe
+                      src={previewUrl}
+                      width="100%"
+                      height="500px"
+                      title="Document Preview"
+                      style={{ border: "none" }} // Add border style
+                  />
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleFullPreviewClose} color="primary">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          {/* Submit Button with margin */}
+          <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                marginTop: "20px", // Add margin to move it away from the input fields
+                backgroundColor: "#D69F29",
+                color: "white",
+                textTransform: "none",
+                "&:hover": { backgroundColor: "#c08d22" },
+              }}
+          >
+            Submit
+          </Button>
         </form>
       </LoginPageHeader>
   );
