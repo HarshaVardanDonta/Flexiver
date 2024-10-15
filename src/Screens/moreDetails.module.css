@@ -13,3 +13,13 @@
 .loginButton{
     margin-top: 6%;
 }
+input {
+    border: none; /* Remove the default border */
+    border-bottom: 2px solid #D69F29; /* Set the underline color to light yellow */
+    outline: none; /* Remove outline on focus */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+input:focus {
+    border-bottom: 2px solid #D69F29; /* Keep the light yellow underline on focus */
+}
