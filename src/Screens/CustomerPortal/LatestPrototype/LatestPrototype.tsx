@@ -178,6 +178,9 @@ export default function LatestPrototype() {
         quote.dateAndTime = new Date().getTime()
         navigate("/billingPage", { state: { quote } });
     }
+    const handleNavigation = () => {
+        navigate('/driverLogin');
+    };
     return (
         <div>
             <CustomerPortalHeader />
@@ -850,7 +853,8 @@ export default function LatestPrototype() {
                 <div className='latestHeading'>
                     Want to earn more?
                 </div>
-                <div className='joinUsButton'>
+                <div className='joinUsButton'
+                     onClick={handleNavigation} >
                     Join our logistics network
                 </div>
                 <br />
