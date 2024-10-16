@@ -29,6 +29,12 @@ import TwoImage from '../../../Assets/CustomerPortal/twoWheeler1.png';
 import refVan from '../../../Assets/CustomerPortal/refVan1.png';
 import uteVan from '../../../Assets/CustomerPortal/uteVan1.png';
 import PlacesInput from '../../../Components/Abcd';
+import customerImage from '../../../Assets/customer.jpeg';
+import customerImage1 from '../../../Assets/customer1.jpeg';
+import customerImage2 from '../../../Assets/customer2.jpg';
+import customerImage3 from '../../../Assets/customer3.jpeg';
+import customerImage4 from '../../../Assets/customer4.webp';
+
 
 
 export default function LatestPrototype() {
@@ -36,7 +42,39 @@ export default function LatestPrototype() {
     const [activeSlide, setActiveSlide] = useState(0)
     const [activeTestimonial, setActiveTestimonial] = useState(0)
     const { height, width } = useWindowDimensions();
-    var testimonials = ["1", "2", "3", "4", "5", "6", "7"]
+    const testimonials = [
+        {
+            id: 1,
+            name: "John Doe",
+            message: "This service has transformed our logistics operations. The team is professional, and the platform is incredibly user-friendly. I can't imagine going back to our old system after using this!",
+            imageUrl: customerImage // Replace with actual image path
+        },
+        {
+            id: 2,
+            name: "Jane Smith",
+            message: "Absolutely thrilled with the performance! Our delivery times have improved significantly, and the tracking features are top-notch. Highly recommend this service to anyone in the logistics industry!",
+            imageUrl: customerImage1 // Replace with actual image path
+        },
+        {
+            id: 3,
+            name: "Alice Johnson",
+            message: "A fantastic experience from start to finish. The customer support is outstanding, and the platform offers everything we need to manage our fleet efficiently. It has made our day-to-day operations so much smoother.",
+            imageUrl: customerImage2 // Replace with actual image path
+        },
+        {
+            id: 4,
+            name: "Bob Brown",
+            message: "A great experience overall! From the moment I engaged with the service, I was impressed by the professionalism and attention to detail.",
+            imageUrl: customerImage3 // Replace with actual image path
+        },
+        {
+            id: 5,
+            name: "Michael Scott",
+            message: "Joining this logistics network was one of the best decisions we've made. The user interface is intuitive, and the real-time updates have allowed us to better serve our customers. Thank you for such a great service!",
+            imageUrl: customerImage4 // Replace with actual image path
+        },
+    ];
+
 
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
@@ -864,82 +902,59 @@ export default function LatestPrototype() {
                 </div>
                 <div className='testimonialCarousel'>
                     {width < 600 ?
-                        // mobile version
-                        <Swiper
-                            allowTouchMove={false}
-                            style={{
-                                height: '250px',
-                            }}>
-
-                            {testimonials.map((testimonial) => {
-                                return (
-                                    <div>
-                                        <SwiperSlide>
-                                            <div className='testimonialContainer'>
-                                                <Testimonial testimonial={testimonial} />
-                                            </div>
-                                        </SwiperSlide>
+                        // Mobile version
+                        <Swiper allowTouchMove={false} style={{ height: '250px' }}>
+                            {testimonials.map((testimonial) => (
+                                <SwiperSlide key={testimonial.id}>
+                                    <div className='testimonialContainer'>
+                                        <Testimonial testimonial={testimonial} /> {/* This now includes imageUrl */}
                                     </div>
-
-                                )
-                            })}
+                                </SwiperSlide>
+                            ))}
                             <TestimonialSwiper activeTestimonial={activeTestimonial} />
                         </Swiper>
                         :
-                        // desktop version
-                        <Swiper
-                            allowTouchMove={false}
-                            style={{
-                                height: '250px',
-                            }}>
-
-                            {testimonials.map((testimonial) => {
-                                var currentTestimonial = testimonials.indexOf(testimonial)
-                                return (
-                                    <div>
-                                        {currentTestimonial % 2 !== 0 ? null : <SwiperSlide>
-                                            <div className='testimonialContainer'>
-                                                <Testimonial testimonial={testimonials[currentTestimonial]} />
-                                                {testimonials[currentTestimonial + 1] == null ? null : <Testimonial testimonial={testimonials[currentTestimonial + 1]} />}
-                                            </div>
-                                        </SwiperSlide>}
-                                    </div>
-
-                                )
-                            })}
+                        // Desktop version
+                        <Swiper allowTouchMove={false} style={{ height: '250px' }}>
+                            {testimonials.map((testimonial, index) => (
+                                index % 2 === 0 ? (
+                                    <SwiperSlide key={testimonial.id}>
+                                        <div className='testimonialContainer'>
+                                            <Testimonial testimonial={testimonial} /> {/* This now includes imageUrl */}
+                                            {testimonials[index + 1] && (
+                                                <Testimonial testimonial={testimonials[index + 1]} />
+                                                )}
+                                        </div>
+                                    </SwiperSlide>
+                                ) : null
+                            ))}
                             <TestimonialSwiper activeTestimonial={activeTestimonial} />
-                        </Swiper>}
+                        </Swiper>
+                    }
 
 
                 </div>
                 <div className='testimonialSwiperButtonContainer'>
                     <div className='testimonialSwiperButton' onClick={() => {
-                        if (activeTestimonial == 0) {
-                            return
-                        }
-                        setActiveTestimonial(activeTestimonial - 1)
+                        if (activeTestimonial === 0) return;
+                        setActiveTestimonial(activeTestimonial - 1);
                     }}>
-                        <FaChevronLeft />
+                        <FaChevronLeft/>
                     </div>
                     <div className='testimonialSwiperButton' onClick={() => {
                         if (width < 600) {
-                            if (activeTestimonial == testimonials.length - 1) {
-                                return
-                            }
-                            setActiveTestimonial(activeTestimonial + 1)
-                            return
+                            if (activeTestimonial === testimonials.length - 1) return;
+                            setActiveTestimonial(activeTestimonial + 1);
+                            return;
                         }
-                        if (activeTestimonial == Math.ceil(testimonials.length / 2) - 1) {
-                            return
-                        }
-                        setActiveTestimonial(activeTestimonial + 1)
-                        console.log(activeTestimonial)
+                        if (activeTestimonial === Math.ceil(testimonials.length / 2) - 1) return;
+                        setActiveTestimonial(activeTestimonial + 1);
                     }}>
-                        <FaChevronRight />
+                        <FaChevronRight/>
                     </div>
                 </div>
             </div>
-            <CustomerPortalFooter />
-        </div >
+            <CustomerPortalFooter/>
+        </div>
     )
 }
