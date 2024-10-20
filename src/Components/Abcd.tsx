@@ -123,7 +123,7 @@ const PlacesInput = (props: any) => {
   return (
     <>
       <Combobox onSelect={handleSelect} style={{
-        width: "89%",
+        width: "100%",
       }}>
         <ComboboxInput
           value={value}
@@ -132,26 +132,68 @@ const PlacesInput = (props: any) => {
           className="combobox-input"
           placeholder={label}
           style={{
-            backgroundColor: "#FFECC0",
-            width: "95%",
-            height: "30px",
-            padding: "10px",
-            border: "none",
-            borderRadius: "15px",
-            display: "flex",
-            justifyContent: "left",
-            boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.25)",
+            backgroundColor: props.backgroundColor ?? "#E2BC69",
+            width: props.width ?? '95%',
+            height: props.height ?? '40px',
+            border: 'none',
+            padding: '0px',
+            paddingLeft: '15px',
+            margin: '0px',
+            borderStyle: 'none',
+            borderWidth: '0px',
+            outline: 'none',
+            fontSize: '15px',
+            color: props.color ?? 'black',
+            // color: "grey",
+            // backgroundColor: "#FFECC0",
+            // width: "inherit",
+            // height: "30px",
+            // // padding: "10px",
+            // border: "none",
+            // borderRadius: "15px",
+            // display: "flex",
+            // margin: "0px",
+            // marginLeft: "0px",
+            // // justifyContent: "left",
+            // boxShadow: "3px 3px 0px rgba(0, 0, 0, 0.25)",
+            // color: "grey",
+            // outline: "none",
           }}
         />
-        <ComboboxPopover>
-          <ComboboxList>
+        <ComboboxPopover
+          style={{
+            padding: '0px',
+            margin: '0px',
+            borderStyle: 'none',
+            borderWidth: '0px',
+            zIndex: 100,
+            borderRadius: '10px',
+          }}>
+          <ComboboxList
+            style={{
+              padding: '0px',
+              margin: '0px',
+            }}>
             {status === "OK" &&
               data.map(({ place_id, description }) => (
-                <ComboboxOption key={place_id} value={description} />
+                <ComboboxOption
+                  style={{
+                    minHeight: '30px',
+                    // height: '30px',
+                    backgroundColor: props.backgroundColor ?? "#FFECC0",
+                    borderRadius: '10px',
+                    zIndex: 100,
+                    fontSize: '15px',
+                    color: 'black',
+                    cursor: 'pointer',
+                    marginTop: '10px',
+                    // borderBottom: '1px solid black',
+                  }}
+                  key={place_id} value={description} />
               ))}
           </ComboboxList>
         </ComboboxPopover>
-      </Combobox>
+      </Combobox >
 
       {/*     
                 <CustomTextField

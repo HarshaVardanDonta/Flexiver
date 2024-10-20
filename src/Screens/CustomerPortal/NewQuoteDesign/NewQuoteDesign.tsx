@@ -263,54 +263,54 @@ export default function NewQuoteDesign() {
     };
   };
 
-  const checkFromInputFields =  ()=>{
-    if(pickUpContactName.length==0){
-      return<span className="warning">Please provide contact name</span>
+  const checkFromInputFields = () => {
+    if (pickUpContactName.length == 0) {
+      return <span className="warning">Please provide contact name</span>
     }
-    else if(pickUpContactNumber.length==0){
-      return<span className="warning">Please provide contact number</span>
+    else if (pickUpContactNumber.length == 0) {
+      return <span className="warning">Please provide contact number</span>
     }
-    else if(pickUpAddress.length==0){
-      return<span className="warning">Please provide the pick-up address</span>
-    }
-  }
-
-  const checkToInputFields =  ()=>{
-    if(dropOffContactName.length==0){
-      return<span className="warning">Please provide contact name</span>
-    }
-    else if(dropOffContactNumber.length==0){
-      return<span className="warning">Please provide contact number</span>
-    }
-    else if(dropOffAddress.length==0){
-      return<span className="warning">Please provide the drop-off address</span>
+    else if (pickUpAddress.length == 0) {
+      return <span className="warning">Please provide the pick-up address</span>
     }
   }
 
-  const checkItemDimensions = ()=>{
-    if(itemType == "Select Item Type"){
-      return<span className="warning">Please provide Item Type</span>
+  const checkToInputFields = () => {
+    if (dropOffContactName.length == 0) {
+      return <span className="warning">Please provide contact name</span>
     }
-    else if(noOfItems===0){
-      return<span className="warning">Please provide number of items</span>
+    else if (dropOffContactNumber.length == 0) {
+      return <span className="warning">Please provide contact number</span>
     }
-    else if(approxWeight===0){
-      return<span className="warning">Please provide approximate weight</span>
-    }
-  }
-
-  const checkItemSpecifications = ()=>{
-    if(itemSpecs ==""){
-      return<span className="warning">Please provide Instructions/Specifications</span>
+    else if (dropOffAddress.length == 0) {
+      return <span className="warning">Please provide the drop-off address</span>
     }
   }
 
-  const checkItemAlternateInfo = ()=>{
-    if(alternateContactName==""){
-      return<span className="warning">Please provide receivers name</span>
+  const checkItemDimensions = () => {
+    if (itemType == "Select Item Type") {
+      return <span className="warning">Please provide Item Type</span>
     }
-    else if(alternateContactNumber==""){
-      return<span className="warning">Please provide receivers contact number</span>
+    else if (noOfItems === 0) {
+      return <span className="warning">Please provide number of items</span>
+    }
+    else if (approxWeight === 0) {
+      return <span className="warning">Please provide approximate weight</span>
+    }
+  }
+
+  const checkItemSpecifications = () => {
+    if (itemSpecs == "") {
+      return <span className="warning">Please provide Instructions/Specifications</span>
+    }
+  }
+
+  const checkItemAlternateInfo = () => {
+    if (alternateContactName == "") {
+      return <span className="warning">Please provide receivers name</span>
+    }
+    else if (alternateContactNumber == "") {
+      return <span className="warning">Please provide receivers contact number</span>
     }
 
   }
@@ -411,134 +411,176 @@ export default function NewQuoteDesign() {
         </div> */}
         <div className="pickupAndDropSectionBanner">
           <div className="pickupSection">
-          <>
-            <h3>Pickup Details</h3>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "89%",
-              }}
-            >
-              <CustomTextField
-                placeHolder={"Contact Name"}
-                onChanged={(e) => {
-                  setPickUpContactName(e.target.value);
+            <>
+              <h3>Pickup Details</h3>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
                 }}
-              />
-              <Spacer width={20} />
-              <CustomTextField
-                type="number"
-                placeHolder={"Contact Number"}
-                onChanged={(e) => {
-                  setPickUpContactNumber(e.target.value);
-                }}
+              >
+                <CustomTextField
+                  placeHolder={"Contact Name"}
+                  onChanged={(e) => {
+                    setPickUpContactName(e.target.value);
+                  }}
+                />
+                <Spacer width={20} />
+                <CustomTextField
+                  type="number"
+                  placeHolder={"Contact Number"}
+                  onChanged={(e) => {
+                    setPickUpContactNumber(e.target.value);
+                  }}
 
+                />
+              </div>
+              {isLoaded ? (
+                <div style={{
+                  width: "100%",
+                }}>
+                  <PlacesInput
+                    label="From Address"
+                    setSelected={setFrom}
+                    setPickUpAddress={setPickUpAddress}
+                    to={true}
+                    callBack={() => {
+                      console.log("From Address: ", from);
+                    }}
+                  />
+                </div>
+
+              ) : (
+                <div>Loading...</div>
+              )}
+              <div style={{
+                width: "100%",
+              }}>
+                <CustomTextField
+                  placeHolder={"Instructions for Partner"}
+                  onChanged={(e) => {
+                    setPickUpInstructions(e.target.value);
+                  }} />
+              </div>
+
+              <FlightOfStairsComp
+                onAdd={handlePickUpStairsAdd}
+                onRemove={handlePickUpStairsRemove}
+                count={pickUpStairsCount}
               />
-            </div>
-            {/* <CustomTextField
-              placeHolder={"From Address"}
-              onChanged={(e) => {
-                setPickUpAddress(e.target.value);
-              }}
-              style={{
-                backgroundColor: "#FFECC0",
-                width: "85%",
-                border: "none",
-              }}
-            /> */}
-            {isLoaded ? (
-              <PlacesInput
-                label="From Address"
-                setSelected={setFrom}
-                setPickUpAddress={setPickUpAddress}
-                to={true}
-                callBack={() => {
-                  console.log("From Address: ", from);
-                }}
-              />
-            ) : (
-              <div>Loading...</div>
-            )}
-            <CustomTextField
-              placeHolder={"Instructions for Partner"}
-              onChanged={(e) => {
-                setPickUpInstructions(e.target.value);
-              }}
-              style={{
-                backgroundColor: "#FFECC0",
-                width: "85%",
-                border: "none",
-              }}
-            />
-            <FlightOfStairsComp
-              onAdd={handlePickUpStairsAdd}
-              onRemove={handlePickUpStairsRemove}
-              count={pickUpStairsCount}
-            />
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <FormControlLabel control={
-                <Checkbox
-                  // aria-label="Is elevator available"
-                  value={pickUpElevator}
-                  onChange={(e) => {
-                    setPickUpElevator(e.target.checked);
-                  }}
-                  style={{
-                    color: "#FFD700",
-                  }}
-                />}
-                label="Is elevator available?" />
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <FormControlLabel control={
-                <Checkbox
-                  // aria-label="Is elevator available"
-                  value={pickUpParkingSpace}
-                  onChange={(e) => {
-                    setPickUpParkingSpace(e.target.checked);
-                  }}
-                  style={{
-                    color: "#FFD700",
-                  }}
-                />}
-                label="Is Parking Space available" />
-            </div>
-            {invalidInput ? checkFromInputFields() : "" }
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <FormControlLabel control={
+                  <Checkbox
+                    // aria-label="Is elevator available"
+                    value={pickUpElevator}
+                    onChange={(e) => {
+                      setPickUpElevator(e.target.checked);
+                    }}
+                    style={{
+                      color: "#FFD700",
+                    }}
+                  />}
+                  label="Is elevator available?" />
+              </div>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <FormControlLabel control={
+                  <Checkbox
+                    // aria-label="Is elevator available"
+                    value={pickUpParkingSpace}
+                    onChange={(e) => {
+                      setPickUpParkingSpace(e.target.checked);
+                    }}
+                    style={{
+                      color: "#FFD700",
+                    }}
+                  />}
+                  label="Is Parking Space available" />
+              </div>
+              {invalidInput ? checkFromInputFields() : ""}
             </>
 
           </div>
           <Divider orientation="vertical" flexItem />
           <div className="pickupSection">
-          <>
-            <h3>Drop Off Details</h3>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "89%",
-              }}
-            >
-              <CustomTextField
-                placeHolder={"Contact Name"}
-                onChanged={(e) => {
-                  setDropOffContactName(e.target.value);
+            <>
+              <h3>Drop Off Details</h3>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
                 }}
+              >
+                <CustomTextField
+                  placeHolder={"Contact Name"}
+                  onChanged={(e) => {
+                    setDropOffContactName(e.target.value);
+                  }}
+                />
+                <Spacer width={20} />
+                <CustomTextField
+                  type="number"
+                  placeHolder={"Contact Number"}
+                  onChanged={(e) => {
+                    setDropOffContactNumber(e.target.value);
+                  }}
 
-              />
-              <Spacer width={20} />
-              <CustomTextField
-                type="number"
-                placeHolder={"Contact Number"}
-                onChanged={(e) => {
-                  setDropOffContactNumber(e.target.value);
+                />
+              </div>
+              {isLoaded ? (
+                <div style={{
+                  width: "100%",
+                }}>
+                  <PlacesInput
+                    label="To Address"
+                    setSelected={setTo}
+                    setDropOffAddress={setDropOffAddress}
+                    to={false}
+                    callBack={async () => { }}
+                  />
+                </div>
+
+              ) : (
+                <div>Loading...</div>
+              )}
+              <div style={{
+                width: "100%",
+              }}>
+                <CustomTextField
+                  placeHolder={"Instructions for Partner"}
+                  onChanged={(e) => {
+                    setDropOffInstructions(e.target.value);
+                  }} />
+              </div>
+              {/* <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "89%",
                 }}
+              >
+                <CustomTextField
+                  placeHolder={"Contact Name"}
+                  onChanged={(e) => {
+                    setDropOffContactName(e.target.value);
+                  }}
 
-              />
-            </div>
-            {/* <CustomTextField
+                />
+                <Spacer width={20} />
+                <CustomTextField
+                  type="number"
+                  placeHolder={"Contact Number"}
+                  onChanged={(e) => {
+                    setDropOffContactNumber(e.target.value);
+                  }}
+
+                />
+              </div> */}
+              {/* <CustomTextField
               placeHolder={"To Address"}
               onChanged={(e) => {
                 setDropOffAddress(e.target.value);
@@ -549,56 +591,56 @@ export default function NewQuoteDesign() {
                 border: "none",
               }}
             /> */}
-            {isLoaded ? (
-              <PlacesInput
-                label="To Address"
-                setSelected={setTo}
-                setDropOffAddress={setDropOffAddress}
-                to={false}
-                callBack={async () => { }}
+              {/* {isLoaded ? (
+                <PlacesInput
+                  label="To Address"
+                  setSelected={setTo}
+                  setDropOffAddress={setDropOffAddress}
+                  to={false}
+                  callBack={async () => { }}
+                />
+              ) : (
+                <div>Loading...</div>
+              )} */}
+              {/* <CustomTextField
+                placeHolder={"Instructions for Partner"}
+                onChanged={(e) => {
+                  setDropOffInstructions(e.target.value);
+                }}
+                style={{
+                  backgroundColor: "#FFECC0",
+                  width: "85%",
+                  border: "none",
+                }}
+              /> */}
+              <FlightOfStairsComp
+                onAdd={handleDropOffStairsAdd}
+                onRemove={handleDropOffStairsRemove}
+                count={dropOffStairsCount}
               />
-            ) : (
-              <div>Loading...</div>
-            )}
-            <CustomTextField
-              placeHolder={"Instructions for Partner"}
-              onChanged={(e) => {
-                setDropOffInstructions(e.target.value);
-              }}
-              style={{
-                backgroundColor: "#FFECC0",
-                width: "85%",
-                border: "none",
-              }}
-            />
-            <FlightOfStairsComp
-              onAdd={handleDropOffStairsAdd}
-              onRemove={handleDropOffStairsRemove}
-              count={dropOffStairsCount}
-            />
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <FormControlLabel control={<Checkbox
-                value={dropOffElevator}
-                onChange={(e) => {
-                  setDropOffElevator(e.target.checked);
-                }}
-                style={{
-                  color: "#FFD700",
-                }}
-              />} label="Is elevator available" />
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <FormControlLabel control={<Checkbox
-                value={dropOffParkingSpace}
-                onChange={(e) => {
-                  setDropOffParkingSpace(e.target.checked);
-                }}
-                style={{
-                  color: "#FFD700",
-                }}
-              />} label="Is Parking Space available" />
-            </div>
-            {invalidInput ? checkToInputFields() : "" }
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <FormControlLabel control={<Checkbox
+                  value={dropOffElevator}
+                  onChange={(e) => {
+                    setDropOffElevator(e.target.checked);
+                  }}
+                  style={{
+                    color: "#FFD700",
+                  }}
+                />} label="Is elevator available" />
+              </div>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <FormControlLabel control={<Checkbox
+                  value={dropOffParkingSpace}
+                  onChange={(e) => {
+                    setDropOffParkingSpace(e.target.checked);
+                  }}
+                  style={{
+                    color: "#FFD700",
+                  }}
+                />} label="Is Parking Space available" />
+              </div>
+              {invalidInput ? checkToInputFields() : ""}
             </>
 
           </div>
@@ -870,7 +912,7 @@ export default function NewQuoteDesign() {
               </div>
             </div>
           </div>
-          {invalidInput ? checkItemDimensions() : "" }
+          {invalidInput ? checkItemDimensions() : ""}
 
         </div>
       </div>
@@ -903,7 +945,7 @@ export default function NewQuoteDesign() {
             setItemSpecs(e.target.value);
           }}
         />
-        {invalidInput ? checkItemSpecifications() : "" }
+        {invalidInput ? checkItemSpecifications() : ""}
         <div
           style={{
             fontSize: "18px",
@@ -935,7 +977,7 @@ export default function NewQuoteDesign() {
             }}
           />
         </div>
-        {invalidInput ? checkItemAlternateInfo() : "" }
+        {invalidInput ? checkItemAlternateInfo() : ""}
         <div
           style={{
             textAlign: "center",

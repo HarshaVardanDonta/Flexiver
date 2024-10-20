@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useNavigation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useRive } from '@rive-app/react-canvas';
 import logo from "../Assets/logo.png";
@@ -255,10 +255,10 @@ export default function DriverLanding() {
                     navigate("/driverLogin");
                     handleLoginClose();
                   }}>Driver Portal</MenuItem>
-                  <MenuItem onClick={() => {
+                  {/* <MenuItem onClick={() => {
                     navigate("/QuotePage");
                     handleLoginClose();
-                  }}>Customer Portal</MenuItem>
+                  }}>Customer Portal</MenuItem> */}
 
                 </Menu>
               </div>
@@ -287,11 +287,11 @@ export default function DriverLanding() {
               )
             }
 
-            <div className="getQButton" onClick={() => {
+            {/* <div className="getQButton" onClick={() => {
               navigate("/tempQuotePage");
             }}>
               Get an instant Quote!
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="flow">
@@ -519,3 +519,10 @@ export default function DriverLanding() {
     </>
   );
 }
+
+// export default function Main() {
+//   const navigate = useNavigate();
+//   useEffect(() => { navigate('/home') }, [])
+//   return <>
+//   </>
+// }
