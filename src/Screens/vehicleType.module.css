@@ -1,0 +1,19 @@
+.LoginSection{
+    margin-top: 3%;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 550px;
+}
+.LoginSection div{
+    margin-top: 3%;
+    width: 100%;
+}
+.LoginSection section button{
+    margin-top: 3%;
+    width: 100%;
+}
+
+.loginButton{
+    margin-top: 6%;
+}

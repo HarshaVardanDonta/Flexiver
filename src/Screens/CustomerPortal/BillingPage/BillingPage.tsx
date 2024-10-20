@@ -44,8 +44,6 @@ export default function BillingPage() {
 
   //useEffect -> using quote id fetch the quote
   useEffect(() => {
-    console.log(typeof state.quote.dateAndTime);
-
     quote = state.quote;
     console.log("BillingQuote", quote);
     if (state.quote.vehicleType === "Two Wheeler") {
@@ -223,7 +221,7 @@ export default function BillingPage() {
     console.log("Floors: ", floors);
     console.log("Weight: ", weight);
     var priceForDistance = 0;
-    var timePerFloor = 0;
+    var timePerFloor = timePerStairs['50'];
     var pricePerWeightOrEffort = 0;
 
     if (weight > 50 && weight <= 249) {
@@ -267,7 +265,7 @@ export default function BillingPage() {
     console.log("Floors: ", floors);
     console.log("Weight: ", weight);
     var priceForDistance = 0;
-    var timePerFloor = 0;
+    var timePerFloor = timePerStairs['50'];
     var pricePerWeightOrEffort = 0;
 
     if (weight > 50 && weight <= 249) {
@@ -371,8 +369,7 @@ export default function BillingPage() {
                     width: "60%",
                   }}
                 >
-                  {state.quote.itemNote} | count: {state.quote.noOfItems} |
-                  weight: {state.quote.approxWeight} | Item Type: {state.quote.itemType}
+                  weight: {state.quote.approxWeight}
                 </p>
               </div>
               <div>
@@ -390,6 +387,11 @@ export default function BillingPage() {
             </div>
           </div>
           <h3>Total Distance: {state.quote.distance}</h3>
+          <div style={{
+
+          }}>
+
+          </div>
         </div>
         <div className="billingSection">
           <h2>Date: {new Date(state.quote.dateAndTime).toLocaleString()}</h2>
