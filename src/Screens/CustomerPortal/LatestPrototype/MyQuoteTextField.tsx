@@ -10,7 +10,7 @@ import {
 import "@reach/combobox/styles.css";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { useEffect } from "react";
-
+import { NumericFormat } from 'react-number-format';
 interface MyQuoteTextFieldProps {
     height?: string,
     width?: string,
@@ -20,6 +20,7 @@ interface MyQuoteTextFieldProps {
     onChanged?: (value: string) => void,
     isMapAutoComplete?: boolean,
     getCoordinates?: (value: any) => void,
+    fieldValue?: string,
 }
 export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
 
@@ -45,7 +46,6 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
 
             <Combobox
                 onSelect={async (address) => {
-                    console.log(address)
                     props.onChanged?.(address)
                     setValue(address, false);
                     clearSuggestions();
@@ -56,11 +56,12 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                 <ComboboxInput
                     value={value}
                     onChange={(e) => {
+                        props.onChanged?.(e.target.value)
                         setValue(e.target.value)
                     }}
                     disabled={!ready}
                     className="combobox-input"
-                    placeholder={ready ? "Enter your address" : "Loading..."}
+                    placeholder={ready ? "Enter your address*" : "Loading..."}
                     style={{
                         backgroundColor: props.backgroundColor ?? "#E2BC69",
                         width: props.width ?? '95%',
@@ -110,41 +111,81 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                 </ComboboxPopover>
             </Combobox>
             :
-            <TextField
-                value={value}
-                onChange={(e) => {
-                    setValue(e.target.value)
-                    props.onChanged?.(e.target.value)
-                }}
-                placeholder={props.lable ?? 'Sample Text '}
-                inputProps={{
-                    style: {
-                        color: props.color ?? 'black',
-                    }
-                }}
-                style={{
-                    backgroundColor: props.backgroundColor ?? "#E2BC69",
-                    borderRadius: '10px',
-                }}
-                sx={{
-                    '& .MuiInputBase-root': {
-                        height: props.height ?? '40px',
-                        width: props.width ?? '20vw',
-                    },
-                    '& ::placeholder': {
-                        color: 'black',
-                        opacity: '0.9',
-                    },
-                    '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                            border: 'none',
+            props.lable === "Enter Mobile*" ?
+                <NumericFormat
+                    inputProps={{
+                        maxLength: 10
+                    }}
+                    maxLength={10}
+                    customInput={TextField}
+                    value={value}
+                    onChange={(e) => {
+                        setValue(e.target.value)
+                        props.onChanged?.(e.target.value)
+                    }}
+                    placeholder={props.lable ?? 'Sample Text '}
+                    style={{
+                        backgroundColor: props.backgroundColor ?? "#E2BC69",
+                        borderRadius: '10px',
+                    }}
+                    sx={{
+                        '& .MuiInputBase-root': {
+                            height: props.height ?? '40px',
+                            width: props.width ?? '20vw',
                         },
-                        '&:hover fieldset': {
+                        '& ::placeholder': {
+                            color: 'black',
+                            opacity: '0.9',
                         },
-                        '&.Mui-focused fieldset': {
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                border: 'none',
+                            },
+                            '&:hover fieldset': {
+                            },
+                            '&.Mui-focused fieldset': {
+                            },
                         },
-                    },
-                }} />
+                    }}
+                >
+
+                </ NumericFormat >
+                :
+                <TextField
+                    value={props.fieldValue}
+                    onChange={(e) => {
+                        setValue(e.target.value)
+                        props.onChanged?.(e.target.value)
+                    }}
+                    placeholder={props.lable ?? 'Sample Text '}
+                    inputProps={{
+                        style: {
+                            color: props.color ?? 'black',
+                        }
+                    }}
+                    style={{
+                        backgroundColor: props.backgroundColor ?? "#E2BC69",
+                        borderRadius: '10px',
+                    }}
+                    sx={{
+                        '& .MuiInputBase-root': {
+                            height: props.height ?? '40px',
+                            width: props.width ?? '20vw',
+                        },
+                        '& ::placeholder': {
+                            color: 'black',
+                            opacity: '0.9',
+                        },
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                border: 'none',
+                            },
+                            '&:hover fieldset': {
+                            },
+                            '&.Mui-focused fieldset': {
+                            },
+                        },
+                    }} />
 
 
     )

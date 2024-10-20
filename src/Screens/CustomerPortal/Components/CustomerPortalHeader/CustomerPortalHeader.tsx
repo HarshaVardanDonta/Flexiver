@@ -52,7 +52,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                 }
 
                 <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' onClick={() => {
-                    navigate('/');
+                    navigate('/home');
                 }}
                     style={{
                         cursor: 'pointer',
@@ -77,7 +77,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                 <Typography.Text style={{
                     fontSize: '1rem',
                     fontWeight: 'bold'
-                }}>{isUserLoggedIn ? session?.data.session.user?.user_metadata.fullName : "Sign In/Sign Up"}
+                }}>{isUserLoggedIn ? session?.data.session.user?.user_metadata.fullName : "Login"}
                 </Typography.Text>
             </Button>
             <Menu
@@ -140,7 +140,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                             }} onClick={async () => {
                                 await supabase.auth.signOut();
                                 setIsUserLoggedIn(false);
-                                navigate('/');
+                                navigate('/home');
                                 handleAnchorHeaderButtonClose();
                             }}>
                                 <Typography.Text style={{
@@ -161,7 +161,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                                 width: 200,
                                 margin: 1,
                             }} onClick={() => {
-                                navigate('/customerLogin');
+                                navigate('/login');
                                 handleAnchorHeaderButtonClose();
                             }}>
                                 <Typography.Text style={{
@@ -177,7 +177,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                                 width: 200,
                                 margin: 1,
                             }} onClick={() => {
-                                navigate('/customerSignUp');
+                                navigate('/createAccount');
                                 handleAnchorHeaderButtonClose();
                             }}>
                                 <Typography.Text style={{
