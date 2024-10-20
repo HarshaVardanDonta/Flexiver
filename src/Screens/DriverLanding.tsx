@@ -32,7 +32,7 @@ import CustomerPortalFooter from "./CustomerPortal/Components/CustomerPortalFoot
 
 ReactGA.initialize('G-176G8Q4X9H');
 
-export function DriverLanding() {
+export default function DriverLanding() {
   const { height, width } = useWindowDimensions();
   var element = document.getElementById('rive');
   var elementHeight = element ? element.clientHeight : 0;
@@ -287,11 +287,11 @@ export function DriverLanding() {
               )
             }
 
-            <div className="getQButton" onClick={() => {
+            {/* <div className="getQButton" onClick={() => {
               navigate("/tempQuotePage");
             }}>
               Get an instant Quote!
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="flow">
@@ -520,9 +520,9 @@ export function DriverLanding() {
   );
 }
 
-export default function Main() {
-  const navigate = useNavigate();
-  useEffect(() => { navigate('/home') }, [])
-  return <>
-  </>
-}
+// export default function Main() {
+//   const navigate = useNavigate();
+//   useEffect(() => { navigate('/home') }, [])
+//   return <>
+//   </>
+// }
