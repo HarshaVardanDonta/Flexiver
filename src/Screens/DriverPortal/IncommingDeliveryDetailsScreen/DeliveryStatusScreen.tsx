@@ -1,21 +1,17 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, Card, Grid } from "@mui/material";
 import CustomerPortalHeader from "../../CustomerPortal/Components/CustomerPortalHeader/CustomerPortalHeader";
 import "./DeliveryStatusScreen.css";
 import { useEffect, useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomDialog from "../../CustomerPortal/Components/SuccessPaymentComp/SuccessPaymentComp";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import MapComp from "../../../Components/MapComp";
-import { Icon, LatLngExpression } from "leaflet";
+import { Icon, LatLng } from "leaflet";
 import mark from "../../../Assets/Location.png";
 import pin from "../../../Assets/MapPin.png";
 import MySupClient from "../../../SupabaseClient";
-import { set } from "react-ga";
 import toast from "react-hot-toast";
 import useWindowDimensions from "../../../Model/WindowDimensions";
 import polyline from "@mapbox/polyline";
-import { LatLng } from "use-places-autocomplete";
 
 export default function DeliverStatusScreen() {
   const { state } = useLocation();
@@ -23,317 +19,195 @@ export default function DeliverStatusScreen() {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openAreUSure, setOpenAreUSure] = useState(false);
   const navigate = useNavigate();
-
   const { height, width } = useWindowDimensions();
 
-
-  console.log(state);
-  const record = state.order;
-  console.log(record);
-
-  const LocationIcon = new Icon({
-    iconUrl: mark,
-    iconSize: [30, 60], // size of the icon
-  });
-
-  const PinIcon = new Icon({
-    iconUrl: pin,
-    iconSize: [30, 60], // size of the icon
-  });
+  const LocationIcon = new Icon({ iconUrl: mark, iconSize: [30, 60] });
+  const PinIcon = new Icon({ iconUrl: pin, iconSize: [30, 60] });
 
   const [supabase] = useState(() => MySupClient());
   const [driverId, setDriverId] = useState();
   const [isDriverVerified, setIsDriverVerified] = useState(false);
+  var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
 
   useEffect(() => {
     getDriver();
     getPolyLine();
   }, []);
-  var [polyPoints, setPolyPoints] = useState<LatLng[]>([]);
 
   async function getPolyLine() {
     var decodedPoly = polyline.decode(state.order.polyString!);
     var points: LatLng[] = [];
     decodedPoly.forEach((point) => {
-      points.push({ lat: point[0], lng: point[1] });
+      const latLngPoint = new LatLng(point[0], point[1]);
+      points.push(latLngPoint);
     });
     setPolyPoints(points);
-    console.log("polyPoints", polyPoints);
   }
 
   const getDriver = async () => {
     const session = await supabase.auth.getSession();
-
     if (session.data.session) {
-      console.log(session.data.session.user.id);
       const { data, error } = await supabase
-        .from("DriverDetails")
-        .select("*")
-        .eq("userId", session.data.session.user.id);
+          .from("DriverDetails")
+          .select("*")
+          .eq("userId", session.data.session.user.id);
 
       if (error) {
         alert(error.message);
         return;
       }
 
-      console.log("data", data);
       setDriverId(data[0].driverId);
       setIsDriverVerified(data[0].isVerified);
-      console.log("driverId", driverId);
-      console.log("isDriverVerified", isDriverVerified);
     }
   };
 
   const acceptOrder = async () => {
     const session = await supabase.auth.getSession();
-
     if (session.data.session) {
       const { error } = await supabase
-        .from("CustomerQuote")
-        .update({ driverId: driverId, orderStatus: "Partner Assigned" })
-        .eq("id", state.order.id);
+          .from("CustomerQuote")
+          .update({ driverId, orderStatus: "Partner Assigned" })
+          .eq("id", state.order.id);
       if (error) {
         alert(error.message);
         return;
       }
-      setOpenAreUSure(false);
 
-      navigate("/activeDeliveryScreen", { state: record });
-
-      console.log("driver assigned");
-
-      console.log("Status updated");
+      setOpenAreUSure(false); // Close the confirmation dialog
+      setOpenSuccess(true); // Optionally, open a success dialog or toast
+      navigate("/activeDeliveryScreen", { state: state.order }); // Navigate to the new screen
     }
   };
 
   function dateFormat(date: string) {
     const timestamp = parseInt(date, 10);
-    const formattedDate = new Date(timestamp).toLocaleDateString("en-US", {
+    return new Date(timestamp).toLocaleDateString("en-US", {
       month: "2-digit",
       day: "2-digit",
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
     });
-    return formattedDate;
   }
 
-
-
   return (
-    <div>
-      <CustomerPortalHeader driverSide={true} />
-      <div className="deliveryStatusScreen">
-        <div className="deliveryStatusHeader">
-          <h2>
-            Delivery Id: #DID-{state.order.id}
-          </h2>
-          {!ongoing && <h2>Delivered On: {
-            dateFormat(state.order.dateAndTime.toString())
-            }</h2>}
-        </div>
-        <div className="deliverStatusMapSection">
-          <div className="mapSectionLeft">
-            <MapComp
-            polyPoints={polyPoints}
-              positionWithIconsArray={[
-                {
-                  lat: state.order.pickUpLat,
-                  lng: state.order.pickUpLng,
-                  marker: LocationIcon,
-                  popup: "Pick UP Location",
-                },
-                {
-                  lat: state.order.dropOffLat,
-                  lng: state.order.dropOffLng,
-                  marker: PinIcon,
-                  popup: "Drop Off Location",
-                },
-              ]}
-            />
-          </div>
-          <div className="mapSectionRight">
-            <div>
-              <Typography variant="h6">Pick Up Address</Typography>
-              <Typography >{state.order.pickUpAddress} <br/>Parking Available: {state.order.pickUpParkingSpace ? "Yes":"No"} | Flight of Stairs: {state.order.pickUpStairs} | Elevator Available: {state.order.pickUpElevator? "Yes": "No"} | Instructions: {state.order.pickUpInstructions}</Typography>
-            </div>
-            <div>
-              <Typography variant="h6">Drop Off Address</Typography>
-              <Typography >{state.order.dropOffAddress} <br/>Parking Available: {state.order.dropOffParkingSpace ? "Yes":"No"} | Flight of Stairs: {state.order.dropOffStairs} | Elevator Available: {state.order.dropOffElevato? "Yes": "No"} | Instructions: {state.order.dropOffInstructions} </Typography>
-            </div>
-            <div>
-              <Typography variant="h6">Total Trip Distance</Typography>
-              <Typography >{state.order.distance}</Typography>
-            </div>
-            <div>
-              <Typography variant="h6">Driver Fare</Typography>
-              <Typography >{state.order.driverFare} $</Typography>
-            </div>
-          </div>
-        </div>
+      <div>
+        <CustomerPortalHeader driverSide={true} />
+        <div className="deliveryStatusScreen">
+          <Card elevation={3} sx={{ padding: 2, marginBottom: 2, backgroundColor: "#f9f9f9" }}>
+            <Typography variant="h5">Delivery Id: #DID-{state.order.id}</Typography>
+            {!ongoing && <Typography variant="h6">Delivered On: {dateFormat(state.order.dateAndTime.toString())}</Typography>}
+          </Card>
 
-        <div className="itemRelatedSection">
-          <img src={state.order.imageUrl} alt="Item Image" style={{ width: width>600 ? "40%": "80%", height: "auto", borderRadius:"10px" }} />
-          <div>
-              <div className="itemDimensions">
-                <Typography  variant="h6">
-                  Item Dimensions: &nbsp;
-                </Typography>
-                <Typography >{state.order.itemDimensions}</Typography>
-              </div>
-              <div className="itemDimensions">
-                 <Typography  variant="h6">
-                  No Of Items: &nbsp;
-                </Typography>
-                <Typography >{state.order.noOfItems}</Typography>
-              </div>
-              <div className="itemDimensions">
-                <Typography  variant="h6">
-                  Item Description: &nbsp;
-                </Typography>
-                <Typography >{state.order.itemNote}</Typography>
-              </div>
-              <div className="itemDimensions">
-                 <Typography variant="h6">
-                  Weight: &nbsp;
-                </Typography>
-                <Typography >{state.order.approxWeight} lbs</Typography>
-              </div>       
-          </div>
-        </div>
-        
-       
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <Card elevation={3} className="mapSectionLeft" sx={{ padding: 2 }}>
+                <MapComp
+                    polyPoints={polyPoints}
+                    positionWithIconsArray={[
+                      {
+                        lat: state.order.pickUpLat,
+                        lng: state.order.pickUpLng,
+                        marker: LocationIcon,
+                        popup: "Pick UP Location",
+                      },
+                      {
+                        lat: state.order.dropOffLat,
+                        lng: state.order.dropOffLng,
+                        marker: PinIcon,
+                        popup: "Drop Off Location",
+                      },
+                    ]}
+                />
+              </Card>
+            </Grid>
 
-        <div className="buttonContainer">
-          {!ongoing && (
-            <Button
-              sx={{
-                borderRadius: 2,
-                backgroundColor: "#FFECC1",
-                color: "#000000",
-                "&:hover": {
-                  backgroundColor: "#FFECC1",
-                  color: "#000000",
-                },
-              }}
-              fullWidth
-              variant="contained"
-            >
-              Go Back
-            </Button>
-          )}
-          {ongoing && (
-            <>
-              <Button
-                sx={{
-                  borderRadius: 2,
-                }}
-                fullWidth
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  if (isDriverVerified === false) {
-                    return toast.error("Your account is not verified yet!");
-                  }
-                  setOpenAreUSure(true);
-                }}
-              >
-                Accept this Delivery
-              </Button>
-              <CustomDialog
-                autoHeight={true}
-                open={openSuccess}
-                title={""}
-                description={""}
-                htmlComponent={
-                  <>
-                    <div>
-                      <h3>Pick Up Address:</h3>
-                      <h4>doasn asodin adsoin adsoinasd oaisnd adsio</h4>
-                    </div>
-                    <div>
-                      <h3>Drop Off Address:</h3>
-                      <h4>doasn asodin adsoin adsoinasd oaisnd adsio</h4>
-                    </div>
-                    <div>
-                      <h3>Receiver Name:</h3>
-                      <h4>doasn asodin </h4>
-                    </div>
-                    <div>
-                      <h3>Receiver Contact:</h3>
-                      <h4>doasn asodin adsoin adsoinasd oaisnd adsio</h4>
-                    </div>
-                  </>
-                }
-                onClose={function (): void {
-                  setOpenSuccess(false);
-                  navigate("/activeDeliveryScreen", { state: record });
-                }}
-              />
+            <Grid item xs={12} md={6} className="mapSectionRight">
+              {[
+                { title: "Pick Up Address", address: state.order.pickUpAddress, parking: state.order.pickUpParkingSpace, stairs: state.order.pickUpStairs, elevator: state.order.pickUpElevator, instructions: state.order.pickUpInstructions },
+                { title: "Drop Off Address", address: state.order.dropOffAddress, parking: state.order.dropOffParkingSpace, stairs: state.order.dropOffStairs, elevator: state.order.dropOffElevator, instructions: state.order.dropOffInstructions },
+              ].map(({ title, address, parking, stairs, elevator, instructions }) => (
+                  <Card elevation={3} sx={{ padding: 2 }} key={title}>
+                    <Typography variant="h6" gutterBottom>{title}</Typography>
+                    <Typography>{address}</Typography>
+                    <Typography>Parking Available: {parking ? "Yes" : "No"}</Typography>
+                    <Typography>Flight of Stairs: {stairs}</Typography>
+                    <Typography>Elevator Available: {elevator ? "Yes" : "No"}</Typography>
+                    <Typography>Instructions: {instructions}</Typography>
+                  </Card>
+              ))}
 
-              <CustomDialog
-                hideYayButton={true}
-                autoHeight={true}
-                open={openAreUSure}
-                title={""}
-                description={""}
-                htmlComponent={
-                  <div>
-                    <h3>Are you sure you want to accept this delivery?</h3>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "20px",
-                        justifyContent: "center",
-                        marginTop: "20px",
+              <Card elevation={3} sx={{ padding: 2 }}>
+                <Typography variant="h6" gutterBottom>Total Trip Distance</Typography>
+                <Typography>{state.order.distance}</Typography>
+              </Card>
+
+              <Card elevation={3} sx={{ padding: 2 }}>
+                <Typography variant="h6" gutterBottom>Driver Fare</Typography>
+                <Typography>{state.order.driverFare} $</Typography>
+              </Card>
+            </Grid>
+          </Grid>
+
+          <Card elevation={3} sx={{ padding: 2, marginTop: 2, backgroundColor: "#f9f9f9", height: 'auto' }}>
+            <Typography variant="h6" gutterBottom>Item Dimensions: {state.order.itemDimensions}</Typography>
+            <Typography variant="h6" gutterBottom>No Of Items: {state.order.noOfItems}</Typography>
+            <Typography variant="h6" gutterBottom>Item Description: {state.order.itemNote}</Typography>
+            <Typography variant="h6" gutterBottom>Weight: {state.order.approxWeight} lbs</Typography>
+          </Card>
+
+          <div className="buttonContainer">
+            {!ongoing ? (
+                <Button
+                    sx={{
+                      borderRadius: 2,
+                      backgroundColor: "#FFECC1",
+                      color: "#000000",
+                      "&:hover": {
+                        backgroundColor: "#FFECC1",
+                        color: "#000000",
+                      },
+                    }}
+                    fullWidth
+                    variant="contained"
+                >
+                  Go Back
+                </Button>
+            ) : (
+                <>
+                  <Button
+                      sx={{
+                        borderRadius: 2,
                       }}
-                    >
-                      <Button
-                        sx={{
-                          borderRadius: 2,
-                        }}
-                        variant="contained"
-                        color="error"
-                        onClick={() => {
-                          setOpenAreUSure(false);
-                        }}
-                      >
-                        No
-                      </Button>
-                      <Button
-                        sx={{
-                          borderRadius: 2,
-                        }}
-                        variant="contained"
-                        color="success"
-                        onClick={acceptOrder}
-                      >
-                        Yes
-                      </Button>
-                    </div>
-                  </div>
-                }
-                onClose={function (): void {
-                  setOpenAreUSure(false);
-                  setOpenSuccess(true);
-                }}
-              />
-            </>
-          )}
-          {ongoing && (
-            <Button
-              sx={{
-                borderRadius: 2,
-              }}
-              fullWidth
-              variant="contained"
-              color="error"
-            >
-              Nope
-            </Button>
-          )}
+                      fullWidth
+                      variant="contained"
+                      color="success"
+                      onClick={async () => {
+                        if (!isDriverVerified) {
+                          return toast.error("Your account is not verified yet!");
+                        }
+
+                        const confirmAccept = window.confirm("Do you really want to accept this delivery?");
+                        if (confirmAccept) {
+                          await acceptOrder();
+                        }
+                      }}
+                  >
+                    Accept this Delivery
+                  </Button>
+
+                  <CustomDialog
+                      autoHeight={true}
+                      open={openAreUSure}
+                      title="Are you sure?"
+                      description="Do you want to accept this delivery?"
+                      onClose={() => setOpenAreUSure(false)}
+                  />
+                </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
   );
 }
