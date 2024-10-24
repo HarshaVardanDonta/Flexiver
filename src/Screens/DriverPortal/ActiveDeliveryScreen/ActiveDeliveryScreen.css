@@ -71,3 +71,14 @@
         align-items: center;
     }
 }
+.loadingIndicator {
+    position: absolute; /* Adjust as needed */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.8); /* Optional: background for better visibility */
+    border: 1px solid #ccc; /* Optional: add border */
+    padding: 20px; /* Optional: add padding */
+    border-radius: 5px; /* Optional: rounded corners */
+    z-index: 1000; /* Ensure it's on top of other elements */
+}
