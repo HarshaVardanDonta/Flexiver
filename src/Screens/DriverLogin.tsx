@@ -30,9 +30,9 @@ export default function DriverLogin() {
         .then((data) => {
           console.log(data);
           if (data.data!.length === 0) {
-            navigate("/");
+            navigate("/driverRegistration");
           } else {
-            navigate("/");
+            navigate("/driverProfile");
           }
         });
     }
