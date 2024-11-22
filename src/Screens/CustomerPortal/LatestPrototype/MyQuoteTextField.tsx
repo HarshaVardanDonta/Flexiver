@@ -9,8 +9,9 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NumericFormat } from 'react-number-format';
+
 interface MyQuoteTextFieldProps {
     height?: string,
     width?: string,
@@ -22,8 +23,9 @@ interface MyQuoteTextFieldProps {
     getCoordinates?: (value: any) => void,
     fieldValue?: string,
 }
-export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
 
+export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
+    const [validationError, setValidationError] = useState<string | null>(null); // Error state for validation
     const {
         ready,
         value,
@@ -33,31 +35,46 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
     } = usePlacesAutocomplete();
 
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyAAeFL_uHBQbPvaGCt1QhCalA6SCEhiEWU",
+        googleMapsApiKey: "YOUR_API_KEY_HERE",
         libraries: ["places"],
     });
+
     useEffect(() => {
         if (isLoaded) {
-            console.log('Loaded', ready)
+            console.log('Loaded', ready);
         }
-    }, [isLoaded, ready])
-    return (
-        props.isMapAutoComplete ?
+    }, [isLoaded, ready]);
 
+    const validateMobile = (mobile: string) => {
+        // Regular expression for Australian mobile numbers
+        const australianMobileRegex = /^(\+?61|0)4\d{8}$/;
+
+        if (!australianMobileRegex.test(mobile)) {
+            setValidationError(
+                "Invalid mobile number."
+            );
+        } else {
+            setValidationError(null);
+        }
+    };
+
+    return (
+        props.isMapAutoComplete ? (
             <Combobox
                 onSelect={async (address) => {
-                    props.onChanged?.(address)
+                    props.onChanged?.(address);
                     setValue(address, false);
                     clearSuggestions();
                     const results = await getGeocode({ address });
                     const { lat, lng } = await getLatLng(results[0]);
                     props.getCoordinates?.({ lat: lat, lng: lng });
-                }}>
+                }}
+            >
                 <ComboboxInput
                     value={value}
                     onChange={(e) => {
-                        props.onChanged?.(e.target.value)
-                        setValue(e.target.value)
+                        props.onChanged?.(e.target.value);
+                        setValue(e.target.value);
                     }}
                     disabled={!ready}
                     className="combobox-input"
@@ -77,7 +94,6 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                         color: props.color ?? 'black',
                     }}
                 />
-
                 <ComboboxPopover
                     style={{
                         width: props.width ?? '20vw',
@@ -86,82 +102,50 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                         borderStyle: 'none',
                         borderWidth: '0px',
                         zIndex: 100,
-                    }}>
+                    }}
+                >
                     <ComboboxList
                         style={{
                             padding: '0px',
                             margin: '0px',
-                        }}>
+                        }}
+                    >
                         {status === "OK" &&
                             data.map(({ place_id, description }) => (
-                                <ComboboxOption style={{
-                                    backgroundColor: props.backgroundColor ?? "#E2BC69",
-                                    // borderRadius: '10px',
-                                    zIndex: 100,
-                                    alignItems: 'center',
-                                    fontSize: '15px',
-                                    color: props.color ?? 'black',
-                                    cursor: 'pointer',
-                                    marginTop: '10px',
-                                    borderBottom: '1px solid black',
-                                }} key={place_id} value={description} onClick={() => {
-                                }} />
+                                <ComboboxOption
+                                    style={{
+                                        backgroundColor: props.backgroundColor ?? "#E2BC69",
+                                        zIndex: 100,
+                                        alignItems: 'center',
+                                        fontSize: '15px',
+                                        color: props.color ?? 'black',
+                                        cursor: 'pointer',
+                                        marginTop: '10px',
+                                        borderBottom: '1px solid black',
+                                    }}
+                                    key={place_id}
+                                    value={description}
+                                />
                             ))}
                     </ComboboxList>
                 </ComboboxPopover>
             </Combobox>
-            :
-            props.lable === "Enter Mobile*" ?
-                <NumericFormat
-                    inputProps={{
-                        maxLength: 10
-                    }}
-                    maxLength={10}
-                    customInput={TextField}
+        ) : props.lable === "Enter Mobile*" ? (
+            <>
+                <TextField
                     value={value}
                     onChange={(e) => {
-                        setValue(e.target.value)
-                        props.onChanged?.(e.target.value)
-                    }}
-                    placeholder={props.lable ?? 'Sample Text '}
-                    style={{
-                        backgroundColor: props.backgroundColor ?? "#E2BC69",
-                        borderRadius: '10px',
-                    }}
-                    sx={{
-                        '& .MuiInputBase-root': {
-                            height: props.height ?? '40px',
-                            width: props.width ?? '20vw',
-                        },
-                        '& ::placeholder': {
-                            color: 'black',
-                            opacity: '0.9',
-                        },
-                        '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                                border: 'none',
-                            },
-                            '&:hover fieldset': {
-                            },
-                            '&.Mui-focused fieldset': {
-                            },
-                        },
-                    }}
-                >
-
-                </ NumericFormat >
-                :
-                <TextField
-                    value={props.fieldValue}
-                    onChange={(e) => {
-                        setValue(e.target.value)
-                        props.onChanged?.(e.target.value)
+                        const inputValue = e.target.value;
+                        // Allow only numbers and `+`
+                        const sanitizedValue = inputValue.replace(/[^0-9+]/g, '');
+                        setValue(sanitizedValue);
+                        props.onChanged?.(sanitizedValue);
+                        validateMobile(sanitizedValue);
                     }}
                     placeholder={props.lable ?? 'Sample Text '}
                     inputProps={{
-                        style: {
-                            color: props.color ?? 'black',
-                        }
+                        maxLength: 12, // Allow space for international numbers
+                        style: { color: props.color ?? 'black' },
                     }}
                     style={{
                         backgroundColor: props.backgroundColor ?? "#E2BC69",
@@ -180,13 +164,49 @@ export default function MyQuoteTextField(props: MyQuoteTextFieldProps) {
                             '& fieldset': {
                                 border: 'none',
                             },
-                            '&:hover fieldset': {
-                            },
-                            '&.Mui-focused fieldset': {
-                            },
                         },
-                    }} />
+                    }}
+                />
 
-
-    )
+                {validationError && (
+                    <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
+                        {validationError}
+                    </p>
+                )}
+            </>
+        ) : (
+            <TextField
+                value={props.fieldValue}
+                onChange={(e) => {
+                    setValue(e.target.value);
+                    props.onChanged?.(e.target.value);
+                }}
+                placeholder={props.lable ?? 'Sample Text '}
+                inputProps={{
+                    style: {
+                        color: props.color ?? 'black',
+                    },
+                }}
+                style={{
+                    backgroundColor: props.backgroundColor ?? "#E2BC69",
+                    borderRadius: '10px',
+                }}
+                sx={{
+                    '& .MuiInputBase-root': {
+                        height: props.height ?? '40px',
+                        width: props.width ?? '20vw',
+                    },
+                    '& ::placeholder': {
+                        color: 'black',
+                        opacity: '0.9',
+                    },
+                    '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                            border: 'none',
+                        },
+                    },
+                }}
+            />
+        )
+    );
 }
