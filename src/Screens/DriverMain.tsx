@@ -75,8 +75,6 @@ export default function DriverMain() {
           <Route path="/moreInfo" element={<MoreDetails />} />
           <Route path="/otp" element={<OTP />} />
           <Route path="/vehicleType" element={<VehicleType />} />
-
-
         </Routes>
 
         <Toaster position="bottom-right" />

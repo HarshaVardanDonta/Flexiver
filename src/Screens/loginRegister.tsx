@@ -46,7 +46,7 @@ const LoginRegister = () => {
         const { data } = await supabase.auth.getSession();
         setSession(data.session); // Update session state
         if (data.session) {
-            navigate("/home");
+            navigate("/");
         }
     }
 
@@ -81,7 +81,7 @@ const LoginRegister = () => {
         if (data.user?.aud === "authenticated") {
             toast.success("Login successful");
             setSession(data.session); // Update session state
-            navigate("/home");
+            navigate("/");
         }
         setLoading(false);
     }
@@ -99,12 +99,13 @@ const LoginRegister = () => {
         // After signing in, check the session state
         const { data: sessionData } = await supabase.auth.getSession();
         setSession(sessionData.session); // Update session state
+        console.log(sessionData.session)
 
         if (sessionData.session) {
             toast.success("Google Sign-In successful!");
-            navigate("/home");
+            navigate("/");
         } else {
-            toast.error("Failed to retrieve session after Google sign-in.");
+            // toast.error("Failed to retrieve session after Google sign-in.");
         }
     }
 
@@ -114,7 +115,7 @@ const LoginRegister = () => {
 
     return (
         <div style={{ margin: "1% 2%" }}>
-            <Link to="/home">
+            <Link to="/">
                 <img src={logo} height="40px" alt="logo" />
             </Link>
             <div className={style.LoginSection}>

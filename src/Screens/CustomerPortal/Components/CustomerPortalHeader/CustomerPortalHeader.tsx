@@ -52,7 +52,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                 }
 
                 <img src={Logo} alt='Logo' className='CustomerPortalHeaderLogo' onClick={() => {
-                    navigate('/home');
+                    navigate('/');
                 }}
                     style={{
                         cursor: 'pointer',
@@ -140,7 +140,7 @@ export default function CustomerPortalHeader(props: CustomerPortalHeaderProps) {
                             }} onClick={async () => {
                                 await supabase.auth.signOut();
                                 setIsUserLoggedIn(false);
-                                navigate('/home');
+                                navigate('/');
                                 handleAnchorHeaderButtonClose();
                             }}>
                                 <Typography.Text style={{
